@@ -1,0 +1,17 @@
+{
+  "PLAY": "Play",
+  "MULTIPLAYER_GAME": "Multiplayer game",
+  "PROFILE": "Profile",
+  "LOGIN": "Login",
+  "LOG_OUT": "Log out",
+  "SKINS": "Skins",
+  "ROOM_NAME": "Room name",
+  "SHAPE_TYPE": "Shape type",
+  "PLAYERS": "Players",
+  "ROUNDS": "Rounds",
+  "FIELD": "Field",
+  "REPLAY": "Replay",
+  "REPLAYS": "Replays",
+  "RANKING": "Ranking",
+  "CREATE": "Create"
+}
