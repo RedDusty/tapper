@@ -9,8 +9,8 @@ function getRandomInt(min: number = 0, max: number = 0) {
 
 function StartPageLogo() {
   const { t } = useTranslation();
-  const [gamename, setGamename] = useState<number[]>([0, 0, 207]);
-  const [mpgname, setMpgname] = useState<number[]>([189, 177, 0]);
+  const [gamename, setGamename] = useState<number[]>([0, 0, 0]);
+  const [mpgname, setMpgname] = useState<number[]>([0, 0, 0]);
   useEffect(() => {
     let timer = setTimeout(() => {
       setGamename([getRandomInt(0, 256), getRandomInt(0, 256), getRandomInt(0, 256)]);

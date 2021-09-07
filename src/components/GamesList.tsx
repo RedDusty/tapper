@@ -1,4 +1,9 @@
 import { NavLink } from 'react-router-dom';
+import { lobbyType } from '../redux/types';
+import { useTypedSelector } from '../redux/useTypedSelector';
+import { useDispatch } from 'react-redux';
+import socket from '../socketio';
+import { setLobby } from '../redux/actions/lobbyActions';
 
 const games = [
   {
@@ -39,6 +44,10 @@ const games = [
 ];
 
 function GamesList() {
+  const { user } = useTypedSelector((state) => state);
+
+  const dispatch = useDispatch();
+
   const renderGames = games.map((game) => {
     let colorRounds = 'text-black';
     if (game.rounds > 1) colorRounds = 'text-green-800';
@@ -85,7 +94,36 @@ function GamesList() {
           <NavLink to="/" className="button button-green">
             Main
           </NavLink>
-          <NavLink to="/" className="button button-yellow">
+          <NavLink
+            to="/lobby"
+            className="button button-yellow"
+            onClick={() => {
+              if (user.id) {
+                console.log('create');
+                
+                dispatch(
+                  setLobby({
+                    field: '3x3',
+                    id: user.id!,
+                    nickname: user.nickname,
+                    players: '1/2',
+                    rounds: 1,
+                    shape: 'square',
+                    users: [user]
+                  })
+                );
+                socket.emit('LOBBY_CREATE', {
+                  field: '3x3',
+                  id: user.id,
+                  nickname: user.nickname,
+                  players: '1/2',
+                  rounds: 1,
+                  shape: 'square',
+                  users: [user]
+                } as lobbyType);
+              }
+            }}
+          >
             Create
           </NavLink>
         </div>

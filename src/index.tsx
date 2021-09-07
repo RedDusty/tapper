@@ -8,6 +8,8 @@ import HttpApi from 'i18next-http-backend';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
 import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { store } from './redux/store';
 
 i18next
   .use(HttpApi)
@@ -30,9 +32,11 @@ i18next
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
         <App />
-    </BrowserRouter>
+      </BrowserRouter>
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
