@@ -1,6 +1,6 @@
 // USER REDUCER
-export const SET_USER = 'SET_USER';
-export const SET_USER_ID = 'SET_USER_ID';
+export const USER_SET = 'USER_SET';
+export const USER_SET_ID = 'USER_SET_ID';
 
 export type skinType = 'standard';
 
@@ -14,37 +14,44 @@ export type userInfoType = {
   id: string | undefined;
 };
 
-export type setUserType = {
-  type: typeof SET_USER;
+export type userSetType = {
+  type: typeof USER_SET;
   payload: userInfoType;
 };
 
-export type setUserIdType = {
-  type: typeof SET_USER_ID;
+export type userSetIdType = {
+  type: typeof USER_SET_ID;
   payload: string;
 };
 
-export type UserActionsType = setUserType | setUserIdType;
+export type UserActionsType = userSetType | userSetIdType;
 
 // LOBBY REDUCER
 
-export const SET_LOBBY = 'SET_LOBBY';
+export const LOBBY_SET = 'LOBBY_SET';
+export const LOBBY_GET_CODE = 'LOBBY_GET_CODE';
 
 export type shapeType = 'square' | 'triangle' | 'circle';
 
 export type lobbyType = {
-  id: string;
+  ownerID: string;
   nickname: string;
   shape: shapeType;
   players: string;
   rounds: number;
   field: string;
   users: userInfoType[];
+  code: string;
 };
 
-export type setLobbyType = {
-  type: typeof SET_LOBBY;
+export type lobbySetType = {
+  type: typeof LOBBY_SET;
   payload: lobbyType;
 };
 
-export type LobbyActionsType = setLobbyType;
+export type lobbyGetCodeType = {
+  type: typeof LOBBY_GET_CODE;
+  payload: string;
+};
+
+export type LobbyActionsType = lobbySetType | lobbyGetCodeType;

@@ -5,10 +5,12 @@ import StartPage from './components/StartPage';
 import GamesList from './components/GamesList';
 import Lobby from './components/Lobby';
 import { useDispatch } from 'react-redux';
-import { setUserId } from './redux/actions/userActions';
+import { userSetId } from './redux/actions/userActions';
 import socket from './socketio';
 import { useTypedSelector } from './redux/useTypedSelector';
 import { userInfoType } from './redux/types';
+import Info from './components/Info';
+import Dummy from './components/Dummy';
 
 function App() {
   const dispatch = useDispatch();
@@ -17,7 +19,7 @@ function App() {
 
   socket.on('connect', () => {
     console.log(socket.id);
-    dispatch(setUserId(socket.id));
+    dispatch(userSetId(socket.id));
   });
 
   useEffect(() => {
@@ -38,12 +40,27 @@ function App() {
         <Switch>
           <Route exact path="/">
             <StartPage />
+            <Info />
           </Route>
           <Route exact path="/games">
             <GamesList />
+            <Info />
           </Route>
           <Route exact path="/lobby">
             <Lobby />
+            <Info />
+          </Route>
+          <Route exact path="/ranking">
+            <Dummy />
+            <Info />
+          </Route>
+          <Route exact path="/skins">
+            <Dummy />
+            <Info />
+          </Route>
+          <Route exact path="/replays">
+            <Dummy />
+            <Info />
           </Route>
         </Switch>
       </Suspense>

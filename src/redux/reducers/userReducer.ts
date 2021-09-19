@@ -13,7 +13,7 @@ export const initialUserState: userInfoType = {
 
 export const userReducer = (state = initialUserState, action: UserActionsType): userInfoType => {
   switch (action.type) {
-    case 'SET_USER': {
+    case 'USER_SET': {
       const { avatar, firstLogin, nickname, rank, skin, uid, id } = action.payload;
       const newState: userInfoType = {
         avatar,
@@ -26,7 +26,7 @@ export const userReducer = (state = initialUserState, action: UserActionsType): 
       };
       return { ...state, ...newState };
     }
-    case 'SET_USER_ID': {
+    case 'USER_SET_ID': {
       const id = action.payload;
       return { ...state, id };
     }

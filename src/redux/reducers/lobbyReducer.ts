@@ -1,29 +1,36 @@
 import { lobbyType, LobbyActionsType } from './../types';
 
 export const initialLobbyState: lobbyType = {
-  id: '',
+  ownerID: '',
   nickname: '',
   shape: 'square',
   players: '',
   rounds: 0,
   field: '',
-  users: []
+  users: [],
+  code: ''
 };
 
 export const lobbyReducer = (state = initialLobbyState, action: LobbyActionsType): lobbyType => {
   switch (action.type) {
-    case 'SET_LOBBY': {
-      const { field, id, nickname, players, rounds, shape, users } = action.payload;
+    case 'LOBBY_SET': {
+      const { field, ownerID, nickname, players, rounds, shape, users, code } = action.payload;
       const newState: lobbyType = {
         field,
-        id,
+        ownerID,
         nickname,
         players,
         rounds,
         shape,
-        users
+        users,
+        code
       };
       return { ...state, ...newState };
+    }
+    case 'LOBBY_GET_CODE': {
+      const code = action.payload;
+
+      return { ...state, code: code };
     }
     default: {
       return { ...state };

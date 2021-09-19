@@ -3,8 +3,7 @@ import { lobbyType } from '../redux/types';
 import { useTypedSelector } from '../redux/useTypedSelector';
 import { useDispatch } from 'react-redux';
 import socket from '../socketio';
-import { setLobby } from '../redux/actions/lobbyActions';
-
+import { lobbySet } from '../redux/actions/lobbyActions';
 const games = [
   {
     nickname: 'Aboba',
@@ -100,21 +99,22 @@ function GamesList() {
             onClick={() => {
               if (user.id) {
                 console.log('create');
-                
+
                 dispatch(
-                  setLobby({
+                  lobbySet({
                     field: '3x3',
-                    id: user.id!,
+                    ownerID: user.id!,
                     nickname: user.nickname,
                     players: '1/2',
                     rounds: 1,
                     shape: 'square',
-                    users: [user]
+                    users: [user],
+                    code: ''
                   })
                 );
                 socket.emit('LOBBY_CREATE', {
                   field: '3x3',
-                  id: user.id,
+                  ownerID: user.id,
                   nickname: user.nickname,
                   players: '1/2',
                   rounds: 1,

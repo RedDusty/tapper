@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
-import Info from './Info';
 import StartPageLogo from './StartPageLogo';
 
 function StartPage() {
@@ -30,7 +29,6 @@ function StartPage() {
         <p>User</p>
         <button className="button button-red">{t('LOG_OUT')}</button>
       </div>
-      <Info />
     </div>
   );
 }
