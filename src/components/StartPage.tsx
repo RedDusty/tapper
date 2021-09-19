@@ -1,12 +1,13 @@
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
+import Info from './Info';
 import StartPageLogo from './StartPageLogo';
 
 function StartPage() {
   const { t } = useTranslation();
 
   return (
-    <div className="w-full flex items-center flex-col">
+    <div className="w-full h-full flex items-center justify-center flex-col">
       <StartPageLogo />
       <div className="flex mt-4 gap-4">
         <NavLink to="/ranking" className="button button-yellow">
@@ -29,6 +30,7 @@ function StartPage() {
         <p>User</p>
         <button className="button button-red">{t('LOG_OUT')}</button>
       </div>
+      <Info />
     </div>
   );
 }

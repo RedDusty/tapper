@@ -13,5 +13,11 @@
   "REPLAY": "Replay",
   "REPLAYS": "Replays",
   "RANKING": "Ranking",
-  "CREATE": "Create"
+  "CREATE": "Create",
+  "ONLINE": "Online",
+  "PLAYING": "Playing",
+  "LATENCY": "Latency",
+  "MS": "ms",
+  "S": "s",
+  "K": "k"
 }
