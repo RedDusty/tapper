@@ -1,4 +1,4 @@
-import { lobbyType, LOBBY_SET, LobbyActionsType, LOBBY_GET_CODE } from './../types';
+import { lobbyType, LOBBY_SET, LobbyActionsType, LOBBY_SET_CODE } from './../types';
 import { Dispatch } from 'redux';
 
 export const lobbySet = (lobby: lobbyType) => {
@@ -7,8 +7,8 @@ export const lobbySet = (lobby: lobbyType) => {
   };
 };
 
-export const lobbyGetCode = (code: string) => {
+export const lobbySetCode = (code: string) => {
   return (dispatch: Dispatch<LobbyActionsType>) => {
-    dispatch({ type: LOBBY_GET_CODE, payload: code });
+    dispatch({ type: LOBBY_SET_CODE, payload: code });
   };
 };

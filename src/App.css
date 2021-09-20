@@ -1,14 +1,55 @@
 @layer components {
   .button {
-    @apply font-bold p-2 rounded-md
+    @apply font-bold p-2 rounded-md;
   }
   .button-yellow {
     @apply bg-yellow-300 hover:bg-yellow-400 focus:bg-yellow-500;
   }
   .button-green {
-    @apply bg-green-300 hover:bg-green-400 focus:bg-green-500
+    @apply bg-green-300 hover:bg-green-400 focus:bg-green-500;
   }
   .button-red {
-    @apply bg-red-300 hover:bg-red-400 focus:bg-red-500
+    @apply bg-red-300 hover:bg-red-400 focus:bg-red-500;
   }
+  .infoBlock {
+    @apply bg-gray-200 hover:bg-gray-300 rounded-md p-2 m-2 font-bold;
+  }
+}
+
+.copyCode {
+  position: relative;
+  display: inline-block;
+}
+
+.copyCode .toolTipText {
+  visibility: hidden;
+  width: 140px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: -125%;
+  left: 60%;
+  margin-left: -75px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.copyCode .toolTipText::after {
+  content: "";
+  position: absolute;
+  top: -29%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent #555 transparent;
+}
+
+.copyCode:hover .toolTipText {
+  visibility: visible;
+  opacity: 1;
 }

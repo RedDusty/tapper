@@ -4,58 +4,40 @@ import { useTypedSelector } from '../redux/useTypedSelector';
 import { useDispatch } from 'react-redux';
 import socket from '../socketio';
 import { lobbySet } from '../redux/actions/lobbyActions';
-const games = [
-  {
-    nickname: 'Aboba',
-    shape: 'square',
-    players: '1/2',
-    rounds: 1,
-    field: '5x5'
-  },
-  {
-    nickname: 'Aarqqf',
-    shape: 'square',
-    players: '1/2',
-    rounds: 1,
-    field: '5x5'
-  },
-  {
-    nickname: 'Chona',
-    shape: 'square',
-    players: '1/2',
-    rounds: 1,
-    field: '6x6'
-  },
-  {
-    nickname: 'Igigig',
-    shape: 'square',
-    players: '1/2',
-    rounds: 1,
-    field: '3x3'
-  },
-  {
-    nickname: 'Bibi',
-    shape: 'square',
-    players: '1/2',
-    rounds: 1,
-    field: '9x9'
-  }
-];
+import { useEffect, useState } from 'react';
+
+type lobbyTypeShort = {
+  nickname: string;
+  shape: string;
+  players: string;
+  rounds: number;
+  field: string;
+};
 
 function GamesList() {
   const { user } = useTypedSelector((state) => state);
+  const [lobbyList, setLobbyList] = useState<lobbyTypeShort[]>([]);
 
   const dispatch = useDispatch();
 
-  const renderGames = games.map((game) => {
+  useEffect(() => {
+    socket.on('LOBBY_GET', (lobbyListArray) => {
+      setLobbyList(lobbyListArray);
+    });
+    return () => {
+      socket.off('LOBBY_GET');
+    };
+  }, []);
+
+  const renderLobbyList = lobbyList.map((lobby) => {
     let colorRounds = 'text-black';
-    if (game.rounds > 1) colorRounds = 'text-green-800';
-    if (game.rounds >= 3) colorRounds = 'text-blue-800';
-    if (game.rounds >= 5) colorRounds = 'text-yellow-800';
-    if (game.rounds >= 7) colorRounds = 'text-red-800';
+    if (lobby.rounds > 1) colorRounds = 'text-green-800';
+    if (lobby.rounds >= 3) colorRounds = 'text-blue-800';
+    if (lobby.rounds >= 5) colorRounds = 'text-yellow-800';
+    if (lobby.rounds >= 7) colorRounds = 'text-red-800';
 
     let colorField = 'text-black';
-    let fieldNums = game.field.split('x');
+    let fieldNums = lobby.field.split('x');
 
     if (Number(fieldNums[0]) * Number(fieldNums[1]) > 25) colorField = 'text-green-800';
     if (Number(fieldNums[0]) * Number(fieldNums[1]) >= 49) colorField = 'text-blue-800';
@@ -63,7 +45,7 @@ function GamesList() {
     if (Number(fieldNums[0]) * Number(fieldNums[1]) >= 144) colorField = 'text-red-800';
 
     let colorPlayers = 'text-black';
-    let playerNums = game.field.split('/');
+    let playerNums = lobby.field.split('/');
 
     if (Number(playerNums[1]) > 1) colorPlayers = 'text-green-800';
     if (Number(playerNums[1]) >= 3) colorPlayers = 'text-blue-800';
@@ -72,17 +54,17 @@ function GamesList() {
 
     let shapeColor = 'text-green-800';
 
-    if (game.shape === 'triangle') shapeColor = 'text-yellow-800';
-    if (game.shape === 'circle') shapeColor = 'text-blue-800';
-    if (game.shape === 'random') shapeColor = 'text-red-800';
+    if (lobby.shape === 'triangle') shapeColor = 'text-yellow-800';
+    if (lobby.shape === 'circle') shapeColor = 'text-blue-800';
+    if (lobby.shape === 'random') shapeColor = 'text-red-800';
 
     return (
       <div className="grid p-4 mx-4 my-2 grid-cols-5 font-bold hover:bg-gray-200">
-        <p>{game.nickname}</p>
-        <p className={shapeColor}>{game.shape[0].toUpperCase() + game.shape.slice(1)}</p>
-        <p className={colorPlayers}>{game.players}</p>
-        <p className={colorRounds}>{game.rounds}</p>
-        <p className={colorField}>{game.field + ` (${Number(fieldNums[0]) * Number(fieldNums[1])})`}</p>
+        <p>{lobby.nickname}</p>
+        <p className={shapeColor}>{lobby.shape[0].toUpperCase() + lobby.shape.slice(1)}</p>
+        <p className={colorPlayers}>{lobby.players}</p>
+        <p className={colorRounds}>{lobby.rounds}</p>
+        <p className={colorField}>{lobby.field + ` (${Number(fieldNums[0]) * Number(fieldNums[1])})`}</p>
       </div>
     );
   });
@@ -98,18 +80,17 @@ function GamesList() {
             className="button button-yellow"
             onClick={() => {
               if (user.id) {
-                console.log('create');
-
                 dispatch(
                   lobbySet({
                     field: '3x3',
-                    ownerID: user.id!,
+                    ownerID: user.id,
                     nickname: user.nickname,
                     players: '1/2',
                     rounds: 1,
                     shape: 'square',
                     users: [user],
-                    code: ''
+                    code: '',
+                    isPrivate: true
                   })
                 );
                 socket.emit('LOBBY_CREATE', {
@@ -119,7 +100,9 @@ function GamesList() {
                   players: '1/2',
                   rounds: 1,
                   shape: 'square',
-                  users: [user]
+                  users: [user],
+                  code: '',
+                  isPrivate: true
                 } as lobbyType);
               }
             }}
@@ -127,7 +110,7 @@ function GamesList() {
             Create
           </NavLink>
         </div>
-        <div>{renderGames}</div>
+        <div>{renderLobbyList}</div>
       </div>
     </div>
   );

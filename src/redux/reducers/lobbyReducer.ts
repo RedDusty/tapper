@@ -8,13 +8,14 @@ export const initialLobbyState: lobbyType = {
   rounds: 0,
   field: '',
   users: [],
-  code: ''
+  code: '',
+  isPrivate: true
 };
 
 export const lobbyReducer = (state = initialLobbyState, action: LobbyActionsType): lobbyType => {
   switch (action.type) {
     case 'LOBBY_SET': {
-      const { field, ownerID, nickname, players, rounds, shape, users, code } = action.payload;
+      const { field, ownerID, nickname, players, rounds, shape, users, code, isPrivate } = action.payload;
       const newState: lobbyType = {
         field,
         ownerID,
@@ -23,12 +24,15 @@ export const lobbyReducer = (state = initialLobbyState, action: LobbyActionsType
         rounds,
         shape,
         users,
-        code
+        code,
+        isPrivate
       };
       return { ...state, ...newState };
     }
-    case 'LOBBY_GET_CODE': {
+    case 'LOBBY_SET_CODE': {
       const code = action.payload;
+
+      console.log(code);
 
       return { ...state, code: code };
     }

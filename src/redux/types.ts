@@ -29,7 +29,7 @@ export type UserActionsType = userSetType | userSetIdType;
 // LOBBY REDUCER
 
 export const LOBBY_SET = 'LOBBY_SET';
-export const LOBBY_GET_CODE = 'LOBBY_GET_CODE';
+export const LOBBY_SET_CODE = 'LOBBY_SET_CODE';
 
 export type shapeType = 'square' | 'triangle' | 'circle';
 
@@ -42,6 +42,7 @@ export type lobbyType = {
   field: string;
   users: userInfoType[];
   code: string;
+  isPrivate: boolean;
 };
 
 export type lobbySetType = {
@@ -49,9 +50,9 @@ export type lobbySetType = {
   payload: lobbyType;
 };
 
-export type lobbyGetCodeType = {
-  type: typeof LOBBY_GET_CODE;
+export type lobbySetCodeType = {
+  type: typeof LOBBY_SET_CODE;
   payload: string;
 };
 
-export type LobbyActionsType = lobbySetType | lobbyGetCodeType;
+export type LobbyActionsType = lobbySetType | lobbySetCodeType;
