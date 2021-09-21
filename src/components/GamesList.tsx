@@ -23,25 +23,24 @@ function GamesList() {
 
   const renderLobbyList = lobbyList.map((lobby) => {
     let colorRounds = 'text-black';
-    if (lobby.rounds > 1) colorRounds = 'text-green-800';
-    if (lobby.rounds >= 3) colorRounds = 'text-blue-800';
-    if (lobby.rounds >= 5) colorRounds = 'text-yellow-800';
-    if (lobby.rounds >= 7) colorRounds = 'text-red-800';
+    if (Number(lobby.rounds) > 1) colorRounds = 'text-green-800';
+    if (Number(lobby.rounds) >= 3) colorRounds = 'text-blue-800';
+    if (Number(lobby.rounds) >= 5) colorRounds = 'text-yellow-800';
+    if (Number(lobby.rounds) >= 7) colorRounds = 'text-red-800';
 
     let colorField = 'text-black';
-    let fieldNums = lobby.field.split('x');
 
-    if (Number(fieldNums[0]) * Number(fieldNums[1]) > 25) colorField = 'text-green-800';
-    if (Number(fieldNums[0]) * Number(fieldNums[1]) >= 49) colorField = 'text-blue-800';
-    if (Number(fieldNums[0]) * Number(fieldNums[1]) >= 81) colorField = 'text-yellow-800';
-    if (Number(fieldNums[0]) * Number(fieldNums[1]) >= 144) colorField = 'text-red-800';
+    if (Number(lobby.fieldX) * Number(lobby.fieldY) > 25) colorField = 'text-green-800';
+    if (Number(lobby.fieldX) * Number(lobby.fieldY) >= 49) colorField = 'text-blue-800';
+    if (Number(lobby.fieldX) * Number(lobby.fieldY) >= 81) colorField = 'text-yellow-800';
+    if (Number(lobby.fieldX) * Number(lobby.fieldY) >= 144) colorField = 'text-red-800';
 
     let colorPlayers = 'text-black';
 
-    if (lobby.maxPlayers > 1) colorPlayers = 'text-green-800';
-    if (lobby.maxPlayers >= 3) colorPlayers = 'text-blue-800';
-    if (lobby.maxPlayers >= 5) colorPlayers = 'text-yellow-800';
-    if (lobby.maxPlayers >= 7) colorPlayers = 'text-red-800';
+    if (Number(lobby.maxPlayers) > 1) colorPlayers = 'text-green-800';
+    if (Number(lobby.maxPlayers) >= 3) colorPlayers = 'text-blue-800';
+    if (Number(lobby.maxPlayers) >= 5) colorPlayers = 'text-yellow-800';
+    if (Number(lobby.maxPlayers) >= 7) colorPlayers = 'text-red-800';
 
     let shapeColor = 'text-green-800';
 
@@ -55,7 +54,9 @@ function GamesList() {
         <p className={shapeColor}>{lobby.shape[0].toUpperCase() + lobby.shape.slice(1)}</p>
         <p className={colorPlayers}>{lobby.inLobbyPlayers + '/' + lobby.maxPlayers}</p>
         <p className={colorRounds}>{lobby.rounds}</p>
-        <p className={colorField}>{lobby.field + ` (${Number(fieldNums[0]) * Number(fieldNums[1])})`}</p>
+        <p className={colorField}>
+          {lobby.fieldX + '/' + lobby.fieldY + ` (${Number(lobby.fieldX) * Number(lobby.fieldY)})`}
+        </p>
       </div>
     );
   });
@@ -73,13 +74,14 @@ function GamesList() {
               if (user.id) {
                 dispatch(
                   lobbySet({
-                    field: '3x3',
+                    fieldX: '3',
+                    fieldY: '3',
                     ownerID: user.id,
                     nickname: user.nickname,
-                    inLobbyPlayers: 1,
-                    maxPlayers: 2,
+                    inLobbyPlayers: '1',
+                    maxPlayers: '2',
                     messages: [],
-                    rounds: 1,
+                    rounds: '1',
                     shape: 'square',
                     users: [user],
                     code: '',
@@ -87,13 +89,14 @@ function GamesList() {
                   })
                 );
                 socket.emit('LOBBY_CREATE', {
-                  field: '3x3',
+                  fieldX: '3',
+                  fieldY: '3',
                   ownerID: user.id,
                   nickname: user.nickname,
-                  inLobbyPlayers: 1,
-                  maxPlayers: 2,
+                  inLobbyPlayers: '1',
+                  maxPlayers: '2',
                   messages: [],
-                  rounds: 1,
+                  rounds: '1',
                   shape: 'square',
                   users: [user],
                   code: '',

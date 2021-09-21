@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
+import { lobbySetFieldX, lobbySetFieldY, lobbySetRounds, lobbySetShape } from '../../../redux/actions/lobbyActions';
 import { useTypedSelector } from '../../../redux/useTypedSelector';
 
 function LobbyOptField() {
@@ -21,7 +22,14 @@ function LobbyOptField() {
               pattern="[0-9]"
               maxLength={2}
               className="ml-1 mr-4 w-16 lobbyOptInput"
-              value={lobby.field.split('x')[0]}
+              onChange={(e) => {
+                const nums = e.target.value.match(/\d/g);
+                const num = nums?.join('').substr(0, 2);
+                if (num !== lobby.fieldX) {
+                  dispatch(lobbySetFieldX(num || ''));
+                }
+              }}
+              value={lobby.fieldX}
             />
             <p>y:</p>
             <input
@@ -29,7 +37,14 @@ function LobbyOptField() {
               pattern="[0-9]"
               maxLength={2}
               className="ml-1 mr-4 w-16 lobbyOptInput"
-              value={lobby.field.split('x')[1]}
+              onChange={(e) => {
+                const nums = e.target.value.match(/\d/g);
+                const num = nums?.join('').substr(0, 2);
+                if (num !== lobby.fieldY) {
+                  dispatch(lobbySetFieldY(num || ''));
+                }
+              }}
+              value={lobby.fieldY}
             />
           </div>
         </div>
@@ -40,13 +55,29 @@ function LobbyOptField() {
             pattern="[0-9]"
             maxLength={2}
             className="ml-2 w-16 lobbyOptInput"
+            onChange={(e) => {
+              const nums = e.target.value.match(/\d/g);
+              const num = nums?.join('').substr(0, 2);
+              if (num !== lobby.rounds) {
+                dispatch(lobbySetRounds(num || ''));
+              }
+            }}
             value={lobby.rounds}
           />
         </div>
         <div className="flex items-center mt-2">
           <p>{t('SHAPE_TYPE')}</p>
           <div className="flex flex-wrap gap-x-2 ml-2">
-            <button className="button button-green text-black">{t('SHAPE_SQUARE')}</button>
+            <button
+              className="button button-green text-black"
+              onClick={() => {
+                if (lobby.shape !== 'square') {
+                  dispatch(lobbySetShape('square'));
+                }
+              }}
+            >
+              {t('SHAPE_SQUARE')}
+            </button>
             {/* <button className="button button-red text-black cursor-not-allowed">{t('SHAPE_TRIANGLE')}</button>
             <button className="button button-red text-black cursor-not-allowed">{t('SHAPE_CIRCLE')}</button>
             <button className="button button-red text-black cursor-not-allowed">{t('SHAPE_RANDOM')}</button> */}

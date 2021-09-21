@@ -30,6 +30,11 @@ export type UserActionsType = userSetType | userSetIdType;
 
 export const LOBBY_SET = 'LOBBY_SET';
 export const LOBBY_SET_CODE = 'LOBBY_SET_CODE';
+export const LOBBY_SET_FIELD_X = 'LOBBY_SET_FIELD_X';
+export const LOBBY_SET_FIELD_Y = 'LOBBY_SET_FIELD_Y';
+export const LOBBY_SET_ROUNDS = 'LOBBY_SET_ROUNDS';
+export const LOBBY_SET_SHAPE = 'LOBBY_SET_SHAPE';
+export const LOBBY_SET_MAX_PLAYERS = 'LOBBY_SET_MAX_PLAYERS';
 
 export type shapeType = 'square' | 'triangle' | 'circle' | 'random';
 
@@ -47,10 +52,11 @@ export type lobbyType = {
   ownerID: string;
   nickname: string;
   shape: shapeType;
-  inLobbyPlayers: number;
-  maxPlayers: number;
-  rounds: number;
-  field: string;
+  inLobbyPlayers: string;
+  maxPlayers: string;
+  rounds: string;
+  fieldX: string;
+  fieldY: string;
   messages: messageType[];
   users: userInfoType[];
   code: string;
@@ -67,4 +73,36 @@ export type lobbySetCodeType = {
   payload: string;
 };
 
-export type LobbyActionsType = lobbySetType | lobbySetCodeType;
+export type lobbySetFieldXType = {
+  type: typeof LOBBY_SET_FIELD_X;
+  payload: string;
+};
+
+export type lobbySetFieldYType = {
+  type: typeof LOBBY_SET_FIELD_Y;
+  payload: string;
+};
+
+export type lobbySetRoundsType = {
+  type: typeof LOBBY_SET_ROUNDS;
+  payload: string;
+};
+
+export type lobbySetShapeType = {
+  type: typeof LOBBY_SET_SHAPE;
+  payload: shapeType;
+};
+
+export type lobbySetMaxPlayersType = {
+  type: typeof LOBBY_SET_MAX_PLAYERS;
+  payload: string;
+};
+
+export type LobbyActionsType =
+  | lobbySetType
+  | lobbySetCodeType
+  | lobbySetFieldXType
+  | lobbySetFieldYType
+  | lobbySetRoundsType
+  | lobbySetShapeType
+  | lobbySetMaxPlayersType;
