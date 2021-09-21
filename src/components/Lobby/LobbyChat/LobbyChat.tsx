@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useTypedSelector } from '../../redux/useTypedSelector';
-import socket from '../../socketio';
+import { useTypedSelector } from '../../../redux/useTypedSelector';
+import socket from '../../../socketio';
 import LobbyChatInput from './LobbyChatInput';
 import LobbyMessage from './LobbyMessage';
 
@@ -24,7 +24,10 @@ function LobbyChat() {
   return (
     <div
       className="select-text panelWidth my-0 mx-auto bg-gray-600 grid"
-      style={{ gridTemplateRows: `${isInputFocus ? 'calc(100% - 128px) 80px' : 'calc(100% - 112px) 64px'}`, height: 'calc(100% - 48px)' }}
+      style={{
+        gridTemplateRows: `${isInputFocus ? 'calc(100% - 128px) 80px' : 'calc(100% - 112px) 64px'}`,
+        height: 'calc(100% - 48px)'
+      }}
     >
       <div className="overflow-y-scroll w-full p-2">
         {messages.map((message, index) => {

@@ -7,6 +7,10 @@
   "SKINS": "Skins",
   "ROOM_NAME": "Room name",
   "SHAPE_TYPE": "Shape type",
+  "SHAPE_SQUARE": "Square",
+  "SHAPE_TRIANGLE": "Triangle",
+  "SHAPE_CIRCLE": "Circle",
+  "SHAPE_RANDOM": "Random",
   "PLAYERS": "Players",
   "ROUNDS": "Rounds",
   "FIELD": "Field",
@@ -22,5 +26,16 @@
   "S": "s",
   "K": "k",
   "COPY": "Copy to clipboard",
-  "COPIED": "Copied"
+  "COPIED": "Copied",
+  "L_MAX_PLAYERS": "Max players",
+  "L_PLAYERS": "Players",
+  "L_OWNER": "Owner",
+  "L_CODE": "Code",
+  "L_PRIVATE": "Private",
+  "L_PUBLIC": "Public",
+  "L_OTHER": "Other",
+  "ACCEPT": "Accept",
+  "CANCEL": "Cancel",
+  "START": "Start",
+  "VISIBILITY": "Visibility"
 }

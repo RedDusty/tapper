@@ -1,29 +1,5 @@
+import { renderImage } from '../Lobby';
 import { messageType } from './LobbyChat';
-
-function renderImage(avatar: string) {
-  if (avatar.length !== 0) {
-    return (
-      <div className="bg-gray-500 w-8 h-8 animate-pulse rounded-full">
-        <img
-          src={avatar}
-          alt={''}
-          className="w-full h-full rounded-full"
-          onLoad={(e) => {
-            e.currentTarget.parentElement?.classList.remove('animate-pulse');
-          }}
-          onError={(e) => {
-            e.currentTarget.style.display = 'none';
-            e.currentTarget.parentElement?.classList.remove('bg-gray-500');
-            e.currentTarget.parentElement?.classList.remove('animate-pulse');
-            e.currentTarget.parentElement?.classList.add('bg-red-500');
-          }}
-        />
-      </div>
-    );
-  } else {
-    return <div className="bg-blue-600 w-8 h-8 rounded-full"></div>;
-  }
-}
 
 function getTime(time: number) {
   const hours = ('0' + new Date(time).getHours()).slice(-2);

@@ -17,6 +17,9 @@
   .panelWidth {
     @apply w-full lg:w-2/3 xm:w-2/4 3xl:w-2/5;
   }
+  .lobbyOptInput {
+    @apply p-1 text-black bg-white rounded-md;
+  }
 }
 
 .copyCode {

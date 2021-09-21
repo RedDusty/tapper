@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useTypedSelector } from '../../redux/useTypedSelector';
-import socket from '../../socketio';
+import { useTypedSelector } from '../../../redux/useTypedSelector';
+import socket from '../../../socketio';
 
 function LobbyChatInput({
   isInputFocus,
