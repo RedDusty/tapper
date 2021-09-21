@@ -47,6 +47,7 @@ function LobbyOptField() {
               value={lobby.fieldY}
             />
           </div>
+          <p className="ml-2">({Number(lobby.fieldX || 0) * Number(lobby.fieldY || 0)})</p>
         </div>
         <div className="flex items-center mt-2">
           <p>{t('ROUNDS')}</p>
