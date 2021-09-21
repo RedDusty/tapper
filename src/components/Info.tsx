@@ -19,9 +19,9 @@ function getLatency(setLatency: React.Dispatch<React.SetStateAction<number | '?'
 
 function latencyShow(latency: number | '?', t: TFunction<'translation'>) {
   if (typeof latency === 'number') {
-    if (latency >= 25000) {
-      return `25 ${t('S')} >`;
-    } else if (latency >= 1000 && latency < 25000) {
+    if (latency >= 10000) {
+      return `10 ${t('S')} >`;
+    } else if (latency >= 1000 && latency < 10000) {
       return `${(latency / 1000).toFixed(1)} ${t('S')}`;
     } else if (latency < 1000) {
       return `${latency} ${t('MS')}`;
@@ -60,7 +60,7 @@ function Info() {
     const interval = setInterval(() => {
       getLatency(setLatency);
     }, 2500);
-    socket.on('USERS_UPDATE', (usersCount) => {
+    socket.on('ONLINE_UPDATE', (usersCount) => {
       if (typeof usersCount === 'number') {
         setOnline(usersCount);
       } else {
@@ -76,13 +76,13 @@ function Info() {
     });
     return () => {
       clearInterval(interval);
-      socket.off('USERS_UPDATE');
+      socket.off('ONLINE_UPDATE');
       socket.off('LOBBY_UPDATE');
     };
-  }, [window.location.pathname]);
+  }, []);
   return (
-    <div className="w-screen h-16 fixed bottom-0 flex justify-center">
-      <div className="w-full lg:w-1/3 bg-gray-400 p-2 grid grid-cols-3 lg:rounded-tr-md lg:rounded-tl-md">
+    <div className="w-full h-12 fixed bottom-0 flex justify-center">
+      <div className="panelWidth bg-gray-400 grid grid-cols-3">
         <div className="infoBlock flex">
           <Connection latency={latency} />
           <p className="ml-2">{latencyShow(latency, t)}</p>

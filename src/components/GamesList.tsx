@@ -6,17 +6,9 @@ import socket from '../socketio';
 import { lobbySet } from '../redux/actions/lobbyActions';
 import { useEffect, useState } from 'react';
 
-type lobbyTypeShort = {
-  nickname: string;
-  shape: string;
-  players: string;
-  rounds: number;
-  field: string;
-};
-
 function GamesList() {
   const { user } = useTypedSelector((state) => state);
-  const [lobbyList, setLobbyList] = useState<lobbyTypeShort[]>([]);
+  const [lobbyList, setLobbyList] = useState<lobbyType[]>([]);
 
   const dispatch = useDispatch();
 
@@ -45,12 +37,11 @@ function GamesList() {
     if (Number(fieldNums[0]) * Number(fieldNums[1]) >= 144) colorField = 'text-red-800';
 
     let colorPlayers = 'text-black';
-    let playerNums = lobby.field.split('/');
 
-    if (Number(playerNums[1]) > 1) colorPlayers = 'text-green-800';
-    if (Number(playerNums[1]) >= 3) colorPlayers = 'text-blue-800';
-    if (Number(playerNums[1]) >= 5) colorPlayers = 'text-yellow-800';
-    if (Number(playerNums[1]) >= 7) colorPlayers = 'text-red-800';
+    if (lobby.maxPlayers > 1) colorPlayers = 'text-green-800';
+    if (lobby.maxPlayers >= 3) colorPlayers = 'text-blue-800';
+    if (lobby.maxPlayers >= 5) colorPlayers = 'text-yellow-800';
+    if (lobby.maxPlayers >= 7) colorPlayers = 'text-red-800';
 
     let shapeColor = 'text-green-800';
 
@@ -62,7 +53,7 @@ function GamesList() {
       <div className="grid p-4 mx-4 my-2 grid-cols-5 font-bold hover:bg-gray-200">
         <p>{lobby.nickname}</p>
         <p className={shapeColor}>{lobby.shape[0].toUpperCase() + lobby.shape.slice(1)}</p>
-        <p className={colorPlayers}>{lobby.players}</p>
+        <p className={colorPlayers}>{lobby.inLobbyPlayers + '/' + lobby.maxPlayers}</p>
         <p className={colorRounds}>{lobby.rounds}</p>
         <p className={colorField}>{lobby.field + ` (${Number(fieldNums[0]) * Number(fieldNums[1])})`}</p>
       </div>
@@ -70,7 +61,7 @@ function GamesList() {
   });
   return (
     <div className="w-full">
-      <div className="max-w-screen-xm my-0 mx-auto">
+      <div className="max-w-full-xm my-0 mx-auto">
         <div className="flex justify-evenly mt-4">
           <NavLink to="/" className="button button-green">
             Main
@@ -85,7 +76,9 @@ function GamesList() {
                     field: '3x3',
                     ownerID: user.id,
                     nickname: user.nickname,
-                    players: '1/2',
+                    inLobbyPlayers: 1,
+                    maxPlayers: 2,
+                    messages: [],
                     rounds: 1,
                     shape: 'square',
                     users: [user],
@@ -97,7 +90,9 @@ function GamesList() {
                   field: '3x3',
                   ownerID: user.id,
                   nickname: user.nickname,
-                  players: '1/2',
+                  inLobbyPlayers: 1,
+                  maxPlayers: 2,
+                  messages: [],
                   rounds: 1,
                   shape: 'square',
                   users: [user],

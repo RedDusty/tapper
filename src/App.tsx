@@ -3,7 +3,7 @@ import './App.css';
 import { Route, Switch } from 'react-router-dom';
 import StartPage from './components/StartPage';
 import GamesList from './components/GamesList';
-import Lobby from './components/Lobby';
+import Lobby from './components/Lobby/Lobby';
 import { useDispatch } from 'react-redux';
 import { userSetId } from './redux/actions/userActions';
 import socket from './socketio';

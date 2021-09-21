@@ -31,15 +31,27 @@ export type UserActionsType = userSetType | userSetIdType;
 export const LOBBY_SET = 'LOBBY_SET';
 export const LOBBY_SET_CODE = 'LOBBY_SET_CODE';
 
-export type shapeType = 'square' | 'triangle' | 'circle';
+export type shapeType = 'square' | 'triangle' | 'circle' | 'random';
+
+type messageType = {
+  avatar: string;
+  id: string;
+  nickname: string;
+  uid: string;
+  message: string;
+  time: number;
+  code: string;
+};
 
 export type lobbyType = {
   ownerID: string;
   nickname: string;
   shape: shapeType;
-  players: string;
+  inLobbyPlayers: number;
+  maxPlayers: number;
   rounds: number;
   field: string;
+  messages: messageType[];
   users: userInfoType[];
   code: string;
   isPrivate: boolean;
