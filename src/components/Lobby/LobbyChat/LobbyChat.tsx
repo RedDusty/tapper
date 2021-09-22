@@ -6,8 +6,6 @@ import socket from '../../../socketio';
 import LobbyChatInput from './LobbyChatInput';
 import LobbyMessage from './LobbyMessage';
 
-export type messageType = { avatar: string; id: string; nickname: string; uid: string; message: string; time: number };
-
 function LobbyChat() {
   const {code, messages} = useTypedSelector((state) => state.lobby);
 

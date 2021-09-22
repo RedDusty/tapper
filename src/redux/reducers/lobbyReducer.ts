@@ -74,6 +74,10 @@ export const lobbyReducer = (state = initialLobbyState, action: LobbyActionsType
       const messages = action.payload;
       return { ...state, messages };
     }
+    case 'LOBBY_SET_VISIBILITY': {
+      const visibility = action.payload;
+      return { ...state, isPrivate: visibility };
+    }
     default: {
       return { ...state };
     }

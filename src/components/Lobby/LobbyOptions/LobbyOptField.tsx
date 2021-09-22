@@ -1,7 +1,9 @@
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { lobbySetFieldX, lobbySetFieldY, lobbySetRounds, lobbySetShape } from '../../../redux/actions/lobbyActions';
+import { lobbyOptionsType } from '../../../redux/types';
 import { useTypedSelector } from '../../../redux/useTypedSelector';
+import socket from '../../../socketio';
 
 function LobbyOptField() {
   const dispatch = useDispatch();
@@ -27,6 +29,12 @@ function LobbyOptField() {
                 const num = nums?.join('').substr(0, 2);
                 if (num !== lobby.fieldX) {
                   dispatch(lobbySetFieldX(num || ''));
+                  socket.emit('LOBBY_OPTIONS', {
+                    code: lobby.code,
+                    option: 'setFieldX',
+                    ownerID: lobby.ownerID,
+                    fieldX: num || '1'
+                  } as lobbyOptionsType);
                 }
               }}
               value={lobby.fieldX}
@@ -42,12 +50,18 @@ function LobbyOptField() {
                 const num = nums?.join('').substr(0, 2);
                 if (num !== lobby.fieldY) {
                   dispatch(lobbySetFieldY(num || ''));
+                  socket.emit('LOBBY_OPTIONS', {
+                    code: lobby.code,
+                    option: 'setFieldY',
+                    ownerID: lobby.ownerID,
+                    fieldY: num || '1'
+                  } as lobbyOptionsType);
                 }
               }}
               value={lobby.fieldY}
             />
           </div>
-          <p className="ml-2">({Number(lobby.fieldX || 0) * Number(lobby.fieldY || 0)})</p>
+          <p className="ml-2">({Number(lobby.fieldX || 1) * Number(lobby.fieldY || 1)})</p>
         </div>
         <div className="flex items-center mt-2">
           <p>{t('ROUNDS')}</p>
@@ -61,10 +75,17 @@ function LobbyOptField() {
               const num = nums?.join('').substr(0, 2);
               if (num !== lobby.rounds) {
                 dispatch(lobbySetRounds(num || ''));
+                socket.emit('LOBBY_OPTIONS', {
+                  code: lobby.code,
+                  option: 'setRounds',
+                  ownerID: lobby.ownerID,
+                  rounds: num || '1'
+                } as lobbyOptionsType);
               }
             }}
             value={lobby.rounds}
           />
+          {lobby.rounds.length === 0 ? <p className="ml-4">1</p> : <></>}
         </div>
         <div className="flex items-center mt-2">
           <p>{t('SHAPE_TYPE')}</p>
@@ -74,6 +95,12 @@ function LobbyOptField() {
               onClick={() => {
                 if (lobby.shape !== 'square') {
                   dispatch(lobbySetShape('square'));
+                  socket.emit('LOBBY_OPTIONS', {
+                    code: lobby.code,
+                    option: 'setShape',
+                    ownerID: lobby.ownerID,
+                    shape: 'square'
+                  } as lobbyOptionsType);
                 }
               }}
             >

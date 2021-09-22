@@ -1,9 +1,12 @@
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
+import { useTypedSelector } from '../redux/useTypedSelector';
 import StartPageLogo from './StartPageLogo';
 
 function StartPage() {
   const { t } = useTranslation();
+
+  const { code } = useTypedSelector((state) => state.lobby);
 
   return (
     <div className="w-full h-full flex items-center justify-center flex-col">
@@ -12,9 +15,15 @@ function StartPage() {
         <NavLink to="/ranking" className="button button-yellow">
           {t('RANKING')}
         </NavLink>
-        <NavLink to="/games" className="button button-yellow">
-          {t('PLAY')}
-        </NavLink>
+        {code.length === 6 ? (
+          <NavLink to="/lobby" className="button button-yellow">
+            {t('LOBBY')}
+          </NavLink>
+        ) : (
+          <NavLink to="/games" className="button button-yellow">
+            {t('PLAY')}
+          </NavLink>
+        )}
       </div>
       <div className="flex mt-4 gap-4">
         <NavLink to="/skins" className="button button-green">

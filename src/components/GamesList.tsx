@@ -1,18 +1,34 @@
 import { NavLink } from 'react-router-dom';
-import { lobbyType } from '../redux/types';
+import { lobbyType, shapeType } from '../redux/types';
 import { useTypedSelector } from '../redux/useTypedSelector';
 import { useDispatch } from 'react-redux';
 import socket from '../socketio';
 import { lobbySet } from '../redux/actions/lobbyActions';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { renderImage } from './Lobby/Lobby';
+
+type lobbyShortType = {
+  avatar: string;
+  nickname: string;
+  shape: shapeType;
+  inLobbyPlayers: string;
+  maxPlayers: string;
+  rounds: string;
+  fieldX: string;
+  fieldY: string;
+  code: string;
+};
 
 function GamesList() {
   const { user } = useTypedSelector((state) => state);
-  const [lobbyList, setLobbyList] = useState<lobbyType[]>([]);
+  const [lobbyList, setLobbyList] = useState<lobbyShortType[]>([]);
+  const { t } = useTranslation();
 
   const dispatch = useDispatch();
 
   useEffect(() => {
+    socket.emit('LOBBY_GET_FIRST', user.id);
     socket.on('LOBBY_GET', (lobbyListArray) => {
       setLobbyList(lobbyListArray);
     });
@@ -49,24 +65,33 @@ function GamesList() {
     if (lobby.shape === 'random') shapeColor = 'text-red-800';
 
     return (
-      <div className="grid p-4 mx-4 my-2 grid-cols-5 font-bold hover:bg-gray-200">
-        <p>{lobby.nickname}</p>
-        <p className={shapeColor}>{lobby.shape[0].toUpperCase() + lobby.shape.slice(1)}</p>
-        <p className={colorPlayers}>{lobby.inLobbyPlayers + '/' + lobby.maxPlayers}</p>
-        <p className={colorRounds}>{lobby.rounds}</p>
-        <p className={colorField}>
-          {lobby.fieldX + '/' + lobby.fieldY + ` (${Number(lobby.fieldX) * Number(lobby.fieldY)})`}
-        </p>
+      <div className="p-2 m-2 grid grid-cols-4 items-center hover:bg-gray-200">
+        <div className="flex items-center font-bold">
+          {renderImage(lobby.avatar)}
+          <p className="ml-1">{lobby.nickname}</p>
+        </div>
+        <div className="flex flex-col ml-4 text-sm">
+          <div className="flex flex-row">
+            <p className={`${colorRounds}`}>{lobby.rounds}</p>
+            <p className={`ml-2 ${colorField}`}>
+              {lobby.fieldX + 'x' + lobby.fieldY + ` (${Number(lobby.fieldX) * Number(lobby.fieldY)})`}
+            </p>
+          </div>
+          <p className={`${shapeColor}`}>{t(`SHAPE_${lobby.shape.toUpperCase()}`)}</p>
+        </div>
+        <div className={`${colorPlayers} text-xl font-bold`}>{lobby.inLobbyPlayers + '/' + lobby.maxPlayers}</div>
+        <button className="ml-2 button button-yellow">{lobby.code}</button>
       </div>
     );
   });
   return (
-    <div className="w-full">
-      <div className="max-w-full-xm my-0 mx-auto">
-        <div className="flex justify-evenly mt-4">
+    <div className="panelWidth my-0 mx-auto h-full">
+      <div className="h-full">
+        <div className="flex justify-evenly pt-4">
           <NavLink to="/" className="button button-green">
-            Main
+            {t('MAIN')}
           </NavLink>
+          <div className="button bg-gray-300 hover:bg-gray-200">{t('L_PUBLIC') + ': ' + lobbyList.length}</div>
           <NavLink
             to="/lobby"
             className="button button-yellow"
@@ -105,10 +130,12 @@ function GamesList() {
               }
             }}
           >
-            Create
+            {t('CREATE')}
           </NavLink>
         </div>
-        <div>{renderLobbyList}</div>
+        <div className="overflow-y-scroll" style={{ height: 'calc(100% - 104px)' }}>
+          {renderLobbyList}
+        </div>
       </div>
     </div>
   );

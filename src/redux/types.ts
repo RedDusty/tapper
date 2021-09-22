@@ -36,8 +36,25 @@ export const LOBBY_SET_ROUNDS = 'LOBBY_SET_ROUNDS';
 export const LOBBY_SET_SHAPE = 'LOBBY_SET_SHAPE';
 export const LOBBY_SET_MAX_PLAYERS = 'LOBBY_SET_MAX_PLAYERS';
 export const LOBBY_SET_MESSAGES = 'LOBBY_SET_MESSAGES';
+export const LOBBY_SET_VISIBILITY = 'LOBBY_SET_VISIBILITY';
 
 export type shapeType = 'square' | 'triangle' | 'circle' | 'random';
+
+type optionType =
+  | 'setVisibility'
+  | 'setShape'
+  | 'setRounds'
+  | 'setFieldX'
+  | 'setFieldY'
+  | 'setInLobbyPlayers'
+  | 'setMaxPlayers';
+
+export type lobbyOptionsType = {
+  code: string;
+  ownerID: string;
+  [key: string]: string | boolean;
+  option: optionType;
+};
 
 export type messageType = {
   avatar: string;
@@ -103,6 +120,10 @@ export type lobbySetMessagesType = {
   type: typeof LOBBY_SET_MESSAGES;
   payload: messageType[];
 };
+export type lobbySetVisibilityType = {
+  type: typeof LOBBY_SET_VISIBILITY;
+  payload: boolean;
+};
 
 export type LobbyActionsType =
   | lobbySetType
@@ -112,4 +133,5 @@ export type LobbyActionsType =
   | lobbySetRoundsType
   | lobbySetShapeType
   | lobbySetMaxPlayersType
-  | lobbySetMessagesType;
+  | lobbySetMessagesType
+  | lobbySetVisibilityType;

@@ -1,5 +1,5 @@
+import { messageType } from '../../../redux/types';
 import { renderImage } from '../Lobby';
-import { messageType } from './LobbyChat';
 
 function getTime(time: number) {
   const hours = ('0' + new Date(time).getHours()).slice(-2);

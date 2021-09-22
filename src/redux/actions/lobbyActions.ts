@@ -9,7 +9,8 @@ import {
   LOBBY_SET_FIELD_X,
   LOBBY_SET_FIELD_Y,
   messageType,
-  LOBBY_SET_MESSAGES
+  LOBBY_SET_MESSAGES,
+  LOBBY_SET_VISIBILITY
 } from './../types';
 import { Dispatch } from 'redux';
 
@@ -48,5 +49,10 @@ export const lobbySetShape = (shape: shapeType) => {
 export const lobbySetMessages = (messages: messageType[]) => {
   return (dispatch: Dispatch<LobbyActionsType>) => {
     dispatch({ type: LOBBY_SET_MESSAGES, payload: messages });
+  };
+};
+export const lobbySetVisibility = (visibility: boolean) => {
+  return (dispatch: Dispatch<LobbyActionsType>) => {
+    dispatch({ type: LOBBY_SET_VISIBILITY, payload: visibility });
   };
 };
