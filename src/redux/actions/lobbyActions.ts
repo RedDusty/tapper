@@ -7,7 +7,9 @@ import {
   LOBBY_SET_SHAPE,
   LOBBY_SET_ROUNDS,
   LOBBY_SET_FIELD_X,
-  LOBBY_SET_FIELD_Y
+  LOBBY_SET_FIELD_Y,
+  messageType,
+  LOBBY_SET_MESSAGES
 } from './../types';
 import { Dispatch } from 'redux';
 
@@ -41,5 +43,10 @@ export const lobbySetRounds = (rounds: string) => {
 export const lobbySetShape = (shape: shapeType) => {
   return (dispatch: Dispatch<LobbyActionsType>) => {
     dispatch({ type: LOBBY_SET_SHAPE, payload: shape });
+  };
+};
+export const lobbySetMessages = (messages: messageType[]) => {
+  return (dispatch: Dispatch<LobbyActionsType>) => {
+    dispatch({ type: LOBBY_SET_MESSAGES, payload: messages });
   };
 };

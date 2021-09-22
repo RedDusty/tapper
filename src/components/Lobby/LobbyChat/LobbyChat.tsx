@@ -1,4 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { lobbySetMessages } from '../../../redux/actions/lobbyActions';
 import { useTypedSelector } from '../../../redux/useTypedSelector';
 import socket from '../../../socketio';
 import LobbyChatInput from './LobbyChatInput';
@@ -7,14 +9,13 @@ import LobbyMessage from './LobbyMessage';
 export type messageType = { avatar: string; id: string; nickname: string; uid: string; message: string; time: number };
 
 function LobbyChat() {
-  const [messages, setMessages] = useState<messageType[]>([]);
-  const [isInputFocus, setInputFocus] = useState<boolean>(false);
+  const {code, messages} = useTypedSelector((state) => state.lobby);
 
-  const code = useTypedSelector((state) => state.lobby.code);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     socket.on('LOBBY_GET_MESSAGES', (msgData) => {
-      setMessages(msgData);
+      dispatch(lobbySetMessages(msgData));
     });
     return () => {
       socket.off('LOBBY_GET_MESSAGES');
@@ -25,7 +26,7 @@ function LobbyChat() {
     <div
       className="select-text panelWidth my-0 mx-auto bg-gray-600 grid"
       style={{
-        gridTemplateRows: `${isInputFocus ? 'calc(100% - 128px) 80px' : 'calc(100% - 112px) 64px'}`,
+        gridTemplateRows: 'calc(100% - 128px) 80px',
         height: 'calc(100% - 48px)'
       }}
     >
@@ -34,7 +35,7 @@ function LobbyChat() {
           return <LobbyMessage {...message} key={message.uid + index} />;
         })}
       </div>
-      <LobbyChatInput isInputFocus={isInputFocus} setInputFocus={setInputFocus} />
+      <LobbyChatInput />
     </div>
   );
 }
