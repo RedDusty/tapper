@@ -29,12 +29,14 @@ function LobbyOptField() {
                 const num = nums?.join('').substr(0, 2);
                 if (num !== lobby.fieldX) {
                   dispatch(lobbySetFieldX(num || ''));
-                  socket.emit('LOBBY_OPTIONS', {
-                    code: lobby.code,
-                    option: 'setFieldX',
-                    ownerID: lobby.ownerID,
-                    fieldX: num || '1'
-                  } as lobbyOptionsType);
+                  if ((num || '').length !== 0) {
+                    socket.emit('LOBBY_OPTIONS', {
+                      code: lobby.code,
+                      option: 'setFieldX',
+                      ownerID: lobby.ownerID,
+                      fieldX: num || '1'
+                    } as lobbyOptionsType);
+                  }
                 }
               }}
               value={lobby.fieldX}
@@ -50,12 +52,14 @@ function LobbyOptField() {
                 const num = nums?.join('').substr(0, 2);
                 if (num !== lobby.fieldY) {
                   dispatch(lobbySetFieldY(num || ''));
-                  socket.emit('LOBBY_OPTIONS', {
-                    code: lobby.code,
-                    option: 'setFieldY',
-                    ownerID: lobby.ownerID,
-                    fieldY: num || '1'
-                  } as lobbyOptionsType);
+                  if ((num || '').length !== 0) {
+                    socket.emit('LOBBY_OPTIONS', {
+                      code: lobby.code,
+                      option: 'setFieldY',
+                      ownerID: lobby.ownerID,
+                      fieldY: num || '1'
+                    } as lobbyOptionsType);
+                  }
                 }
               }}
               value={lobby.fieldY}
@@ -75,12 +79,14 @@ function LobbyOptField() {
               const num = nums?.join('').substr(0, 2);
               if (num !== lobby.rounds) {
                 dispatch(lobbySetRounds(num || ''));
-                socket.emit('LOBBY_OPTIONS', {
-                  code: lobby.code,
-                  option: 'setRounds',
-                  ownerID: lobby.ownerID,
-                  rounds: num || '1'
-                } as lobbyOptionsType);
+                if ((num || '').length !== 0) {
+                  socket.emit('LOBBY_OPTIONS', {
+                    code: lobby.code,
+                    option: 'setRounds',
+                    ownerID: lobby.ownerID,
+                    rounds: num || '2'
+                  } as lobbyOptionsType);
+                }
               }
             }}
             value={lobby.rounds}

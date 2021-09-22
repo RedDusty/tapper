@@ -35,6 +35,7 @@ function GamesList() {
     return () => {
       socket.off('LOBBY_GET');
     };
+    // eslint-disable-next-line
   }, []);
 
   const renderLobbyList = lobbyList.map((lobby) => {

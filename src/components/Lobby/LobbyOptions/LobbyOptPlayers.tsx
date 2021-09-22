@@ -1,7 +1,10 @@
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import Cross from '../../../icons/cross';
+import { lobbySetMaxPlayers } from '../../../redux/actions/lobbyActions';
+import { lobbyOptionsType } from '../../../redux/types';
 import { useTypedSelector } from '../../../redux/useTypedSelector';
+import socket from '../../../socketio';
 import { renderImage } from '../Lobby';
 
 function LobbyOptPlayers() {
@@ -16,7 +19,29 @@ function LobbyOptPlayers() {
       <div className="w-full px-2">
         <div className="flex items-center">
           <p>{t('L_MAX_PLAYERS')}</p>
-          <input type="text" pattern="[0-9]" maxLength={2} className="ml-2 lobbyOptInput" value={lobby.maxPlayers} />
+          <input
+            type="text"
+            pattern="[0-9]"
+            maxLength={2}
+            className="ml-2 lobbyOptInput w-16"
+            value={lobby.maxPlayers}
+            onChange={(e) => {
+              const nums = e.target.value.match(/\d/g);
+              const num = nums?.join('').substr(0, 2);
+              if (num !== lobby.fieldY) {
+                dispatch(lobbySetMaxPlayers(num || ''));
+                if ((num || '').length !== 0) {
+                  socket.emit('LOBBY_OPTIONS', {
+                    code: lobby.code,
+                    option: 'setMaxPlayers',
+                    ownerID: lobby.ownerID,
+                    maxPlayers: num || lobby.inLobbyPlayers || '2'
+                  } as lobbyOptionsType);
+                }
+              }
+            }}
+          />
+          {lobby.maxPlayers === '' ? <p className="ml-2">{lobby.inLobbyPlayers}</p> : <></>}
         </div>
         <div className="bg-white p-2 rounded-md text-black max-h-48 lg:max-h-96 overflow-y-auto mt-2">
           {lobby.users.map((user) => {

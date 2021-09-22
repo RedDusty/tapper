@@ -18,6 +18,7 @@ function LobbyChat() {
     return () => {
       socket.off('LOBBY_GET_MESSAGES');
     };
+    // eslint-disable-next-line
   }, [code]);
 
   return (
