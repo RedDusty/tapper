@@ -34,6 +34,7 @@ export const LOBBY_SET_FIELD_X = 'LOBBY_SET_FIELD_X';
 export const LOBBY_SET_FIELD_Y = 'LOBBY_SET_FIELD_Y';
 export const LOBBY_SET_ROUNDS = 'LOBBY_SET_ROUNDS';
 export const LOBBY_SET_SHAPE = 'LOBBY_SET_SHAPE';
+export const LOBBY_SET_USERS = 'LOBBY_SET_USERS';
 export const LOBBY_SET_IN_LOBBY_PLAYERS = 'LOBBY_SET_IN_LOBBY_PLAYERS';
 export const LOBBY_SET_MAX_PLAYERS = 'LOBBY_SET_MAX_PLAYERS';
 export const LOBBY_SET_MESSAGES = 'LOBBY_SET_MESSAGES';
@@ -64,6 +65,12 @@ export type lobbyUsersType = {
   ownerID: string;
   action: actionType;
   user: userInfoType;
+};
+
+export type lobbyUsersGetType = {
+  type: actionType;
+  value: userInfoType[];
+  lobby: lobbyType;
 };
 
 export type messageType = {
@@ -121,6 +128,10 @@ export type lobbySetShapeType = {
   payload: shapeType;
 };
 
+export type lobbySetUsersType = {
+  type: typeof LOBBY_SET_USERS;
+  payload: lobbyUsersGetType;
+};
 export type lobbySetInLobbyPlayersType = {
   type: typeof LOBBY_SET_IN_LOBBY_PLAYERS;
   payload: string;
@@ -150,4 +161,5 @@ export type LobbyActionsType =
   | lobbySetMaxPlayersType
   | lobbySetMessagesType
   | lobbySetVisibilityType
-  | lobbySetInLobbyPlayersType;
+  | lobbySetInLobbyPlayersType
+  | lobbySetUsersType;

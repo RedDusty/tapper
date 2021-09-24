@@ -4,7 +4,7 @@ import { combineReducers } from 'redux';
 
 export const rootReducer = combineReducers({
   user: userReducer,
-  lobby: lobbyReducer
+  lobby: lobbyReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

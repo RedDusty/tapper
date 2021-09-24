@@ -1,4 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { lobbySet, lobbySetinLobbyPlayers, lobbySetUsers } from '../../redux/actions/lobbyActions';
+import { lobbyUsersGetType } from '../../redux/types';
+import { useTypedSelector } from '../../redux/useTypedSelector';
+import socket from '../../socketio';
 import LobbyChat from './LobbyChat/LobbyChat';
 import LobbyHeader from './LobbyHeader';
 import LobbyOptions from './LobbyOptions/LobbyOptions';
@@ -30,26 +35,55 @@ export function renderImage(avatar: string) {
   }
 }
 
-function renderTab(tab: lobbyTab) {
-  switch (tab) {
-    case 'chat': {
-      return <LobbyChat />;
+function renderTab(tab: lobbyTab, code: string) {
+  if (code.length > 0) {
+    switch (tab) {
+      case 'chat': {
+        return <LobbyChat />;
+      }
+      case 'options': {
+        return <LobbyOptions />;
+      }
+      default: {
+        return <></>;
+      }
     }
-    case 'options': {
-      return <LobbyOptions />;
-    }
-    default: {
-      return <></>;
-    }
+  } else {
+    return <div>Loading...</div>;
   }
 }
 
 export function Lobby() {
   const [tab, setTab] = useState<lobbyTab>('chat');
+  const dispatch = useDispatch();
+
+  const lobby = useTypedSelector((state) => state.lobby);
+
+  useEffect(() => {
+    socket.on('LOBBY_USERS_UPDATE', (users: lobbyUsersGetType) => {
+      switch (users.type) {
+        case 'userJoin': {
+          dispatch(lobbySetinLobbyPlayers(String(users.value.length)));
+          dispatch(lobbySetUsers(users));
+          if (!lobby.code) {
+            dispatch(lobbySet(users.lobby));
+          }
+          break;
+        }
+
+        default:
+          break;
+      }
+    });
+    return () => {
+      socket.off('LOBBY_USERS_UPDATE');
+    };
+    // eslint-disable-next-line
+  }, []);
   return (
     <div className="w-full h-full">
       <LobbyHeader setTab={setTab} />
-      {renderTab(tab)}
+      {renderTab(tab, lobby.code)}
     </div>
   );
 }

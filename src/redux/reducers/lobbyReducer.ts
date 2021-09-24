@@ -78,6 +78,10 @@ export const lobbyReducer = (state = initialLobbyState, action: LobbyActionsType
       const visibility = action.payload;
       return { ...state, isPrivate: visibility };
     }
+    case 'LOBBY_SET_USERS': {
+      const users = action.payload.value;
+      return {...state, users}
+    }
     case 'LOBBY_SET_IN_LOBBY_PLAYERS': {
       const inLobbyPlayers = action.payload;
       return {...state, inLobbyPlayers}
