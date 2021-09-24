@@ -12,6 +12,7 @@ function LobbyOptOther() {
   const { t } = useTranslation();
 
   const lobby = useTypedSelector((state) => state.lobby);
+  const user = useTypedSelector(state => state.user)
   return (
     <>
       <p className="text-lg my-1">{t('L_OTHER')}</p>
@@ -26,6 +27,7 @@ function LobbyOptOther() {
           <button
             className={`button text-black ${lobby.isPrivate ? 'button-green' : 'button-red'}`}
             onClick={() => {
+              if (user.id !== lobby.ownerID) return 0;
               if (lobby.isPrivate === false) {
                 dispatch(lobbySetVisibility(true));
                 socket.emit('LOBBY_OPTIONS', {
@@ -42,6 +44,7 @@ function LobbyOptOther() {
           <button
             className={`button text-black ${lobby.isPrivate ? 'button-red' : 'button-green'}`}
             onClick={() => {
+              if (user.id !== lobby.ownerID) return 0;
               if (lobby.isPrivate === true) {
                 dispatch(lobbySetVisibility(false));
                 socket.emit('LOBBY_OPTIONS', {

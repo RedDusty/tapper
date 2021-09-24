@@ -11,6 +11,7 @@ function LobbyOptField() {
   const { t } = useTranslation();
 
   const lobby = useTypedSelector((state) => state.lobby);
+  const user = useTypedSelector(state => state.user)
   return (
     <>
       <p className="text-lg my-1">{t('FIELD')}</p>
@@ -25,6 +26,7 @@ function LobbyOptField() {
               maxLength={2}
               className="ml-1 mr-4 w-16 lobbyOptInput"
               onChange={(e) => {
+                if (user.id !== lobby.ownerID) return 0;
                 const nums = e.target.value.match(/\d/g);
                 const num = nums?.join('').substr(0, 2);
                 if (num !== lobby.fieldX) {
@@ -48,6 +50,7 @@ function LobbyOptField() {
               maxLength={2}
               className="ml-1 mr-4 w-16 lobbyOptInput"
               onChange={(e) => {
+                if (user.id !== lobby.ownerID) return 0;
                 const nums = e.target.value.match(/\d/g);
                 const num = nums?.join('').substr(0, 2);
                 if (num !== lobby.fieldY) {
@@ -75,6 +78,7 @@ function LobbyOptField() {
             maxLength={2}
             className="ml-2 w-16 lobbyOptInput"
             onChange={(e) => {
+              if (user.id !== lobby.ownerID) return 0;
               const nums = e.target.value.match(/\d/g);
               const num = nums?.join('').substr(0, 2);
               if (num !== lobby.rounds) {
@@ -99,6 +103,7 @@ function LobbyOptField() {
             <button
               className="button button-green text-black"
               onClick={() => {
+                if (user.id !== lobby.ownerID) return 0;
                 if (lobby.shape !== 'square') {
                   dispatch(lobbySetShape('square'));
                   socket.emit('LOBBY_OPTIONS', {

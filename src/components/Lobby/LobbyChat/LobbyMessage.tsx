@@ -11,14 +11,14 @@ function getTime(time: number) {
 
 function LobbyMessage(message: messageType) {
   return (
-    <div className={`min-w-min max-w-max bg-white rounded-xl my-2`}>
+    <div className={`min-w-min max-w-max ${message.id === 'system' ? 'bg-blue-100' : 'bg-white'} rounded-xl my-2`}>
       <div className="grid items-center p-1" style={{ gridTemplateColumns: '32px 1fr 80px' }}>
         {renderImage(message.avatar)}
-        <p className="ml-2">{message.nickname.substr(0, 25)}</p>
+        <p className={`ml-2 ${message.id === 'system' ? 'font-bold text-blue-500' : ''}`}>{message.nickname.substr(0, 25)}</p>
         <p className="ml-4 text-xs">{getTime(message.time)}</p>
       </div>
       <div className="p-1 -mt-2">
-        <p className="break-all">{message.message}</p>
+        <p className={`break-all ${message.id === 'system' ? 'font-bold' : ''}`}>{message.message}</p>
       </div>
     </div>
   );

@@ -13,6 +13,7 @@ function LobbyOptPlayers() {
   const { t } = useTranslation();
 
   const lobby = useTypedSelector((state) => state.lobby);
+  const userState = useTypedSelector((state) => state.user);
   return (
     <>
       <p className="text-lg my-1">{t('PLAYERS') + ' ' + lobby.inLobbyPlayers + '/' + lobby.maxPlayers}</p>
@@ -26,9 +27,10 @@ function LobbyOptPlayers() {
             className="ml-2 lobbyOptInput w-16"
             value={lobby.maxPlayers}
             onChange={(e) => {
+              if (userState.id !== lobby.ownerID) return 0;
               const nums = e.target.value.match(/\d/g);
               const num = nums?.join('').substr(0, 2);
-              if (num !== lobby.fieldY) {
+              if (num !== lobby.maxPlayers) {
                 dispatch(lobbySetMaxPlayers(num || ''));
                 if ((num || '').length !== 0) {
                   socket.emit('LOBBY_OPTIONS', {
@@ -45,19 +47,20 @@ function LobbyOptPlayers() {
         </div>
         <div className="bg-white p-2 rounded-md text-black max-h-48 lg:max-h-96 overflow-y-auto mt-2">
           {lobby.users.map((user) => {
-            const isOwner = user.id === lobby.ownerID;
             return (
               <div className="flex items-center p-2 my-2 w-min hover:bg-gray-200 rounded-md">
                 {renderImage(user.avatar)} <p className="ml-2">{user.nickname.substr(0, 24)}</p>{' '}
-                {isOwner ? (
+                {user.id === lobby.ownerID ? (
                   <></>
-                ) : (
+                ) : userState.id === lobby.ownerID ? (
                   <button
                     className="w-8 h-8 ml-2 fill-current bg-gray-300 text-gray-500 hover:text-red-600 hover:bg-red-200 p-1.5 rounded-full"
                     onClick={() => {}}
                   >
                     <Cross />
                   </button>
+                ) : (
+                  <></>
                 )}
               </div>
             );

@@ -51,6 +51,12 @@ type optionType =
   | 'setInLobbyPlayers'
   | 'setMaxPlayers';
 
+export type lobbySocketOptionsType = {
+  code: string;
+  option: string | boolean | shapeType;
+  type: optionType;
+};
+
 export type lobbyOptionsType = {
   code: string;
   ownerID: string;

@@ -5,21 +5,7 @@ import Connection from '../icons/connection';
 import { useTypedSelector } from '../redux/useTypedSelector';
 import socket from '../socketio';
 
-function getLatency(setLatency: React.Dispatch<React.SetStateAction<number | '?'>>) {
-  const start = Date.now();
-
-  socket.volatile.emit('SERVER_PING', () => {
-    const latency = Date.now() - start;
-
-    if (typeof latency !== 'number') {
-      setLatency('?');
-    } else {
-      setLatency(latency);
-    }
-  });
-}
-
-function latencyShow(latency: number | '?', t: TFunction<'translation'>) {
+function latencyShow(latency: number | '?' | 'Offline' | 'Reconnect', t: TFunction<'translation'>) {
   if (typeof latency === 'number') {
     if (latency >= 10000) {
       return `10 ${t('S')} >`;
@@ -30,6 +16,8 @@ function latencyShow(latency: number | '?', t: TFunction<'translation'>) {
     } else {
       return `? ${t('MS')}`;
     }
+  } else if (latency === 'Offline') {
+    return `Offline`;
   } else {
     return `? ${t('MS')}`;
   }
@@ -52,16 +40,29 @@ function countUsers(users: number | '?', t: TFunction<'translation'>) {
 }
 
 function Info() {
-  const [latency, setLatency] = useState<number | '?'>('?');
+  const [latency, setLatency] = useState<number | '?' | 'Offline' | 'Reconnect'>('?');
   const [online, setOnline] = useState<number | '?'>('?');
   const { t } = useTranslation();
 
   const { code, inLobbyPlayers, maxPlayers } = useTypedSelector((state) => state.lobby);
 
   useEffect(() => {
-    getLatency(setLatency);
     const interval = setInterval(() => {
-      getLatency(setLatency);
+      const start = Date.now();
+
+      if (socket.connected) {
+        socket.volatile.emit('SERVER_PING', () => {
+          const latency = Date.now() - start;
+
+          if (typeof latency !== 'number') {
+            setLatency('?');
+          } else {
+            setLatency(latency);
+          }
+        });
+      } else {
+        setLatency('Offline');
+      }
     }, 2500);
     socket.on('ONLINE_UPDATE', (usersCount) => {
       if (typeof usersCount === 'number') {
@@ -70,9 +71,13 @@ function Info() {
         setOnline('?');
       }
     });
+    socket.io.on('reconnect', (data) => {
+      setLatency('Reconnect');
+    })
     return () => {
       clearInterval(interval);
       socket.off('ONLINE_UPDATE');
+      socket.off('SERVER_PING');
     };
   }, []);
   return (

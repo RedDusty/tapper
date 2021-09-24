@@ -64,13 +64,13 @@ function GamesList() {
                   maxPlayers: '2',
                   messages: [
                     {
-                      avatar: '',
+                      avatar: 'system',
                       code: '',
-                      id: 'systemID',
-                      message: 'System message. Test',
+                      id: 'system',
+                      message: 'System message. Test message.',
                       nickname: 'System',
                       time: Date.now(),
-                      uid: 'systemUID'
+                      uid: 'system'
                     }
                   ],
                   rounds: '1',

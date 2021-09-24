@@ -1,4 +1,4 @@
-function Connection({ latency }: { latency: number | '?' }) {
+function Connection({ latency }: { latency: number | '?' | 'Offline' | 'Reconnect' }) {
   let color = 'text-gray-700';
   if (typeof latency === 'number') {
     if (latency < 500) {
@@ -8,6 +8,8 @@ function Connection({ latency }: { latency: number | '?' }) {
     } else {
       color = 'text-red-700';
     }
+  } else if (latency === 'Offline') {
+    color = 'text-blue-500';
   }
   return (
     <svg
