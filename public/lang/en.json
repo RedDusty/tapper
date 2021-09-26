@@ -1,4 +1,6 @@
 {
+  "API_UNAVAILABLE": "Sorry, but your browser is not supported. Please update or use the following:",
+  "OR_HIGHER": "or higher",
   "PLAY": "Play",
   "MULTIPLAYER_GAME": "Multiplayer game",
   "PROFILE": "Profile",
