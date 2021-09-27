@@ -1,6 +1,7 @@
 // USER REDUCER
 export const USER_SET = 'USER_SET';
 export const USER_SET_ID = 'USER_SET_ID';
+export const USER_SET_LOADING = 'USER_SET_LOADING';
 
 export type skinType = 'standard';
 
@@ -12,6 +13,7 @@ export type userInfoType = {
   firstLogin: number;
   uid: string;
   id: string | undefined;
+  isLoaded: boolean
 };
 
 export type userSetType = {
@@ -23,8 +25,12 @@ export type userSetIdType = {
   type: typeof USER_SET_ID;
   payload: string;
 };
+export type userSetLoadingType = {
+  type: typeof USER_SET_LOADING;
+  payload: boolean;
+};
 
-export type UserActionsType = userSetType | userSetIdType;
+export type UserActionsType = userSetType | userSetIdType | userSetLoadingType;
 
 // LOBBY REDUCER
 

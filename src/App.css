@@ -22,6 +22,27 @@
   }
 }
 
+.userLoading {
+  animation-duration: 1.8s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: UserLoadingAnimation;
+  animation-timing-function: linear;
+  background: #fca5a5;
+  background: linear-gradient(to right, #fca5a5 8%, #fecaca 38%, #fca5a5 8%);
+  background-size: 800px 104px;
+  position: relative;
+}
+
+@keyframes UserLoadingAnimation {
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+}
+
 .copyCode {
   position: relative;
   display: inline-block;

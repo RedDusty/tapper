@@ -12,12 +12,26 @@ import {
   lobbySetUsers,
   lobbySetVisibility
 } from '../../redux/actions/lobbyActions';
-import { lobbySocketOptionsType, lobbyType, lobbyUsersGetType, shapeType } from '../../redux/types';
+import { lobbySocketOptionsType, lobbyType, lobbyUsersGetType, shapeType, userInfoType } from '../../redux/types';
 import { useTypedSelector } from '../../redux/useTypedSelector';
 import socket from '../../socketio';
+import Battlefield from '../Battlefield/Battlefield';
 import LobbyChat from './LobbyChat/LobbyChat';
 import LobbyHeader from './LobbyHeader';
 import LobbyOptions from './LobbyOptions/LobbyOptions';
+
+export type dotType = {
+  posX: number;
+  posY: number;
+  user: userInfoType | undefined;
+  index: number;
+};
+
+export type fieldType = {
+  fieldX: number;
+  fieldY: number;
+  dots: dotType[];
+};
 
 export type lobbyTab = 'chat' | 'options';
 
@@ -50,14 +64,14 @@ export function renderImage(avatar: string) {
   }
 }
 
-function renderTab(tab: lobbyTab, code: string) {
+function renderTab(tab: lobbyTab, code: string, setStartGame: React.Dispatch<React.SetStateAction<boolean>>) {
   if (code.length > 0) {
     switch (tab) {
       case 'chat': {
         return <LobbyChat />;
       }
       case 'options': {
-        return <LobbyOptions />;
+        return <LobbyOptions setStartGame={setStartGame} />;
       }
       default: {
         return <></>;
@@ -70,6 +84,9 @@ function renderTab(tab: lobbyTab, code: string) {
 
 export function Lobby() {
   const [tab, setTab] = useState<lobbyTab>('chat');
+  const [isStartedGame, setStartGame] = useState<boolean>(false);
+  const [users, setUsers] = useState<userInfoType[]>([]);
+  const [field, setField] = useState<fieldType>({ dots: [], fieldX: 1, fieldY: 1 });
   const dispatch = useDispatch();
 
   const lobby = useTypedSelector((state) => state.lobby);
@@ -100,16 +117,28 @@ export function Lobby() {
         setOptions(dispatch, data, lobby);
       }
     });
+    socket.on('GAME_LOADING', (data) => {
+      dispatch(lobbySet(data.lobby));
+      setField(data.field);
+      setUsers(data.users);
+    });
     return () => {
       socket.off('LOBBY_USERS_UPDATE');
       socket.off('LOBBY_OPTIONS_UPDATE');
+      socket.off('GAME_LOADING');
     };
     // eslint-disable-next-line
   }, []);
   return (
     <div className="w-full h-full">
-      <LobbyHeader setTab={setTab} />
-      {renderTab(tab, lobby.code)}
+      {isStartedGame === false ? (
+        <>
+          <LobbyHeader setTab={setTab} />
+          {renderTab(tab, lobby.code, setStartGame)}
+        </>
+      ) : (
+        <Battlefield field={field} setField={setField} users={users} setUsers={setUsers} />
+      )}
     </div>
   );
 }
