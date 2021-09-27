@@ -1,10 +1,15 @@
 import { useTranslation } from 'react-i18next';
+import { useTypedSelector } from '../../../redux/useTypedSelector';
+import socket from '../../../socketio';
 import LobbyOptField from './LobbyOptField';
 import LobbyOptOther from './LobbyOptOther';
 import LobbyOptPlayers from './LobbyOptPlayers';
 
-function LobbyOptions() {
+function LobbyOptions({ setStartGame }: { setStartGame: React.Dispatch<React.SetStateAction<boolean>> }) {
   const { t } = useTranslation();
+
+  const lobby = useTypedSelector((state) => state.lobby);
+  const user = useTypedSelector((state) => state.user);
 
   return (
     <div
@@ -13,8 +18,16 @@ function LobbyOptions() {
         height: 'calc(100% - 96px)'
       }}
     >
-      <div className="select-none">
-        <button className="button button-yellow text-black">{t('START')}</button>
+      <div className={`select-none ${lobby.ownerID === user.id ? 'block' : 'hidden'}`}>
+        <button
+          className="button button-yellow text-black"
+          onClick={() => {
+            socket.emit('GAME_START', lobby);
+            setStartGame(true);
+          }}
+        >
+          {t('START')}
+        </button>
       </div>
       <LobbyOptPlayers />
       <LobbyOptField />

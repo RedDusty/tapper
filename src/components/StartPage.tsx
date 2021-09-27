@@ -5,7 +5,7 @@ import { useTypedSelector } from '../redux/useTypedSelector';
 import StartPageLogo from './StartPageLogo';
 
 function StartPage() {
-  const [isError, setError] = useState<boolean>(!('IntersectionObserver' in window));
+  const [isError] = useState<boolean>(!('IntersectionObserver' in window));
   const [isVisibleError, setVisibilityError] = useState<boolean>(false);
   const { t } = useTranslation();
 
