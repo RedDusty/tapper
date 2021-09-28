@@ -6,14 +6,16 @@ export const USER_SET_LOADING = 'USER_SET_LOADING';
 export type skinType = 'standard';
 
 export type userInfoType = {
-  nickname: string;
-  avatar: string;
+  nickname: string | null;
+  avatar: string | null;
   skin: skinType;
-  rank: number;
+  score: number | undefined;
   firstLogin: number;
-  uid: string;
+  uid: string | null;
   id: string | undefined;
-  isLoaded: boolean
+  isLoaded?: boolean;
+  skinURL: string;
+  banned: boolean;
 };
 
 export type userSetType = {

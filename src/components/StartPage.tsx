@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router-dom';
+import { logOut, signInWithGoogle } from '../firebase';
 import { useTypedSelector } from '../redux/useTypedSelector';
+import { renderImage } from './Lobby/Lobby';
 import StartPageLogo from './StartPageLogo';
 
 function StartPage() {
@@ -10,6 +12,64 @@ function StartPage() {
   const { t } = useTranslation();
 
   const { code } = useTypedSelector((state) => state.lobby);
+  const user = useTypedSelector((state) => state.user);
+
+  const renderGame = () => {
+    if (code.length === 6 && user.uid !== null && isError === false) {
+      return (
+        <NavLink to="/lobby" className="button button-yellow">
+          {t('LOBBY')}
+        </NavLink>
+      );
+    } else if (user.uid !== null && isError === false) {
+      return (
+        <NavLink to="/games" className="button button-yellow">
+          {t('PLAY')}
+        </NavLink>
+      );
+    } else if (isError) {
+      return <></>;
+    } else {
+      return <></>;
+    }
+  };
+
+  const renderUser = () => {
+    if (user.uid !== null) {
+      return (
+        <>
+          {renderImage(user.avatar)}
+          <p>{user.nickname || user.uid.slice(0, 16)}</p>
+          <button className="button button-red" onClick={() => logOut()}>
+            {t('LOG_OUT')}
+          </button>
+        </>
+      );
+    } else {
+      return (
+        <button className="button button-green" onClick={() => signInWithGoogle()}>
+          {t('LOGIN')}
+        </button>
+      );
+    }
+  };
+
+  const renderOptions = () => {
+    if (user.uid !== null) {
+      return (
+        <div className="flex mt-4 gap-4">
+          <NavLink to="/skins" className="button button-green">
+            {t('SKINS')}
+          </NavLink>
+          <NavLink to="/replays" className="button button-green">
+            {t('REPLAYS')}
+          </NavLink>
+        </div>
+      );
+    } else {
+      return <></>;
+    }
+  };
 
   return (
     <div className="w-full h-full flex items-center justify-center flex-col">
@@ -18,34 +78,15 @@ function StartPage() {
         <NavLink to="/ranking" className="button button-yellow">
           {t('RANKING')}
         </NavLink>
-        {isError === false ? (
-          code.length === 6 ? (
-            <NavLink to="/lobby" className="button button-yellow">
-              {t('LOBBY')}
-            </NavLink>
-          ) : (
-            <NavLink to="/games" className="button button-yellow">
-              {t('PLAY')}
-            </NavLink>
-          )
-        ) : (
-          <></>
-        )}
+        {renderGame()}
       </div>
-      <div className="flex mt-4 gap-4">
-        <NavLink to="/skins" className="button button-green">
-          {t('SKINS')}
-        </NavLink>
-        <NavLink to="/replays" className="button button-green">
-          {t('REPLAYS')}
-        </NavLink>
-      </div>
-      <div className="flex mt-4 gap-4">
-        <div className="bg-yellow-500 rounded-full w-8 h-8"></div>
-        <p>User</p>
-        <button className="button button-red">{t('LOG_OUT')}</button>
-      </div>
-      <div className={`bg-red-200 font-bold text-black rounded-md p-2 mt-4 mx-auto my-0 flex gap-2 items-center ${isError ? 'block' : 'hidden'}`}>
+      {renderOptions()}
+      <div className="flex mt-4 gap-4 items-center justify-center">{renderUser()}</div>
+      <div
+        className={`bg-red-200 font-bold text-black rounded-md p-2 mt-4 mx-auto my-0 flex gap-2 items-center ${
+          isError ? 'block' : 'hidden'
+        }`}
+      >
         There`s some error{' '}
         <button className="button button-red" onClick={() => setVisibilityError(true)}>
           Show

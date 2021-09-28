@@ -2,29 +2,33 @@ import { UserActionsType } from './../types';
 import { userInfoType } from '../types';
 
 export const initialUserState: userInfoType = {
-  nickname: 'Loading',
-  avatar: '',
+  nickname: null,
+  avatar: null,
   skin: 'standard',
-  rank: 0,
+  score: 0,
   firstLogin: 0,
-  uid: '',
+  uid: null,
   id: undefined,
-  isLoaded: false
+  isLoaded: false,
+  skinURL: '',
+  banned: false
 };
 
 export const userReducer = (state = initialUserState, action: UserActionsType): userInfoType => {
   switch (action.type) {
     case 'USER_SET': {
-      const { avatar, firstLogin, nickname, rank, skin, uid, id, isLoaded } = action.payload;
+      const { avatar, firstLogin, nickname, score, skin, uid, id, isLoaded, skinURL, banned } = action.payload;
       const newState: userInfoType = {
         avatar,
         firstLogin,
         nickname,
-        rank,
+        score,
         skin,
         uid,
         id,
-        isLoaded
+        isLoaded,
+        skinURL,
+        banned
       };
       return { ...state, ...newState };
     }
@@ -34,7 +38,7 @@ export const userReducer = (state = initialUserState, action: UserActionsType): 
     }
     case 'USER_SET_LOADING': {
       const loading = action.payload;
-      return {...state, isLoaded: loading}
+      return { ...state, isLoaded: loading };
     }
     default: {
       return { ...state };

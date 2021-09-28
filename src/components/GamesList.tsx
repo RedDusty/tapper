@@ -59,7 +59,7 @@ function GamesList() {
                   fieldX: '3',
                   fieldY: '3',
                   ownerID: user.id,
-                  nickname: user.nickname,
+                  nickname: user.nickname?.slice(0, 16) || user.uid?.slice(0, 16) || user.id.slice(0, 16),
                   inLobbyPlayers: '1',
                   maxPlayers: '2',
                   messages: [

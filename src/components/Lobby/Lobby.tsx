@@ -35,8 +35,8 @@ export type fieldType = {
 
 export type lobbyTab = 'chat' | 'options';
 
-export function renderImage(avatar: string) {
-  if (avatar.length !== 0) {
+export function renderImage(avatar: string | null) {
+  if (avatar !== null) {
     if (avatar === 'system') {
       return <div className="bg-blue-500 w-8 h-8 rounded-full"></div>;
     } else {
