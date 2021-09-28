@@ -49,11 +49,11 @@ function LobbyOptPlayers() {
           {lobby.users.map((user) => {
             return (
               <div
-                className="flex items-center p-2 my-2 w-min hover:bg-gray-200 rounded-md"
+                className="flex items-center p-2 my-2 min-w-min max-w-max hover:bg-gray-200 rounded-md"
                 key={user.id + '|||' + user.uid}
               >
-                {renderImage(user.avatar)}{' '}
-                <p className="ml-2">{(user.nickname || user.uid!).substr(0, 16)}</p>{' '}
+                {renderImage(user.avatar)}
+                <p className="ml-2">{(user.nickname || user.uid!).substr(0, 16)}</p>
                 {user.uid === lobby.ownerUID ? (
                   <></>
                 ) : userState.uid === lobby.ownerUID ? (

@@ -87,6 +87,7 @@ export function Lobby() {
   const [isStartedGame, setStartGame] = useState<boolean>(false);
   const [users, setUsers] = useState<userInfoType[]>([]);
   const [field, setField] = useState<fieldType>({ dots: [], fieldX: 1, fieldY: 1 });
+  const [dataGained, setDataGain] = useState<boolean>(false);
   const dispatch = useDispatch();
 
   const lobby = useTypedSelector((state) => state.lobby);
@@ -108,6 +109,10 @@ export function Lobby() {
           dispatch(lobbySetUsers(users));
           return 0;
         }
+        case 'hostChange': {
+          dispatch(lobbySet(users.lobby))
+          return 0
+        }
         default:
           return 0;
       }
@@ -121,6 +126,7 @@ export function Lobby() {
       dispatch(lobbySet(data.lobby));
       setField(data.field);
       setUsers(data.users);
+      setDataGain(true)
     });
     return () => {
       socket.off('LOBBY_USERS_UPDATE');
@@ -137,7 +143,7 @@ export function Lobby() {
           {renderTab(tab, lobby.code, setStartGame)}
         </>
       ) : (
-        <Battlefield field={field} setField={setField} users={users} setUsers={setUsers} />
+        <Battlefield field={field} setField={setField} users={users} setUsers={setUsers} dataGained={dataGained} />
       )}
     </div>
   );

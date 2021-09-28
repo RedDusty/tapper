@@ -13,12 +13,14 @@ function Battlefield({
   field,
   users,
   setField,
-  setUsers
+  setUsers,
+  dataGained
 }: {
   field: fieldType;
   users: userInfoType[];
   setField: React.Dispatch<React.SetStateAction<fieldType>>;
   setUsers: React.Dispatch<React.SetStateAction<userInfoType[]>>;
+  dataGained: boolean;
 }) {
   const [dotSize, setDotSize] = useState<number>(12);
   const [htmlField, setHtmlField] = useState<JSX.Element[]>([]);
@@ -30,13 +32,15 @@ function Battlefield({
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (canStart === false) {
+    if (canStart === false && dataGained === true) {
       if (window.innerWidth > window.innerHeight) {
         setDotSize((window.innerHeight - 64) / field.fieldX);
       } else {
         setDotSize((window.innerWidth - 64) / field.fieldX);
       }
-      const fieldSize = field.fieldX * field.fieldY;
+      const fieldSize = Number(Number(field.fieldX) * Number(field.fieldY));
+      console.log(field.fieldX, field.fieldY);
+
       for (let index = 0; index < fieldSize; index++) {
         if (index === fieldSize - 1) {
           setTimeout(() => {
@@ -68,21 +72,19 @@ function Battlefield({
       setUsers(data);
     });
     return () => {
-      socket.off('GAME_LOADING');
       socket.off('GAME_TAP');
       socket.off('GAME_LOADED');
       socket.off('USER_LOADED');
     };
     // eslint-disable-next-line
-  }, []);
+  }, [dataGained]);
   return (
     <div className="w-full flex items-center justify-center" style={{ height: 'calc(100% - 48px)' }}>
       <div
-        className="grid w-min p-2"
+        className="grid w-full h-full p-2 justify-center"
         style={{
           gridTemplateColumns: `repeat(${field.fieldX}, ${dotSize}px)`,
-          gridTemplateRows: `repeat(${field.fieldY}, ${dotSize}px)`,
-          height: 'min-content'
+          gridTemplateRows: `repeat(${field.fieldY}, ${dotSize}px)`
         }}
       >
         {htmlField}

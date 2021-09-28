@@ -3,7 +3,7 @@ import { renderImage } from '../Lobby/Lobby';
 
 function LoadingWindow({ users, timer }: { users: userInfoType[]; timer: number }) {
   return (
-    <div className="w-screen h-screen fixed bg-black bg-opacity-25 flex justify-center items-center">
+    <div className="w-screen h-screen fixed bg-black bg-opacity-25 flex justify-center items-center top-0 left-0">
       <div className="bg-white rounded-md p-4">
         {users.map((user) => {
           const nickname = () => {
@@ -21,6 +21,7 @@ function LoadingWindow({ users, timer }: { users: userInfoType[]; timer: number 
                 user.isLoaded ? 'bg-green-200' : 'userLoading'
               }`}
               style={{ gridTemplateColumns: '32px 160px 70px' }}
+              key={user.uid}
             >
               {renderImage(user.avatar)}
               {nickname()}

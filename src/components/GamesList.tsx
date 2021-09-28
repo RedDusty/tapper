@@ -40,7 +40,7 @@ function GamesList() {
   }, []);
 
   const renderLobbyList = lobbyList.map((lobby) => {
-    return <LobbyItem {...lobby} />;
+    return <LobbyItem {...lobby} key={lobby.code}/>;
   });
   return (
     <div className="panelWidth my-0 mx-auto h-full">

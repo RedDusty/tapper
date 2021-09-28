@@ -7,7 +7,7 @@ import { Lobby } from './components/Lobby/Lobby';
 import Info from './components/Info';
 import Dummy from './components/Dummy';
 import { useDispatch } from 'react-redux';
-import { userSet, userSetId } from './redux/actions/userActions';
+import { userSet } from './redux/actions/userActions';
 import socket from './socketio';
 import { useTypedSelector } from './redux/useTypedSelector';
 import { onAuthStateChanged } from '@firebase/auth';
