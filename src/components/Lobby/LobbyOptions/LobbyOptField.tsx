@@ -26,7 +26,7 @@ function LobbyOptField() {
               maxLength={2}
               className="ml-1 mr-4 w-16 lobbyOptInput"
               onChange={(e) => {
-                if (user.id !== lobby.ownerID) return 0;
+                if (user.uid !== lobby.ownerUID) return 0;
                 const nums = e.target.value.match(/\d/g);
                 const num = nums?.join('').substr(0, 2);
                 if (num !== lobby.fieldX) {
@@ -35,7 +35,7 @@ function LobbyOptField() {
                     socket.emit('LOBBY_OPTIONS', {
                       code: lobby.code,
                       option: 'setFieldX',
-                      ownerID: lobby.ownerID,
+                      ownerUID: lobby.ownerUID,
                       fieldX: num || '1'
                     } as lobbyOptionsType);
                   }
@@ -50,7 +50,7 @@ function LobbyOptField() {
               maxLength={2}
               className="ml-1 mr-4 w-16 lobbyOptInput"
               onChange={(e) => {
-                if (user.id !== lobby.ownerID) return 0;
+                if (user.uid !== lobby.ownerUID) return 0;
                 const nums = e.target.value.match(/\d/g);
                 const num = nums?.join('').substr(0, 2);
                 if (num !== lobby.fieldY) {
@@ -59,7 +59,7 @@ function LobbyOptField() {
                     socket.emit('LOBBY_OPTIONS', {
                       code: lobby.code,
                       option: 'setFieldY',
-                      ownerID: lobby.ownerID,
+                      ownerUID: lobby.ownerUID,
                       fieldY: num || '1'
                     } as lobbyOptionsType);
                   }
@@ -78,7 +78,7 @@ function LobbyOptField() {
             maxLength={2}
             className="ml-2 w-16 lobbyOptInput"
             onChange={(e) => {
-              if (user.id !== lobby.ownerID) return 0;
+              if (user.uid !== lobby.ownerUID) return 0;
               const nums = e.target.value.match(/\d/g);
               const num = nums?.join('').substr(0, 2);
               if (num !== lobby.rounds) {
@@ -87,7 +87,7 @@ function LobbyOptField() {
                   socket.emit('LOBBY_OPTIONS', {
                     code: lobby.code,
                     option: 'setRounds',
-                    ownerID: lobby.ownerID,
+                    ownerUID: lobby.ownerUID,
                     rounds: num || '2'
                   } as lobbyOptionsType);
                 }
@@ -103,13 +103,13 @@ function LobbyOptField() {
             <button
               className="button button-green text-black"
               onClick={() => {
-                if (user.id !== lobby.ownerID) return 0;
+                if (user.uid !== lobby.ownerUID) return 0;
                 if (lobby.shape !== 'square') {
                   dispatch(lobbySetShape('square'));
                   socket.emit('LOBBY_OPTIONS', {
                     code: lobby.code,
                     option: 'setShape',
-                    ownerID: lobby.ownerID,
+                    ownerUID: lobby.ownerUID,
                     shape: 'square'
                   } as lobbyOptionsType);
                 }

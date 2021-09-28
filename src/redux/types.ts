@@ -67,7 +67,7 @@ export type lobbySocketOptionsType = {
 
 export type lobbyOptionsType = {
   code: string;
-  ownerID: string;
+  ownerUID: string;
   [key: string]: string | boolean;
   option: optionType;
 };
@@ -76,7 +76,7 @@ type actionType = 'userKick' | 'userJoin' | 'userLeave';
 
 export type lobbyUsersType = {
   code: string;
-  ownerID: string;
+  ownerUID: string;
   action: actionType;
   user: userInfoType;
 };
@@ -98,7 +98,7 @@ export type messageType = {
 };
 
 export type lobbyType = {
-  ownerID: string;
+  ownerUID: string;
   nickname: string;
   shape: shapeType;
   inLobbyPlayers: string;

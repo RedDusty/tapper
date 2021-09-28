@@ -1,7 +1,7 @@
 import { lobbyType, LobbyActionsType } from './../types';
 
 export const initialLobbyState: lobbyType = {
-  ownerID: '',
+  ownerUID: '',
   nickname: '',
   shape: 'square',
   rounds: '0',
@@ -21,7 +21,7 @@ export const lobbyReducer = (state = initialLobbyState, action: LobbyActionsType
       const {
         fieldX,
         fieldY,
-        ownerID,
+        ownerUID,
         nickname,
         inLobbyPlayers,
         maxPlayers,
@@ -35,7 +35,7 @@ export const lobbyReducer = (state = initialLobbyState, action: LobbyActionsType
       const newState: lobbyType = {
         fieldX,
         fieldY,
-        ownerID,
+        ownerUID,
         nickname,
         inLobbyPlayers,
         maxPlayers,

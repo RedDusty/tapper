@@ -21,7 +21,6 @@ function App() {
 
   socket.on('connect', () => {
     console.log(socket.id);
-    dispatch(userSetId(socket.id));
   });
 
   useEffect(() => {
@@ -33,7 +32,7 @@ function App() {
             avatar: gUser.photoURL,
             banned: userData.banned,
             firstLogin: userData.firstLogin,
-            id: user.id,
+            id: socket.id,
             nickname: gUser.displayName,
             score: userData.score,
             skin: userData.skin,
@@ -69,7 +68,7 @@ function App() {
       }
     });
     // eslint-disable-next-line
-  }, []);
+  }, [auth.currentUser]);
 
   return (
     <div className="App">

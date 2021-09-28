@@ -62,7 +62,7 @@ function LobbyItem(lobby: lobbyShortType) {
               socket.emit('LOBBY_USERS', {
                 action: 'userJoin',
                 code: lobby.code,
-                ownerID: lobby.ownerID,
+                ownerUID: lobby.ownerUID,
                 user: user
               } as lobbyUsersType);
             //}

@@ -113,7 +113,7 @@ export function Lobby() {
       }
     });
     socket.on('LOBBY_OPTIONS_UPDATE', (data: lobbySocketOptionsType) => {
-      if (user.id !== lobby.ownerID) {
+      if (user.id !== lobby.ownerUID) {
         setOptions(dispatch, data, lobby);
       }
     });

@@ -27,13 +27,13 @@ function LobbyOptOther() {
           <button
             className={`button text-black ${lobby.isPrivate ? 'button-green' : 'button-red'}`}
             onClick={() => {
-              if (user.id !== lobby.ownerID) return 0;
+              if (user.uid !== lobby.ownerUID) return 0;
               if (lobby.isPrivate === false) {
                 dispatch(lobbySetVisibility(true));
                 socket.emit('LOBBY_OPTIONS', {
                   code: lobby.code,
                   option: 'setVisibility',
-                  ownerID: lobby.ownerID,
+                  ownerUID: lobby.ownerUID,
                   visibility: true
                 } as lobbyOptionsType);
               }
@@ -44,12 +44,12 @@ function LobbyOptOther() {
           <button
             className={`button text-black ${lobby.isPrivate ? 'button-red' : 'button-green'}`}
             onClick={() => {
-              if (user.id !== lobby.ownerID) return 0;
+              if (user.uid !== lobby.ownerUID) return 0;
               if (lobby.isPrivate === true) {
                 dispatch(lobbySetVisibility(false));
                 socket.emit('LOBBY_OPTIONS', {
                   code: lobby.code,
-                  ownerID: lobby.ownerID,
+                  ownerUID: lobby.ownerUID,
                   visibility: false,
                   option: 'setVisibility'
                 } as lobbyOptionsType);

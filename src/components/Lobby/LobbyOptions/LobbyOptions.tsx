@@ -18,7 +18,7 @@ function LobbyOptions({ setStartGame }: { setStartGame: React.Dispatch<React.Set
         height: 'calc(100% - 96px)'
       }}
     >
-      <div className={`select-none ${lobby.ownerID === user.id ? 'block' : 'hidden'}`}>
+      <div className={`select-none ${lobby.ownerUID === user.uid ? 'block' : 'hidden'}`}>
         <button
           className="button button-yellow text-black"
           onClick={() => {

@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import LobbyItem from './Lobby/LobbyItem';
 
 export type lobbyShortType = {
-  ownerID: string;
+  ownerUID: string;
   avatar: string;
   nickname: string;
   shape: shapeType;
@@ -58,7 +58,7 @@ function GamesList() {
                 const defaultLobby: lobbyType = {
                   fieldX: '3',
                   fieldY: '3',
-                  ownerID: user.id,
+                  ownerUID: user.uid!,
                   nickname: user.nickname?.slice(0, 16) || user.uid?.slice(0, 16) || user.id.slice(0, 16),
                   inLobbyPlayers: '1',
                   maxPlayers: '2',

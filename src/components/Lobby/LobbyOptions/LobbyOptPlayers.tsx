@@ -27,7 +27,7 @@ function LobbyOptPlayers() {
             className="ml-2 lobbyOptInput w-16"
             value={lobby.maxPlayers}
             onChange={(e) => {
-              if (userState.id !== lobby.ownerID) return 0;
+              if (userState.uid !== lobby.ownerUID) return 0;
               const nums = e.target.value.match(/\d/g);
               const num = nums?.join('').substr(0, 2);
               if (num !== lobby.maxPlayers) {
@@ -36,7 +36,7 @@ function LobbyOptPlayers() {
                   socket.emit('LOBBY_OPTIONS', {
                     code: lobby.code,
                     option: 'setMaxPlayers',
-                    ownerID: lobby.ownerID,
+                    ownerUID: lobby.ownerUID,
                     maxPlayers: num || lobby.inLobbyPlayers || '2'
                   } as lobbyOptionsType);
                 }
@@ -54,9 +54,9 @@ function LobbyOptPlayers() {
               >
                 {renderImage(user.avatar)}{' '}
                 <p className="ml-2">{(user.nickname || user.uid!).substr(0, 16)}</p>{' '}
-                {user.id === lobby.ownerID ? (
+                {user.uid === lobby.ownerUID ? (
                   <></>
-                ) : userState.id === lobby.ownerID ? (
+                ) : userState.uid === lobby.ownerUID ? (
                   <button
                     className="w-8 h-8 ml-2 fill-current bg-gray-300 text-gray-500 hover:text-red-600 hover:bg-red-200 p-1.5 rounded-full"
                     onClick={() => {}}
