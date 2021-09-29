@@ -9,7 +9,7 @@ export const initialLobbyState: lobbyType = {
   fieldY: '',
   users: [],
   code: '',
-  isPrivate: true,
+  visibility: 'private',
   messages: [],
   inLobbyPlayers: '1',
   maxPlayers: '2'
@@ -30,7 +30,7 @@ export const lobbyReducer = (state = initialLobbyState, action: LobbyActionsType
         shape,
         users,
         code,
-        isPrivate
+        visibility
       } = action.payload;
       const newState: lobbyType = {
         fieldX,
@@ -44,7 +44,7 @@ export const lobbyReducer = (state = initialLobbyState, action: LobbyActionsType
         shape,
         users,
         code,
-        isPrivate
+        visibility
       };
       return { ...state, ...newState };
     }
@@ -76,7 +76,7 @@ export const lobbyReducer = (state = initialLobbyState, action: LobbyActionsType
     }
     case 'LOBBY_SET_VISIBILITY': {
       const visibility = action.payload;
-      return { ...state, isPrivate: visibility };
+      return { ...state, visibility: visibility };
     }
     case 'LOBBY_SET_USERS': {
       const users = action.payload.value;

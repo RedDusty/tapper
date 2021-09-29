@@ -14,7 +14,8 @@ import {
   LOBBY_SET_MAX_PLAYERS,
   LOBBY_SET_IN_LOBBY_PLAYERS,
   LOBBY_SET_USERS,
-  lobbyUsersGetType
+  lobbyUsersGetType,
+  visibilityType
 } from './../types';
 import { Dispatch } from 'redux';
 
@@ -55,7 +56,7 @@ export const lobbySetMessages = (messages: messageType[]) => {
     dispatch({ type: LOBBY_SET_MESSAGES, payload: messages });
   };
 };
-export const lobbySetVisibility = (visibility: boolean) => {
+export const lobbySetVisibility = (visibility: visibilityType) => {
   return (dispatch: Dispatch<LobbyActionsType>) => {
     dispatch({ type: LOBBY_SET_VISIBILITY, payload: visibility });
   };

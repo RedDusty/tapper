@@ -25,16 +25,16 @@ function LobbyOptOther() {
         <div className="flex gap-x-2 mt-2 items-center">
           <p>{t('VISIBILITY')}</p>
           <button
-            className={`button text-black ${lobby.isPrivate ? 'button-green' : 'button-red'}`}
+            className={`button text-black ${lobby.visibility === 'private' ? 'button-green' : 'button-red'}`}
             onClick={() => {
               if (user.uid !== lobby.ownerUID) return 0;
-              if (lobby.isPrivate === false) {
-                dispatch(lobbySetVisibility(true));
+              if (lobby.visibility === 'public') {
+                dispatch(lobbySetVisibility('private'));
                 socket.emit('LOBBY_OPTIONS', {
                   code: lobby.code,
                   option: 'setVisibility',
                   ownerUID: lobby.ownerUID,
-                  visibility: true
+                  visibility: 'private'
                 } as lobbyOptionsType);
               }
             }}
@@ -42,15 +42,15 @@ function LobbyOptOther() {
             {t('L_PRIVATE')}
           </button>
           <button
-            className={`button text-black ${lobby.isPrivate ? 'button-red' : 'button-green'}`}
+            className={`button text-black ${lobby.visibility === 'public' ? 'button-green' : 'button-red'}`}
             onClick={() => {
               if (user.uid !== lobby.ownerUID) return 0;
-              if (lobby.isPrivate === true) {
-                dispatch(lobbySetVisibility(false));
+              if (lobby.visibility === 'private') {
+                dispatch(lobbySetVisibility('public'));
                 socket.emit('LOBBY_OPTIONS', {
                   code: lobby.code,
                   ownerUID: lobby.ownerUID,
-                  visibility: false,
+                  visibility: 'public',
                   option: 'setVisibility'
                 } as lobbyOptionsType);
               }

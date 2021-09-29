@@ -61,14 +61,14 @@ type optionType =
 
 export type lobbySocketOptionsType = {
   code: string;
-  option: string | boolean | shapeType;
+  option: string | visibilityType | shapeType;
   type: optionType;
 };
 
 export type lobbyOptionsType = {
   code: string;
   ownerUID: string;
-  [key: string]: string | boolean;
+  [key: string]: string | visibilityType;
   option: optionType;
 };
 
@@ -97,6 +97,8 @@ export type messageType = {
   code: string;
 };
 
+export type visibilityType = 'public' | 'private' | 'game';
+
 export type lobbyType = {
   ownerUID: string;
   nickname: string;
@@ -109,7 +111,7 @@ export type lobbyType = {
   messages: messageType[];
   users: userInfoType[];
   code: string;
-  isPrivate: boolean;
+  visibility: visibilityType;
 };
 
 export type lobbySetType = {
@@ -162,7 +164,7 @@ export type lobbySetMessagesType = {
 };
 export type lobbySetVisibilityType = {
   type: typeof LOBBY_SET_VISIBILITY;
-  payload: boolean;
+  payload: visibilityType;
 };
 
 export type LobbyActionsType =

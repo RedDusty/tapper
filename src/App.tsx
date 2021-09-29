@@ -37,7 +37,8 @@ function App() {
             score: userData.score,
             skin: userData.skin,
             skinURL: userData.skinURL,
-            uid: gUser.uid
+            uid: gUser.uid,
+            isLoaded: false
           })
         );
         socket.emit('USER_LOGIN', {
@@ -49,7 +50,8 @@ function App() {
           score: userData.score,
           skin: userData.skin,
           skinURL: userData.skinURL,
-          uid: gUser.uid
+          uid: gUser.uid,
+          isLoaded: false
         });
       } else {
         dispatch(

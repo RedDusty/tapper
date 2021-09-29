@@ -54,12 +54,12 @@ function GamesList() {
             to="/lobby"
             className="button button-yellow"
             onClick={() => {
-              if (user.id) {
+              if (user.uid) {
                 const defaultLobby: lobbyType = {
                   fieldX: '3',
                   fieldY: '3',
                   ownerUID: user.uid!,
-                  nickname: user.nickname?.slice(0, 16) || user.uid?.slice(0, 16) || user.id.slice(0, 16),
+                  nickname: user.nickname?.slice(0, 16) || user.uid?.slice(0, 16) || user.id!.slice(0, 16),
                   inLobbyPlayers: '1',
                   maxPlayers: '2',
                   messages: [
@@ -67,7 +67,7 @@ function GamesList() {
                       avatar: 'system',
                       code: '',
                       id: 'system',
-                      message: 'System message. Test message.',
+                      message: 'Score is only works in public games with other players.',
                       nickname: 'System',
                       time: Date.now(),
                       uid: 'system'
@@ -77,7 +77,7 @@ function GamesList() {
                   shape: 'square',
                   users: [user],
                   code: '',
-                  isPrivate: true
+                  visibility: 'private'
                 };
                 dispatch(lobbySet(defaultLobby));
                 socket.emit('LOBBY_CREATE', defaultLobby);

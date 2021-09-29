@@ -39,23 +39,22 @@ function Battlefield({
         setDotSize((window.innerWidth - 64) / field.fieldX);
       }
       const fieldSize = Number(Number(field.fieldX) * Number(field.fieldY));
-      console.log(field.fieldX, field.fieldY);
 
       for (let index = 0; index < fieldSize; index++) {
         if (index === fieldSize - 1) {
           setTimeout(() => {
             socket.emit('USER_LOADED', { user: user, isLoaded: true, lobby: lobby });
             dispatch(userSetLoading(true));
-            setHtmlField((arr) => [...arr, <Dot key={'Dot' + (index + 1)} />]);
+            setHtmlField((arr) => [...arr, <Dot key={'Dot' + (index + 1)} startsIn={startsIn} index={index + 1} />]);
           }, fieldSize * 10);
         } else {
           setTimeout(() => {
-            setHtmlField((arr) => [...arr, <Dot key={'Dot' + (index + 1)} />]);
+            setHtmlField((arr) => [...arr, <Dot key={'Dot' + (index + 1)} startsIn={startsIn} index={index + 1} />]);
           }, index * 10);
         }
       }
     }
-    if (startsIn === 0) {
+    if (startsIn <= 0) {
       socket.once('GAME_TAP', (data) => {
         const tappedIndex = field.dots.findIndex((dot) => dot.index === data.index);
         const tappedDot: dotType = Object.create(field.dots[tappedIndex]);
@@ -65,16 +64,16 @@ function Battlefield({
       });
     }
     socket.once('GAME_LOADED', (data) => {
-      setStart(true);
+      setStart(data);
     });
-    socket.on('USER_LOADED', (data) => {
+    socket.on('USER_LOADED_RETURN', (data) => {
       dispatch(lobbySetUsers(data));
       setUsers(data);
     });
     return () => {
       socket.off('GAME_TAP');
       socket.off('GAME_LOADED');
-      socket.off('USER_LOADED');
+      socket.off('USER_LOADED_RETURN');
     };
     // eslint-disable-next-line
   }, [dataGained]);
@@ -89,7 +88,11 @@ function Battlefield({
       >
         {htmlField}
       </div>
-      <LoadingWindow users={users} timer={0} />
+      {startsIn <= 0 ? (
+        <></>
+      ) : (
+        <LoadingWindow users={users} startsIn={startsIn} setStartsIn={setStartsIn} canStart={canStart} />
+      )}
     </div>
   );
 }

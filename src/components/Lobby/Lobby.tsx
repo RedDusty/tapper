@@ -12,7 +12,7 @@ import {
   lobbySetUsers,
   lobbySetVisibility
 } from '../../redux/actions/lobbyActions';
-import { lobbySocketOptionsType, lobbyType, lobbyUsersGetType, shapeType, userInfoType } from '../../redux/types';
+import { lobbySocketOptionsType, lobbyType, lobbyUsersGetType, shapeType, userInfoType, visibilityType } from '../../redux/types';
 import { useTypedSelector } from '../../redux/useTypedSelector';
 import socket from '../../socketio';
 import Battlefield from '../Battlefield/Battlefield';
@@ -123,6 +123,9 @@ export function Lobby() {
       }
     });
     socket.on('GAME_LOADING', (data) => {
+      if (isStartedGame !== true) {
+        setStartGame(true)
+      }
       dispatch(lobbySet(data.lobby));
       setField(data.field);
       setUsers(data.users);
@@ -176,7 +179,7 @@ function setOptions(dispatch: Dispatch<any>, data: lobbySocketOptionsType, lobby
       return 0;
     }
     case 'setVisibility': {
-      dispatch(lobbySetVisibility(Boolean(data.option)));
+      dispatch(lobbySetVisibility(data.option as visibilityType));
       return 0;
     }
     default:
