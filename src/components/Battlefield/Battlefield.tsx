@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { lobbySetUsers } from '../../redux/actions/lobbyActions';
 import { userSetLoading } from '../../redux/actions/userActions';
-import { userInfoType } from '../../redux/types';
+import { lobbyUsersGetType, userInfoType } from '../../redux/types';
 import { useTypedSelector } from '../../redux/useTypedSelector';
 import socket from '../../socketio';
 import { dotType, fieldType } from '../Lobby/Lobby';
@@ -67,7 +67,12 @@ function Battlefield({
       setStart(data);
     });
     socket.on('USER_LOADED_RETURN', (data) => {
-      dispatch(lobbySetUsers(data));
+      const loadUsers: lobbyUsersGetType = {
+        lobby: lobby,
+        type: 'userLoaded',
+        value: data
+      }
+      dispatch(lobbySetUsers(loadUsers));
       setUsers(data);
     });
     return () => {

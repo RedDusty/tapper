@@ -14,6 +14,7 @@ export type userInfoType = {
   uid: string | null;
   id: string | undefined;
   isLoaded?: boolean;
+  isLeft?: boolean
   skinURL: string;
   banned: boolean;
 };
@@ -72,7 +73,7 @@ export type lobbyOptionsType = {
   option: optionType;
 };
 
-type actionType = 'userKick' | 'userJoin' | 'userLeave' | 'hostChange';
+type actionType = 'userKick' | 'userJoin' | 'userLeave' | 'hostChange' | 'userLoaded';
 
 export type lobbyUsersType = {
   code: string;

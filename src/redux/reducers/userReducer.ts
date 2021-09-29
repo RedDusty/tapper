@@ -11,13 +11,14 @@ export const initialUserState: userInfoType = {
   id: undefined,
   isLoaded: false,
   skinURL: '',
-  banned: false
+  banned: false,
+  isLeft: false
 };
 
 export const userReducer = (state = initialUserState, action: UserActionsType): userInfoType => {
   switch (action.type) {
     case 'USER_SET': {
-      const { avatar, firstLogin, nickname, score, skin, uid, id, isLoaded, skinURL, banned } = action.payload;
+      const { avatar, firstLogin, nickname, score, skin, uid, id, isLoaded, skinURL, banned, isLeft } = action.payload;
       const newState: userInfoType = {
         avatar,
         firstLogin,
@@ -28,7 +29,8 @@ export const userReducer = (state = initialUserState, action: UserActionsType): 
         id,
         isLoaded,
         skinURL,
-        banned
+        banned,
+        isLeft
       };
       return { ...state, ...newState };
     }
