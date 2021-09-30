@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
-import { NavLink } from 'react-router-dom';
 import Connection from '../icons/connection';
 import { useTypedSelector } from '../redux/useTypedSelector';
 import socket from '../socketio';
+import InfoButton from './InfoButton';
 
 function latencyShow(latency: number | '?' | 'Offline' | 'Reconnect', t: TFunction<'translation'>) {
   if (typeof latency === 'number') {
@@ -92,20 +92,7 @@ function Info() {
         ) : (
           <p className="infoBlock">{t('ONLINE') + ': ' + countUsers(online, t)}</p>
         )}
-        {window.location.pathname === '/lobby' ? (
-          <NavLink className="rounded-md px-2 m-2 font-bold flex items-center justify-center button-green" to={'/'}>
-            {t('MAIN')}
-          </NavLink>
-        ) : code.length === 6 ? (
-          <NavLink
-            className="rounded-md px-2 m-2 font-bold flex items-center justify-center button-yellow"
-            to={'/lobby'}
-          >
-            {t('LOBBY')}
-          </NavLink>
-        ) : (
-          <></>
-        )}
+        <InfoButton />
       </div>
     </div>
   );

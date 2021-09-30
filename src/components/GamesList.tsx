@@ -22,7 +22,7 @@ export type lobbyShortType = {
 };
 
 function GamesList() {
-  const { user } = useTypedSelector((state) => state);
+  const { user, lobby } = useTypedSelector((state) => state);
   const [lobbyList, setLobbyList] = useState<lobbyShortType[]>([]);
   const { t } = useTranslation();
 
@@ -54,7 +54,7 @@ function GamesList() {
             to="/lobby"
             className="button button-yellow"
             onClick={() => {
-              if (user.uid) {
+              if (user.uid && lobby.code.length === 0) {
                 const defaultLobby: lobbyType = {
                   fieldX: '3',
                   fieldY: '3',
@@ -84,7 +84,7 @@ function GamesList() {
               }
             }}
           >
-            {t('CREATE')}
+            {t(lobby.code.length === 6 ? 'LOBBY' : 'CREATE')}
           </NavLink>
         </div>
         <div className="overflow-y-scroll" style={{ height: 'calc(100% - 104px)' }}>
