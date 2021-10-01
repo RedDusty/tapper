@@ -13,6 +13,8 @@ import { useTypedSelector } from './redux/useTypedSelector';
 import { onAuthStateChanged } from '@firebase/auth';
 import { auth } from './fbConfig';
 import { fbGetUser } from './firebase';
+import Skins from './components/Skins';
+import { skinBorderStyleType, userInfoType } from './redux/types';
 
 function App() {
   const dispatch = useDispatch();
@@ -24,6 +26,11 @@ function App() {
   });
 
   useEffect(() => {
+    const skinColor = localStorage.getItem('skin-color') || 'bg-red-300';
+    const skinBorder = Boolean(localStorage.getItem('skin-border')) || Boolean('false');
+    const skinBorderColor = localStorage.getItem('skin-border-color') || 'border-red-300';
+    const skinBorderStyle = (localStorage.getItem('skin-border-style') as skinBorderStyleType) || 'solid';
+    const skinBorderWidth = Number(localStorage.getItem('skin-border-width')) || Number('1');
     onAuthStateChanged(auth, async (gUser) => {
       if (gUser !== null) {
         const userData = await fbGetUser(gUser);
@@ -35,8 +42,14 @@ function App() {
             id: socket.id,
             nickname: gUser.displayName,
             score: userData.score,
-            skin: userData.skin,
-            skinURL: userData.skinURL,
+            skinOptions: {
+              skin: 'standard',
+              skinBorder,
+              skinBorderColor,
+              skinBorderStyle,
+              skinBorderWidth,
+              skinColor
+            },
             uid: gUser.uid,
             isLoaded: false
           })
@@ -48,11 +61,17 @@ function App() {
           id: user.id,
           nickname: gUser.displayName,
           score: userData.score,
-          skin: userData.skin,
-          skinURL: userData.skinURL,
+          skinOptions: {
+            skin: 'standard',
+            skinBorder,
+            skinBorderColor,
+            skinBorderStyle,
+            skinBorderWidth,
+            skinColor
+          },
           uid: gUser.uid,
           isLoaded: false
-        });
+        } as userInfoType);
       } else {
         dispatch(
           userSet({
@@ -62,8 +81,14 @@ function App() {
             id: undefined,
             nickname: null,
             score: 0,
-            skin: 'standard',
-            skinURL: '',
+            skinOptions: {
+              skin: 'standard',
+              skinBorder,
+              skinBorderColor,
+              skinBorderStyle,
+              skinBorderWidth,
+              skinColor
+            },
             uid: null
           })
         );
@@ -88,12 +113,12 @@ function App() {
             <Lobby />
             <Info />
           </Route>
-          <Route exact path="/ranking">
+          <Route exact path="/score">
             <Dummy />
             <Info />
           </Route>
           <Route exact path="/skins">
-            <Dummy />
+            <Skins />
             <Info />
           </Route>
           <Route exact path="/replays">

@@ -34,7 +34,7 @@ export async function fbGetUser(gUser: User) {
       uid: gUser.uid
     } as userInfoType);
 
-    return userData as userInfoType;
+    return userData;
   } else {
     const docData = {
       avatar: gUser.photoURL,
@@ -43,11 +43,11 @@ export async function fbGetUser(gUser: User) {
       nickname: gUser.displayName,
       score: 0,
       skin: 'standard',
-      skinURL: '',
+
       uid: gUser.uid
     };
     await setDoc(doc(firestore, 'users', gUser.uid), docData);
 
-    return docData as userInfoType;
+    return docData;
   }
 }

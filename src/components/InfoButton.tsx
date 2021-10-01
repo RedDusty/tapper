@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
-import { NavLink, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useTypedSelector } from '../redux/useTypedSelector';
 
 function InfoButton() {
@@ -12,10 +12,10 @@ function InfoButton() {
   useEffect(() => {
     if (pathname !== '/lobby' && lobby.code.length === 6 && lobby.visibility !== 'game') {
       setRender(toLocation(t, 'lobby'));
-    } else if (pathname === '/lobby' && lobby.visibility !== 'game') {
+    } else if (pathname === 'lobby' && lobby.visibility !== 'game') {
       setRender(toLocation(t, ''));
     } else if (pathname === '/skins' || pathname === '/score' || pathname === '/replays' || pathname === '/games') {
-      setRender(toLocation(t, '/'));
+      setRender(toLocation(t, ''));
     } else {
       setRender(<></>);
     }
@@ -29,11 +29,11 @@ export default InfoButton;
 const toLocation: (t: TFunction<'translation'>, location: string) => JSX.Element = (t, location) => {
     const text = location === 'lobby' ? 'LOBBY' : 'MAIN'
   return (
-    <NavLink
+    <Link
       className="rounded-md px-2 m-2 font-bold flex items-center justify-center button-green"
       to={'/' + location}
     >
       {t(text)}
-    </NavLink>
+    </Link>
   );
 };

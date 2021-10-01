@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { logOut, signInWithGoogle } from '../firebase';
 import { useTypedSelector } from '../redux/useTypedSelector';
 import { renderImage } from './Lobby/Lobby';
@@ -17,15 +17,15 @@ function StartPage() {
   const renderGame = () => {
     if (code.length === 6 && user.uid !== null && isError === false) {
       return (
-        <NavLink to="/lobby" className="button button-yellow">
+        <Link to="/lobby" className="button button-yellow">
           {t('LOBBY')}
-        </NavLink>
+        </Link>
       );
     } else if (user.uid !== null && isError === false) {
       return (
-        <NavLink to="/games" className="button button-yellow">
+        <Link to="/games" className="button button-yellow">
           {t('PLAY')}
-        </NavLink>
+        </Link>
       );
     } else if (isError) {
       return <></>;
@@ -58,12 +58,12 @@ function StartPage() {
     if (user.uid !== null) {
       return (
         <div className="flex mt-4 gap-4">
-          <NavLink to="/skins" className="button button-green">
+          <Link to="/skins" className="button button-green">
             {t('SKINS')}
-          </NavLink>
-          <NavLink to="/replays" className="button button-green">
+          </Link>
+          <Link to="/replays" className="button button-green">
             {t('REPLAYS')}
-          </NavLink>
+          </Link>
         </div>
       );
     } else {
@@ -75,9 +75,9 @@ function StartPage() {
     <div className="w-full h-full flex items-center justify-center flex-col">
       <StartPageLogo />
       <div className="flex mt-4 gap-4">
-        <NavLink to="/ranking" className="button button-yellow">
-          {t('RANKING')}
-        </NavLink>
+        <Link to="/score" className="button button-yellow">
+          {t('SCORE')}
+        </Link>
         {renderGame()}
       </div>
       {renderOptions()}
@@ -87,7 +87,7 @@ function StartPage() {
           isError ? 'block' : 'hidden'
         }`}
       >
-        There`s some error{' '}
+        There`s some error
         <button className="button button-red" onClick={() => setVisibilityError(true)}>
           Show
         </button>

@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { lobbyType, shapeType } from '../redux/types';
 import { useTypedSelector } from '../redux/useTypedSelector';
 import { useDispatch } from 'react-redux';
@@ -46,11 +46,11 @@ function GamesList() {
     <div className="panelWidth my-0 mx-auto h-full">
       <div className="h-full">
         <div className="flex justify-evenly pt-4">
-          <NavLink to="/" className="button button-green">
+          <Link to="/" className="button button-green">
             {t('MAIN')}
-          </NavLink>
+          </Link>
           <div className="button bg-gray-300 hover:bg-gray-200">{t('L_PUBLIC') + ': ' + lobbyList.length}</div>
-          <NavLink
+          <Link
             to="/lobby"
             className="button button-yellow"
             onClick={() => {
@@ -85,7 +85,7 @@ function GamesList() {
             }}
           >
             {t(lobby.code.length === 6 ? 'LOBBY' : 'CREATE')}
-          </NavLink>
+          </Link>
         </div>
         <div className="overflow-y-scroll" style={{ height: 'calc(100% - 104px)' }}>
           {renderLobbyList}

@@ -4,13 +4,19 @@ import { userInfoType } from '../types';
 export const initialUserState: userInfoType = {
   nickname: null,
   avatar: null,
-  skin: 'standard',
   score: 0,
   firstLogin: 0,
   uid: null,
   id: undefined,
   isLoaded: false,
-  skinURL: '',
+  skinOptions: {
+    skin: 'standard',
+    skinBorder: true,
+    skinBorderColor: 'border-orange-600',
+    skinBorderStyle: 'solid',
+    skinBorderWidth: 2,
+    skinColor: 'bg-red-300'
+  },
   banned: false,
   isLeft: false
 };
@@ -18,17 +24,27 @@ export const initialUserState: userInfoType = {
 export const userReducer = (state = initialUserState, action: UserActionsType): userInfoType => {
   switch (action.type) {
     case 'USER_SET': {
-      const { avatar, firstLogin, nickname, score, skin, uid, id, isLoaded, skinURL, banned, isLeft } = action.payload;
+      const {
+        avatar,
+        firstLogin,
+        nickname,
+        score,
+        uid,
+        id,
+        isLoaded,
+        skinOptions,
+        banned,
+        isLeft
+      } = action.payload;
       const newState: userInfoType = {
         avatar,
         firstLogin,
         nickname,
         score,
-        skin,
         uid,
         id,
         isLoaded,
-        skinURL,
+        skinOptions,
         banned,
         isLeft
       };
@@ -41,6 +57,10 @@ export const userReducer = (state = initialUserState, action: UserActionsType): 
     case 'USER_SET_LOADING': {
       const loading = action.payload;
       return { ...state, isLoaded: loading };
+    }
+    case 'USER_SET_SKIN': {
+      const skinOptions = action.payload;
+      return { ...state, skinOptions };
     }
     default: {
       return { ...state };

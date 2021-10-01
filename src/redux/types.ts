@@ -2,21 +2,42 @@
 export const USER_SET = 'USER_SET';
 export const USER_SET_ID = 'USER_SET_ID';
 export const USER_SET_LOADING = 'USER_SET_LOADING';
+export const USER_SET_SKIN = 'USER_SET_SKIN';
+export const USER_SET_SKIN_COLOR = 'USER_SET_SKIN_COLOR';
+export const USER_SET_SKIN_BORDER = 'USER_SET_SKIN_BORDER';
+export const USER_SET_SKIN_BORDER_STYLE = 'USER_SET_SKIN_BORDER_STYLE';
+export const USER_SET_SKIN_BORDER_COLOR = 'USER_SET_SKIN_BORDER_COLOR';
+export const USER_SET_SKIN_BORDER_WIDTH = 'USER_SET_SKIN_BORDER_WIDTH';
 
-export type skinType = 'standard';
+export type skinTypesType = 'standard';
+
+export type skinBorderStyleType = 'solid' | 'dashed' | 'dotted' | 'double';
+
+export type skinType = {
+  skin: skinTypesType;
+  skinColor: string;
+  skinBorder: boolean;
+  skinBorderStyle: skinBorderStyleType;
+  skinBorderColor: string;
+  skinBorderWidth: number;
+};
 
 export type userInfoType = {
   nickname: string | null;
   avatar: string | null;
-  skin: skinType;
   score: number | undefined;
   firstLogin: number;
   uid: string | null;
   id: string | undefined;
   isLoaded?: boolean;
-  isLeft?: boolean
-  skinURL: string;
+  isLeft?: boolean;
+  skinOptions: skinType;
   banned: boolean;
+};
+
+export type userSetSkin = {
+  type: typeof USER_SET_SKIN;
+  payload: skinType;
 };
 
 export type userSetType = {
@@ -33,7 +54,7 @@ export type userSetLoadingType = {
   payload: boolean;
 };
 
-export type UserActionsType = userSetType | userSetIdType | userSetLoadingType;
+export type UserActionsType = userSetType | userSetIdType | userSetLoadingType | userSetSkin;
 
 // LOBBY REDUCER
 

@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { lobbyUsersType } from '../../redux/types';
 import { useTypedSelector } from '../../redux/useTypedSelector';
 import socket from '../../socketio';
@@ -53,7 +53,7 @@ function LobbyItem(lobby: lobbyShortType) {
         <p className={`${shapeColor}`}>{t(`SHAPE_${lobby.shape.toUpperCase()}`)}</p>
       </div>
       <div className={`${colorPlayers} text-xl font-bold`}>{lobby.inLobbyPlayers + '/' + lobby.maxPlayers}</div>
-      <NavLink
+      <Link
         to="/lobby"
         className="ml-2 button button-yellow"
         onClick={() => {
@@ -70,7 +70,7 @@ function LobbyItem(lobby: lobbyShortType) {
         }}
       >
         {lobby.code}
-      </NavLink>
+      </Link>
     </div>
   );
 }

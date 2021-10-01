@@ -7,7 +7,7 @@ import i18next from 'i18next';
 import HttpApi from 'i18next-http-backend';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
-import { BrowserRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
 
@@ -33,9 +33,9 @@ i18next
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-        <BrowserRouter>
+        <MemoryRouter>
           <App />
-        </BrowserRouter>
+        </MemoryRouter>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')
