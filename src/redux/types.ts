@@ -72,7 +72,6 @@ export const LOBBY_SET_MESSAGES = 'LOBBY_SET_MESSAGES';
 export const LOBBY_SET_VISIBILITY = 'LOBBY_SET_VISIBILITY';
 export const LOBBY_SET_STARTED = 'LOBBY_SET_STARTED';
 export const LOBBY_SET_STARTS_IN = 'LOBBY_SET_STARTS_IN';
-export const LOBBY_SET_DOTS = 'LOBBY_SET_DOTS';
 
 export type shapeType = 'square' | 'triangle' | 'circle' | 'random';
 
@@ -123,13 +122,6 @@ export type messageType = {
   code: string;
 };
 
-export type dotType = {
-  posX: number;
-  posY: number;
-  user: userInfoType | undefined;
-  index: number;
-};
-
 export type visibilityType = 'public' | 'private' | 'game';
 
 export type lobbyType = {
@@ -147,12 +139,6 @@ export type lobbyType = {
   visibility: visibilityType;
   isStarted: boolean;
   startsIn: number;
-  dots: dotType[];
-};
-
-export type lobbySetDotsType = {
-  type: typeof LOBBY_SET_DOTS;
-  payload: dotType[];
 };
 
 export type lobbySetStartsInType = {
@@ -230,5 +216,71 @@ export type LobbyActionsType =
   | lobbySetInLobbyPlayersType
   | lobbySetUsersType
   | lobbySetStartedType
-  | lobbySetStartsInType
-  | lobbySetDotsType;
+  | lobbySetStartsInType;
+
+// GAME REDUCER;
+
+export const GAME_DOTS_SET = 'GAME_DOTS_SET';
+export const GAME_TIME_SET = 'GAME_TIME_SET';
+export const GAME_REPLAY_SET = 'GAME_REPLAY_SET';
+export const GAME_SCORES_SET = 'GAME_SCORES_SET';
+
+export type dotType = {
+  posX: number;
+  posY: number;
+  user: userInfoType | undefined;
+  index: number;
+};
+
+export type replayType = {
+  user: userInfoType;
+  index: number;
+  posX?: number;
+  posY?: number;
+  tapIndex: number;
+  time: number;
+};
+
+export type timeType = {
+  start: number;
+  end: number;
+}
+
+export type scoreType = {
+  user: userInfoType;
+  score: number;
+  scoreChange: 'add' | 'decrease';
+};
+
+export type gameReducerType = {
+  dots: dotType[];
+  time: timeType;
+  replay: replayType[];
+  addScore: scoreType[];
+  decreaseScore: scoreType[];
+};
+
+export type gameTimeSetType = {
+  type: typeof GAME_TIME_SET;
+  payload: timeType;
+};
+
+export type gameReplaySetType = {
+  type: typeof GAME_REPLAY_SET;
+  payload: replayType[];
+};
+
+export type gameScoresSetType = {
+  type: typeof GAME_SCORES_SET;
+  payload: {
+    addScore: scoreType[];
+    decreaseScore: scoreType[];
+  };
+};
+
+export type gameDotsSetType = {
+  type: typeof GAME_DOTS_SET;
+  payload: dotType[];
+};
+
+export type GameActionsType = gameDotsSetType | gameScoresSetType | gameReplaySetType | gameTimeSetType;

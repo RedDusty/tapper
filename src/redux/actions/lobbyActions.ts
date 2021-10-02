@@ -18,8 +18,6 @@ import {
   visibilityType,
   LOBBY_SET_STARTED,
   LOBBY_SET_STARTS_IN,
-  LOBBY_SET_DOTS,
-  dotType
 } from './../types';
 import { Dispatch } from 'redux';
 
@@ -28,12 +26,6 @@ export const lobbySet = (lobby: lobbyType) => {
     dispatch({ type: LOBBY_SET, payload: lobby });
   };
 };
-
-export const lobbySetDots = (dots: dotType[]) => {
-  return (dispatch: Dispatch<LobbyActionsType>) => {
-    dispatch({ type: LOBBY_SET_DOTS, payload: dots });
-  };
-}
 
 export const lobbySetStartsIn = (startsIn: number) => {
   return (dispatch: Dispatch<LobbyActionsType>) => {

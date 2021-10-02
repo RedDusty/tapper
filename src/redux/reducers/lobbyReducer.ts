@@ -15,7 +15,6 @@ export const initialLobbyState: lobbyType = {
   maxPlayers: '2',
   isStarted: false,
   startsIn: 10,
-  dots: []
 };
 
 export const lobbyReducer = (state = initialLobbyState, action: LobbyActionsType): lobbyType => {
@@ -36,7 +35,6 @@ export const lobbyReducer = (state = initialLobbyState, action: LobbyActionsType
         visibility,
         isStarted,
         startsIn,
-        dots
       } = action.payload;
       const newState: lobbyType = {
         fieldX,
@@ -53,7 +51,6 @@ export const lobbyReducer = (state = initialLobbyState, action: LobbyActionsType
         visibility,
         isStarted,
         startsIn,
-        dots
       };
       return { ...state, ...newState };
     }
@@ -106,10 +103,6 @@ export const lobbyReducer = (state = initialLobbyState, action: LobbyActionsType
     case 'LOBBY_SET_STARTS_IN': {
       const startsIn = action.payload;
       return { ...state, startsIn };
-    }
-    case 'LOBBY_SET_DOTS': {
-      const dots = action.payload;
-      return { ...state, dots };
     }
     default: {
       return { ...state };

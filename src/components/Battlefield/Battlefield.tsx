@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { lobbySetDots, lobbySetUsers } from '../../redux/actions/lobbyActions';
+import { gameDotsSet } from '../../redux/actions/gameActions';
+import { lobbySetUsers } from '../../redux/actions/lobbyActions';
 import { userSetLoading } from '../../redux/actions/userActions';
 import { dotType, lobbyUsersGetType } from '../../redux/types';
 import { useTypedSelector } from '../../redux/useTypedSelector';
@@ -49,9 +50,15 @@ function Battlefield({ dataGained }: { dataGained: boolean }) {
         }
       }
     }
+    socket.on('GAME_END', () => {
+
+    })
+    socket.on('GAME_END_SCORE', (data) => {
+
+    })
     if (startsIn <= 0) {
       socket.on('GAME_TAP', (data) => {
-        dispatch(lobbySetDots(data));
+        dispatch(gameDotsSet(data));
         setField(data);
       });
     }

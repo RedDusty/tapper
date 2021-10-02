@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
+import { gameDotsSet } from '../../redux/actions/gameActions';
 import {
   lobbySet,
-  lobbySetDots,
   lobbySetFieldX,
   lobbySetFieldY,
   lobbySetinLobbyPlayers,
@@ -126,7 +126,7 @@ export function Lobby() {
       dispatch(lobbySet(data.lobby));
       dispatch(lobbySetFieldX(data.field.fieldX));
       dispatch(lobbySetFieldY(data.field.fieldY));
-      dispatch(lobbySetDots(data.dots))
+      dispatch(gameDotsSet(data.dots))
       dispatch(lobbySetUsers({ lobby: lobby, type: 'usersGet', value: data.users }));
       setDataGain(true);
     });

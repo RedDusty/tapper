@@ -78,8 +78,7 @@ function GamesList() {
                   code: '',
                   visibility: 'private',
                   isStarted: false,
-                  startsIn: 10,
-                  dots: []
+                  startsIn: 10
                 };
                 dispatch(lobbySet(defaultLobby));
                 socket.emit('LOBBY_CREATE', defaultLobby);
