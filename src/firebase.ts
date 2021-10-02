@@ -20,6 +20,19 @@ export const logOut = () => {
     });
 };
 
+function generateAccessKey() {
+  const arr = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-=!@#$%^&*()_+';
+
+  let code = '';
+
+  for (let i = 0; i < 36; i++) {
+    const random = Math.floor(Math.random() * arr.length);
+    code += arr[random];
+  }
+
+  return code;
+}
+
 export async function fbGetUser(gUser: User) {
   const docRef = doc(firestore, 'users', gUser.uid);
 
@@ -43,7 +56,7 @@ export async function fbGetUser(gUser: User) {
       nickname: gUser.displayName,
       score: 0,
       skin: 'standard',
-
+      key: generateAccessKey(),
       uid: gUser.uid
     };
     await setDoc(doc(firestore, 'users', gUser.uid), docData);

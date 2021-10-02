@@ -42,6 +42,7 @@ function App() {
             id: socket.id,
             nickname: gUser.displayName,
             score: userData.score,
+            key: userData.key,
             skinOptions: {
               skin: 'standard',
               skinBorder,
@@ -61,6 +62,7 @@ function App() {
           id: user.id,
           nickname: gUser.displayName,
           score: userData.score,
+          key: null,
           skinOptions: {
             skin: 'standard',
             skinBorder,
@@ -81,6 +83,7 @@ function App() {
             id: undefined,
             nickname: null,
             score: 0,
+            key: null,
             skinOptions: {
               skin: 'standard',
               skinBorder,

@@ -93,23 +93,23 @@ export function Lobby() {
   const user = useTypedSelector((state) => state.user);
 
   useEffect(() => {
-    socket.on('LOBBY_USERS_UPDATE', (users: lobbyUsersGetType) => {
-      switch (users.type) {
+    socket.on('LOBBY_USERS_UPDATE', (data: lobbyUsersGetType) => {
+      switch (data.type) {
         case 'userJoin': {
-          dispatch(lobbySetinLobbyPlayers(String(users.value.length)));
-          dispatch(lobbySetUsers(users));
+          dispatch(lobbySetinLobbyPlayers(String(data.value.length)));
+          dispatch(lobbySetUsers(data));
           if (!lobby.code) {
-            dispatch(lobbySet(users.lobby));
+            dispatch(lobbySet(data.lobby));
           }
           return 0;
         }
         case 'userLeave': {
-          dispatch(lobbySetinLobbyPlayers(String(users.value.length)));
-          dispatch(lobbySetUsers(users));
+          dispatch(lobbySetinLobbyPlayers(String(data.value.length)));
+          dispatch(lobbySetUsers(data));
           return 0;
         }
         case 'hostChange': {
-          dispatch(lobbySet(users.lobby));
+          dispatch(lobbySet(data.lobby));
           return 0;
         }
         default:

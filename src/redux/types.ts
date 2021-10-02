@@ -33,6 +33,7 @@ export type userInfoType = {
   isLeft?: boolean;
   skinOptions: skinType;
   banned: boolean;
+  key: string | null;
 };
 
 export type userSetSkin = {

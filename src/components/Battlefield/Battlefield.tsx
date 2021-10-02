@@ -50,10 +50,7 @@ function Battlefield({ dataGained }: { dataGained: boolean }) {
       }
     }
     if (startsIn <= 0) {
-      console.log('active');
-
       socket.on('GAME_TAP', (data) => {
-        console.log(data);
         dispatch(lobbySetDots(data));
         setField(data);
       });

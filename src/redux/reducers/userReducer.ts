@@ -9,6 +9,7 @@ export const initialUserState: userInfoType = {
   uid: null,
   id: undefined,
   isLoaded: false,
+  key: '',
   skinOptions: {
     skin: 'standard',
     skinBorder: true,
@@ -24,18 +25,8 @@ export const initialUserState: userInfoType = {
 export const userReducer = (state = initialUserState, action: UserActionsType): userInfoType => {
   switch (action.type) {
     case 'USER_SET': {
-      const {
-        avatar,
-        firstLogin,
-        nickname,
-        score,
-        uid,
-        id,
-        isLoaded,
-        skinOptions,
-        banned,
-        isLeft
-      } = action.payload;
+      const { avatar, firstLogin, nickname, score, uid, id, isLoaded, skinOptions, banned, isLeft, key } =
+        action.payload;
       const newState: userInfoType = {
         avatar,
         firstLogin,
@@ -46,7 +37,8 @@ export const userReducer = (state = initialUserState, action: UserActionsType): 
         isLoaded,
         skinOptions,
         banned,
-        isLeft
+        isLeft,
+        key
       };
       return { ...state, ...newState };
     }
