@@ -80,6 +80,7 @@ export const lobbyReducer = (state = initialLobbyState, action: LobbyActionsType
     }
     case 'LOBBY_SET_USERS': {
       const users = action.payload.value;
+      console.log(users);
       return {...state, users}
     }
     case 'LOBBY_SET_IN_LOBBY_PLAYERS': {

@@ -12,7 +12,14 @@ import {
   lobbySetUsers,
   lobbySetVisibility
 } from '../../redux/actions/lobbyActions';
-import { lobbySocketOptionsType, lobbyType, lobbyUsersGetType, shapeType, userInfoType, visibilityType } from '../../redux/types';
+import {
+  lobbySocketOptionsType,
+  lobbyType,
+  lobbyUsersGetType,
+  shapeType,
+  userInfoType,
+  visibilityType
+} from '../../redux/types';
 import { useTypedSelector } from '../../redux/useTypedSelector';
 import socket from '../../socketio';
 import Battlefield from '../Battlefield/Battlefield';
@@ -110,8 +117,8 @@ export function Lobby() {
           return 0;
         }
         case 'hostChange': {
-          dispatch(lobbySet(users.lobby))
-          return 0
+          dispatch(lobbySet(users.lobby));
+          return 0;
         }
         default:
           return 0;
@@ -124,17 +131,21 @@ export function Lobby() {
     });
     socket.on('GAME_LOADING', (data) => {
       if (isStartedGame !== true) {
-        setStartGame(true)
+        setStartGame(true);
       }
       dispatch(lobbySet(data.lobby));
       setField(data.field);
       setUsers(data.users);
-      setDataGain(true)
+      setDataGain(true);
+    });
+    socket.on('SKIN_CHANGE_USERS', (data) => {
+      dispatch(lobbySetUsers({ lobby: data, type: 'userSkinChange', value: data.users }));
     });
     return () => {
       socket.off('LOBBY_USERS_UPDATE');
       socket.off('LOBBY_OPTIONS_UPDATE');
       socket.off('GAME_LOADING');
+      socket.off('SKIN_CHANGE_USERS');
     };
     // eslint-disable-next-line
   }, []);

@@ -29,7 +29,6 @@ function GamesList() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    socket.emit('LOBBY_GET_FIRST', user.id);
     socket.on('LOBBY_GET', (lobbyListArray) => {
       setLobbyList(lobbyListArray);
     });

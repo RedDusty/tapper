@@ -94,7 +94,7 @@ export type lobbyOptionsType = {
   option: optionType;
 };
 
-type actionType = 'userKick' | 'userJoin' | 'userLeave' | 'hostChange' | 'userLoaded';
+type actionType = 'userKick' | 'userJoin' | 'userLeave' | 'hostChange' | 'userLoaded' | 'userSkinChange';
 
 export type lobbyUsersType = {
   code: string;

@@ -12,7 +12,7 @@ function InfoButton() {
   useEffect(() => {
     if (pathname !== '/lobby' && lobby.code.length === 6 && lobby.visibility !== 'game') {
       setRender(toLocation(t, 'lobby'));
-    } else if (pathname === 'lobby' && lobby.visibility !== 'game') {
+    } else if (pathname === '/lobby' && lobby.visibility !== 'game') {
       setRender(toLocation(t, ''));
     } else if (pathname === '/skins' || pathname === '/score' || pathname === '/replays' || pathname === '/games') {
       setRender(toLocation(t, ''));

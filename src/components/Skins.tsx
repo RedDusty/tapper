@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { lobbySetUsers } from '../redux/actions/lobbyActions';
 import { userSetSkin } from '../redux/actions/userActions';
-import { skinBorderStyleType } from '../redux/types';
+import { skinBorderStyleType, skinType } from '../redux/types';
 import { useTypedSelector } from '../redux/useTypedSelector';
+import socket from '../socketio';
 import { renderImage } from './Lobby/Lobby';
 
 const skinColorArray = [
@@ -55,11 +57,12 @@ const skinBorderStyleArray = ['solid', 'dashed', 'dotted', 'double'];
 
 function Skins() {
   const [skinColor, setSkinColor] = useState<string>('bg-red-300');
-  const [skinBorder, setSkinBorder] = useState<boolean>(false);
-  const [skinBorderColor, setSkinBorderColor] = useState<string>('border-red-300');
+  const [skinBorder, setSkinBorder] = useState<boolean>(true);
+  const [skinBorderColor, setSkinBorderColor] = useState<string>('border-pink-300');
   const [skinBorderStyle, setSkinBorderStyle] = useState<skinBorderStyleType>('solid');
-  const [skinBorderWidth, setSkinBorderWidth] = useState<number>(1);
+  const [skinBorderWidth, setSkinBorderWidth] = useState<number>(2);
   const user = useTypedSelector((state) => state.user);
+  const code = useTypedSelector((state) => state.lobby.code);
 
   const dispatch = useDispatch();
 
@@ -68,17 +71,39 @@ function Skins() {
   const confirmSkin = () => {
     localStorage.setItem('skin-color', skinColor);
     localStorage.setItem('skin-border-color', skinBorderColor);
-    localStorage.setItem('skin-border-style', skinBorderColor);
+    localStorage.setItem('skin-border-style', skinBorderStyle);
     localStorage.setItem('skin-border-width', String(skinBorderWidth));
     localStorage.setItem('skin-border', String(skinBorder));
-    dispatch(
-      userSetSkin({ skin: 'standard', skinBorder, skinBorderColor, skinBorderStyle, skinBorderWidth, skinColor })
-    );
+    const skinData: skinType = {
+      skin: 'standard',
+      skinColor: localStorage.getItem('skin-color') || 'bg-red-300',
+      skinBorder: Boolean(localStorage.getItem('skin-border')) || true,
+      skinBorderStyle: (localStorage.getItem('skin-border-style') || 'solid') as skinBorderStyleType,
+      skinBorderColor: localStorage.getItem('skin-border-color') || 'border-pink-300',
+      skinBorderWidth: Number(localStorage.getItem('skin-border-width')) || 2
+    };
+    dispatch(userSetSkin(skinData));
+    console.log(skinData);
+
+    socket.emit('SKIN_CHANGE', {
+      code,
+      user,
+      skinData
+    });
   };
 
   const showBorder = skinOptions.skinBorder
     ? `${skinOptions.skinBorderColor} border-${skinOptions.skinBorderStyle}`
     : '';
+
+  useEffect(() => {
+    socket.on('SKIN_CHANGE_USERS', (data) => {
+      dispatch(lobbySetUsers({ lobby: data, type: 'userSkinChange', value: data.users }));
+    });
+    return () => {
+      socket.off('SKIN_CHANGE_USERS');
+    };
+  }, []);
 
   return (
     <div className="panelWidth h-full my-0 mx-auto">
@@ -100,7 +125,9 @@ function Skins() {
           >
             Toggle border
           </button>
-          <button className="button button-yellow" onClick={() => confirmSkin()}>Confirm</button>
+          <button className="button button-yellow" onClick={() => confirmSkin()}>
+            Confirm
+          </button>
         </div>
         <p className="text-lg font-bold mt-4 text-center">Main color</p>
         <div className="w-full flex flex-wrap gap-4 mt-2">
