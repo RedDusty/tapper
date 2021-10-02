@@ -5,7 +5,7 @@ import LobbyOptField from './LobbyOptField';
 import LobbyOptOther from './LobbyOptOther';
 import LobbyOptPlayers from './LobbyOptPlayers';
 
-function LobbyOptions({ setStartGame }: { setStartGame: React.Dispatch<React.SetStateAction<boolean>> }) {
+function LobbyOptions() {
   const { t } = useTranslation();
 
   const lobby = useTypedSelector((state) => state.lobby);
@@ -23,7 +23,6 @@ function LobbyOptions({ setStartGame }: { setStartGame: React.Dispatch<React.Set
           className="button button-yellow text-black"
           onClick={() => {
             socket.emit('GAME_START', lobby);
-            setStartGame(true);
           }}
         >
           {t('START')}

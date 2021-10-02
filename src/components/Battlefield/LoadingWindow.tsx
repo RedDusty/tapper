@@ -1,21 +1,17 @@
 import { userInfoType } from '../../redux/types';
+import { useTypedSelector } from '../../redux/useTypedSelector';
 import { renderImage } from '../Lobby/Lobby';
 import Timer from './Timer';
 
 function LoadingWindow({
-  users,
-  startsIn,
-  setStartsIn,
   canStart
 }: {
-  users: userInfoType[];
-  startsIn: number;
-  setStartsIn: React.Dispatch<React.SetStateAction<number>>;
   canStart: boolean;
 }) {
+  const users = useTypedSelector(state => state.lobby.users)
   return (
     <div className="w-screen h-screen fixed bg-black bg-opacity-25 flex justify-center items-center top-0 left-0">
-      {canStart ? Timer(startsIn, setStartsIn) : usersLoading(users)}
+      {canStart ? <Timer /> : usersLoading(users)}
     </div>
   );
 }

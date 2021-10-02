@@ -15,13 +15,35 @@ import {
   LOBBY_SET_IN_LOBBY_PLAYERS,
   LOBBY_SET_USERS,
   lobbyUsersGetType,
-  visibilityType
+  visibilityType,
+  LOBBY_SET_STARTED,
+  LOBBY_SET_STARTS_IN,
+  LOBBY_SET_DOTS,
+  dotType
 } from './../types';
 import { Dispatch } from 'redux';
 
 export const lobbySet = (lobby: lobbyType) => {
   return (dispatch: Dispatch<LobbyActionsType>) => {
     dispatch({ type: LOBBY_SET, payload: lobby });
+  };
+};
+
+export const lobbySetDots = (dots: dotType[]) => {
+  return (dispatch: Dispatch<LobbyActionsType>) => {
+    dispatch({ type: LOBBY_SET_DOTS, payload: dots });
+  };
+}
+
+export const lobbySetStartsIn = (startsIn: number) => {
+  return (dispatch: Dispatch<LobbyActionsType>) => {
+    dispatch({ type: LOBBY_SET_STARTS_IN, payload: startsIn });
+  };
+}
+
+export const lobbySetStarted = (isStarted: boolean) => {
+  return (dispatch: Dispatch<LobbyActionsType>) => {
+    dispatch({ type: LOBBY_SET_STARTED, payload: isStarted });
   };
 };
 

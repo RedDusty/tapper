@@ -1,9 +1,20 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { lobbySetStartsIn } from '../../redux/actions/lobbyActions';
 
-const Timer = (startsIn: number, setStartsIn: React.Dispatch<React.SetStateAction<number>>) => {
+const Timer = () => {
+  const [timerStartsIn, setTimerStartsIn] = useState<number>(2);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     const timer = setTimeout(() => {
-      setStartsIn(startsIn - 1);
+      if (timerStartsIn > 0) {
+        setTimerStartsIn(timerStartsIn - 1);
+      }
+      if (timerStartsIn === 0) {
+        console.warn('set timer to 10 seconds');
+        dispatch(lobbySetStartsIn(0));
+      }
     }, 1000);
     return () => {
       clearTimeout(timer);
@@ -23,7 +34,7 @@ const Timer = (startsIn: number, setStartsIn: React.Dispatch<React.SetStateActio
           WebkitTextStroke: '8px #f5f6f7'
         }}
       >
-        {startsIn}
+        {timerStartsIn}
       </p>
     </div>
   );

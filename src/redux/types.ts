@@ -69,6 +69,9 @@ export const LOBBY_SET_IN_LOBBY_PLAYERS = 'LOBBY_SET_IN_LOBBY_PLAYERS';
 export const LOBBY_SET_MAX_PLAYERS = 'LOBBY_SET_MAX_PLAYERS';
 export const LOBBY_SET_MESSAGES = 'LOBBY_SET_MESSAGES';
 export const LOBBY_SET_VISIBILITY = 'LOBBY_SET_VISIBILITY';
+export const LOBBY_SET_STARTED = 'LOBBY_SET_STARTED';
+export const LOBBY_SET_STARTS_IN = 'LOBBY_SET_STARTS_IN';
+export const LOBBY_SET_DOTS = 'LOBBY_SET_DOTS';
 
 export type shapeType = 'square' | 'triangle' | 'circle' | 'random';
 
@@ -94,7 +97,7 @@ export type lobbyOptionsType = {
   option: optionType;
 };
 
-type actionType = 'userKick' | 'userJoin' | 'userLeave' | 'hostChange' | 'userLoaded' | 'userSkinChange';
+type actionType = 'userKick' | 'userJoin' | 'userLeave' | 'hostChange' | 'userLoaded' | 'userSkinChange' | 'usersGet';
 
 export type lobbyUsersType = {
   code: string;
@@ -119,6 +122,13 @@ export type messageType = {
   code: string;
 };
 
+export type dotType = {
+  posX: number;
+  posY: number;
+  user: userInfoType | undefined;
+  index: number;
+};
+
 export type visibilityType = 'public' | 'private' | 'game';
 
 export type lobbyType = {
@@ -134,6 +144,23 @@ export type lobbyType = {
   users: userInfoType[];
   code: string;
   visibility: visibilityType;
+  isStarted: boolean;
+  startsIn: number;
+  dots: dotType[];
+};
+
+export type lobbySetDotsType = {
+  type: typeof LOBBY_SET_DOTS;
+  payload: dotType[];
+};
+
+export type lobbySetStartsInType = {
+  type: typeof LOBBY_SET_STARTS_IN;
+  payload: number;
+};
+export type lobbySetStartedType = {
+  type: typeof LOBBY_SET_STARTED;
+  payload: boolean;
 };
 
 export type lobbySetType = {
@@ -200,4 +227,7 @@ export type LobbyActionsType =
   | lobbySetMessagesType
   | lobbySetVisibilityType
   | lobbySetInLobbyPlayersType
-  | lobbySetUsersType;
+  | lobbySetUsersType
+  | lobbySetStartedType
+  | lobbySetStartsInType
+  | lobbySetDotsType;

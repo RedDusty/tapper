@@ -83,8 +83,6 @@ function Skins() {
       skinBorderWidth: Number(localStorage.getItem('skin-border-width')) || 2
     };
     dispatch(userSetSkin(skinData));
-    console.log(skinData);
-
     socket.emit('SKIN_CHANGE', {
       code,
       user,
@@ -103,6 +101,7 @@ function Skins() {
     return () => {
       socket.off('SKIN_CHANGE_USERS');
     };
+    // eslint-disable-next-line
   }, []);
 
   return (

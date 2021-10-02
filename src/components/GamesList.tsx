@@ -39,7 +39,7 @@ function GamesList() {
   }, []);
 
   const renderLobbyList = lobbyList.map((lobby) => {
-    return <LobbyItem {...lobby} key={lobby.code}/>;
+    return <LobbyItem {...lobby} key={lobby.code} />;
   });
   return (
     <div className="panelWidth my-0 mx-auto h-full">
@@ -76,7 +76,10 @@ function GamesList() {
                   shape: 'square',
                   users: [user],
                   code: '',
-                  visibility: 'private'
+                  visibility: 'private',
+                  isStarted: false,
+                  startsIn: 10,
+                  dots: []
                 };
                 dispatch(lobbySet(defaultLobby));
                 socket.emit('LOBBY_CREATE', defaultLobby);

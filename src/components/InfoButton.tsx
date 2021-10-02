@@ -9,6 +9,7 @@ function InfoButton() {
   const { t } = useTranslation();
 
   const lobby = useTypedSelector((state) => state.lobby);
+  const visibility = useTypedSelector(state => state.lobby.visibility)
   useEffect(() => {
     if (pathname !== '/lobby' && lobby.code.length === 6 && lobby.visibility !== 'game') {
       setRender(toLocation(t, 'lobby'));
@@ -20,7 +21,7 @@ function InfoButton() {
       setRender(<></>);
     }
     // eslint-disable-next-line
-  }, [pathname]);
+  }, [pathname, visibility]);
   return render;
 }
 

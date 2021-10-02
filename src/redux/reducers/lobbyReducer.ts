@@ -12,7 +12,10 @@ export const initialLobbyState: lobbyType = {
   visibility: 'private',
   messages: [],
   inLobbyPlayers: '1',
-  maxPlayers: '2'
+  maxPlayers: '2',
+  isStarted: false,
+  startsIn: 10,
+  dots: []
 };
 
 export const lobbyReducer = (state = initialLobbyState, action: LobbyActionsType): lobbyType => {
@@ -30,7 +33,10 @@ export const lobbyReducer = (state = initialLobbyState, action: LobbyActionsType
         shape,
         users,
         code,
-        visibility
+        visibility,
+        isStarted,
+        startsIn,
+        dots
       } = action.payload;
       const newState: lobbyType = {
         fieldX,
@@ -44,7 +50,10 @@ export const lobbyReducer = (state = initialLobbyState, action: LobbyActionsType
         shape,
         users,
         code,
-        visibility
+        visibility,
+        isStarted,
+        startsIn,
+        dots
       };
       return { ...state, ...newState };
     }
@@ -80,16 +89,27 @@ export const lobbyReducer = (state = initialLobbyState, action: LobbyActionsType
     }
     case 'LOBBY_SET_USERS': {
       const users = action.payload.value;
-      console.log(users);
-      return {...state, users}
+      return { ...state, users };
     }
     case 'LOBBY_SET_IN_LOBBY_PLAYERS': {
       const inLobbyPlayers = action.payload;
-      return {...state, inLobbyPlayers}
+      return { ...state, inLobbyPlayers };
     }
     case 'LOBBY_SET_MAX_PLAYERS': {
       const maxPlayers = action.payload;
-      return {...state, maxPlayers}
+      return { ...state, maxPlayers };
+    }
+    case 'LOBBY_SET_STARTED': {
+      const isStarted = action.payload;
+      return { ...state, isStarted };
+    }
+    case 'LOBBY_SET_STARTS_IN': {
+      const startsIn = action.payload;
+      return { ...state, startsIn };
+    }
+    case 'LOBBY_SET_DOTS': {
+      const dots = action.payload;
+      return { ...state, dots };
     }
     default: {
       return { ...state };

@@ -3,21 +3,23 @@ import { useDispatch } from 'react-redux';
 import { Dispatch } from 'redux';
 import {
   lobbySet,
+  lobbySetDots,
   lobbySetFieldX,
   lobbySetFieldY,
   lobbySetinLobbyPlayers,
   lobbySetMaxPlayers,
   lobbySetRounds,
   lobbySetShape,
+  lobbySetStarted,
   lobbySetUsers,
   lobbySetVisibility
 } from '../../redux/actions/lobbyActions';
 import {
+  dotType,
   lobbySocketOptionsType,
   lobbyType,
   lobbyUsersGetType,
   shapeType,
-  userInfoType,
   visibilityType
 } from '../../redux/types';
 import { useTypedSelector } from '../../redux/useTypedSelector';
@@ -26,13 +28,6 @@ import Battlefield from '../Battlefield/Battlefield';
 import LobbyChat from './LobbyChat/LobbyChat';
 import LobbyHeader from './LobbyHeader';
 import LobbyOptions from './LobbyOptions/LobbyOptions';
-
-export type dotType = {
-  posX: number;
-  posY: number;
-  user: userInfoType | undefined;
-  index: number;
-};
 
 export type fieldType = {
   fieldX: number;
@@ -71,14 +66,14 @@ export function renderImage(avatar: string | null) {
   }
 }
 
-function renderTab(tab: lobbyTab, code: string, setStartGame: React.Dispatch<React.SetStateAction<boolean>>) {
+function renderTab(tab: lobbyTab, code: string) {
   if (code.length > 0) {
     switch (tab) {
       case 'chat': {
         return <LobbyChat />;
       }
       case 'options': {
-        return <LobbyOptions setStartGame={setStartGame} />;
+        return <LobbyOptions />;
       }
       default: {
         return <></>;
@@ -91,9 +86,6 @@ function renderTab(tab: lobbyTab, code: string, setStartGame: React.Dispatch<Rea
 
 export function Lobby() {
   const [tab, setTab] = useState<lobbyTab>('chat');
-  const [isStartedGame, setStartGame] = useState<boolean>(false);
-  const [users, setUsers] = useState<userInfoType[]>([]);
-  const [field, setField] = useState<fieldType>({ dots: [], fieldX: 1, fieldY: 1 });
   const [dataGained, setDataGain] = useState<boolean>(false);
   const dispatch = useDispatch();
 
@@ -130,12 +122,12 @@ export function Lobby() {
       }
     });
     socket.on('GAME_LOADING', (data) => {
-      if (isStartedGame !== true) {
-        setStartGame(true);
-      }
+      dispatch(lobbySetStarted(true));
       dispatch(lobbySet(data.lobby));
-      setField(data.field);
-      setUsers(data.users);
+      dispatch(lobbySetFieldX(data.field.fieldX));
+      dispatch(lobbySetFieldY(data.field.fieldY));
+      dispatch(lobbySetDots(data.dots))
+      dispatch(lobbySetUsers({ lobby: lobby, type: 'usersGet', value: data.users }));
       setDataGain(true);
     });
     socket.on('SKIN_CHANGE_USERS', (data) => {
@@ -149,15 +141,16 @@ export function Lobby() {
     };
     // eslint-disable-next-line
   }, []);
+
   return (
     <div className="w-full h-full">
-      {isStartedGame === false ? (
+      {dataGained === false ? (
         <>
           <LobbyHeader setTab={setTab} />
-          {renderTab(tab, lobby.code, setStartGame)}
+          {renderTab(tab, lobby.code)}
         </>
       ) : (
-        <Battlefield field={field} setField={setField} users={users} setUsers={setUsers} dataGained={dataGained} />
+        <Battlefield dataGained={dataGained} />
       )}
     </div>
   );
