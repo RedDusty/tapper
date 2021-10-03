@@ -6,15 +6,16 @@ import GamesList from './components/GamesList';
 import { Lobby } from './components/Lobby/Lobby';
 import Info from './components/Info';
 import Dummy from './components/Dummy';
+import GameScores from './components/GameScores';
+import Skins from './components/Skins';
 import { useDispatch } from 'react-redux';
+import { skinBorderStyleType, userInfoType } from './redux/types';
 import { userSet } from './redux/actions/userActions';
 import socket from './socketio';
 import { useTypedSelector } from './redux/useTypedSelector';
 import { onAuthStateChanged } from '@firebase/auth';
 import { auth } from './fbConfig';
 import { fbGetUser } from './firebase';
-import Skins from './components/Skins';
-import { skinBorderStyleType, userInfoType } from './redux/types';
 
 function App() {
   const dispatch = useDispatch();
@@ -106,6 +107,10 @@ function App() {
         <Switch>
           <Route exact path="/">
             <StartPage />
+            <Info />
+          </Route>
+          <Route exact path="/game-score">
+            <GameScores />
             <Info />
           </Route>
           <Route exact path="/games">

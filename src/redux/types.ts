@@ -220,6 +220,7 @@ export type LobbyActionsType =
 
 // GAME REDUCER;
 
+export const GAME_SET = 'GAME_SET';
 export const GAME_DOTS_SET = 'GAME_DOTS_SET';
 export const GAME_TIME_SET = 'GAME_TIME_SET';
 export const GAME_REPLAY_SET = 'GAME_REPLAY_SET';
@@ -235,16 +236,13 @@ export type dotType = {
 export type replayType = {
   user: userInfoType;
   index: number;
-  posX?: number;
-  posY?: number;
-  tapIndex: number;
   time: number;
 };
 
 export type timeType = {
   start: number;
   end: number;
-}
+};
 
 export type scoreType = {
   user: userInfoType;
@@ -256,8 +254,13 @@ export type gameReducerType = {
   dots: dotType[];
   time: timeType;
   replay: replayType[];
-  addScore: scoreType[];
-  decreaseScore: scoreType[];
+  addScore: scoreType[] | null;
+  decreaseScore: scoreType[] | null;
+};
+
+export type gameSetType = {
+  type: typeof GAME_SET;
+  payload: gameReducerType;
 };
 
 export type gameTimeSetType = {
@@ -283,4 +286,4 @@ export type gameDotsSetType = {
   payload: dotType[];
 };
 
-export type GameActionsType = gameDotsSetType | gameScoresSetType | gameReplaySetType | gameTimeSetType;
+export type GameActionsType = gameSetType | gameDotsSetType | gameScoresSetType | gameReplaySetType | gameTimeSetType;

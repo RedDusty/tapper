@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { gameDotsSet } from '../../redux/actions/gameActions';
+import { gameDotsSet, gameReplaySet, gameScoresSet, gameTimeSet } from '../../redux/actions/gameActions';
 import { lobbySetUsers } from '../../redux/actions/lobbyActions';
 import { userSetLoading } from '../../redux/actions/userActions';
 import { dotType, lobbyUsersGetType } from '../../redux/types';
@@ -50,16 +50,21 @@ function Battlefield({ dataGained }: { dataGained: boolean }) {
         }
       }
     }
-    socket.on('GAME_END', () => {
-
-    })
+    socket.on('GAME_END', (data) => {
+      dispatch(gameDotsSet(data.dots));
+      dispatch(gameTimeSet(data.time));
+      dispatch(gameReplaySet(data.replay));
+    });
     socket.on('GAME_END_SCORE', (data) => {
-
-    })
+      dispatch(gameDotsSet(data.dots));
+      dispatch(gameTimeSet(data.time));
+      dispatch(gameReplaySet(data.replay));
+      dispatch(gameScoresSet({ addScore: data.addScore, decreaseScore: data.decreaseScore }));
+    });
     if (startsIn <= 0) {
       socket.on('GAME_TAP', (data) => {
-        dispatch(gameDotsSet(data));
-        setField(data);
+        dispatch(gameDotsSet(data.dots));
+        setField(data.dots);
       });
     }
     socket.once('GAME_LOADED', (data) => {

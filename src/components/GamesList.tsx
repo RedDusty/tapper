@@ -7,6 +7,7 @@ import { lobbySet } from '../redux/actions/lobbyActions';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import LobbyItem from './Lobby/LobbyItem';
+import { gameSet } from '../redux/actions/gameActions';
 
 export type lobbyShortType = {
   ownerUID: string;
@@ -80,6 +81,9 @@ function GamesList() {
                   isStarted: false,
                   startsIn: 10
                 };
+                dispatch(
+                  gameSet({ addScore: null, decreaseScore: null, dots: [], replay: [], time: { end: 0, start: 0 } })
+                );
                 dispatch(lobbySet(defaultLobby));
                 socket.emit('LOBBY_CREATE', defaultLobby);
               }
