@@ -87,7 +87,7 @@ function Info() {
           <Connection latency={latency} />
           <p className="ml-2">{latencyShow(latency, t)}</p>
         </div>
-        {code.length === 6 ? (
+        {code && code.length === 6 ? (
           <p className="infoBlock">{inLobbyPlayers + '/' + maxPlayers}</p>
         ) : (
           <p className="infoBlock">{t('ONLINE') + ': ' + countUsers(online, t)}</p>

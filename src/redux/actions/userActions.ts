@@ -6,12 +6,19 @@ import {
   USER_SET_LOADING,
   USER_SET_SKIN,
   skinType,
+  USER_SET_SCORE
 } from './../types';
 import { Dispatch } from 'redux';
 
 export const userSet = (user: userInfoType) => {
   return (dispatch: Dispatch<UserActionsType>) => {
     dispatch({ type: USER_SET, payload: user });
+  };
+};
+
+export const userSetScore = (score: number) => {
+  return (dispatch: Dispatch<UserActionsType>) => {
+    dispatch({ type: USER_SET_SCORE, payload: score });
   };
 };
 

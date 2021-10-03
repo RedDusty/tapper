@@ -1,5 +1,6 @@
 // USER REDUCER
 export const USER_SET = 'USER_SET';
+export const USER_SET_SCORE = 'USER_SET_SCORE';
 export const USER_SET_ID = 'USER_SET_ID';
 export const USER_SET_LOADING = 'USER_SET_LOADING';
 export const USER_SET_SKIN = 'USER_SET_SKIN';
@@ -55,7 +56,12 @@ export type userSetLoadingType = {
   payload: boolean;
 };
 
-export type UserActionsType = userSetType | userSetIdType | userSetLoadingType | userSetSkin;
+export type userSetScoreType = {
+  type: typeof USER_SET_SCORE;
+  payload: number;
+};
+
+export type UserActionsType = userSetType | userSetIdType | userSetLoadingType | userSetSkin | userSetScoreType;
 
 // LOBBY REDUCER
 

@@ -33,7 +33,7 @@ function generateAccessKey() {
   return code;
 }
 
-export async function fbGetUser(gUser: User) {
+export async function fbAuthUser(gUser: User) {
   const docRef = doc(firestore, 'users', gUser.uid);
 
   const userDoc = await getDoc(docRef);
@@ -63,4 +63,11 @@ export async function fbGetUser(gUser: User) {
 
     return docData;
   }
+}
+
+export async function fbGetUserScore(gUID: string) {
+  const docRef = doc(firestore, 'users', gUID);
+  const userDoc = await getDoc(docRef);
+  const userData = await userDoc.data()!.score;
+  return userData;
 }

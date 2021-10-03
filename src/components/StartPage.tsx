@@ -15,7 +15,7 @@ function StartPage() {
   const user = useTypedSelector((state) => state.user);
 
   const renderGame = () => {
-    if (code.length === 6 && user.uid !== null && isError === false) {
+    if (code && code.length === 6 && user.uid !== null && isError === false) {
       return (
         <Link to="/lobby" className="button button-yellow">
           {t('LOBBY')}
@@ -38,8 +38,13 @@ function StartPage() {
     if (user.uid !== null) {
       return (
         <>
-          {renderImage(user.avatar)}
-          <p>{user.nickname || user.uid.slice(0, 16)}</p>
+          <div>
+            <div className="flex items-center">
+              {renderImage(user.avatar)}
+              <p className="ml-2">{user.nickname || user.uid.slice(0, 16)}</p>
+            </div>
+            <div className="w-0 h-0 relative left-10 top-2">{(user.score || 0).toFixed(3)}</div>
+          </div>
           <button className="button button-red" onClick={() => logOut()}>
             {t('LOG_OUT')}
           </button>

@@ -8,15 +8,15 @@ import Info from './components/Info';
 import Dummy from './components/Dummy';
 import GameScores from './components/GameScores';
 import Skins from './components/Skins';
+import Score from './components/Score';
 import { useDispatch } from 'react-redux';
 import { skinBorderStyleType, userInfoType } from './redux/types';
-import { userSet } from './redux/actions/userActions';
+import { userSet, userSetScore } from './redux/actions/userActions';
 import socket from './socketio';
 import { useTypedSelector } from './redux/useTypedSelector';
 import { onAuthStateChanged } from '@firebase/auth';
 import { auth } from './fbConfig';
-import { fbGetUser } from './firebase';
-
+import { fbAuthUser, fbGetUserScore } from './firebase';
 function App() {
   const dispatch = useDispatch();
 
@@ -34,7 +34,7 @@ function App() {
     const skinBorderWidth = Number(localStorage.getItem('skin-border-width')) || Number('1');
     onAuthStateChanged(auth, async (gUser) => {
       if (gUser !== null) {
-        const userData = await fbGetUser(gUser);
+        const userData = await fbAuthUser(gUser);
         dispatch(
           userSet({
             avatar: gUser.photoURL,
@@ -76,28 +76,16 @@ function App() {
           isLoaded: false
         } as userInfoType);
       } else {
-        dispatch(
-          userSet({
-            avatar: null,
-            banned: false,
-            firstLogin: 0,
-            id: undefined,
-            nickname: null,
-            score: 0,
-            key: null,
-            skinOptions: {
-              skin: 'standard',
-              skinBorder,
-              skinBorderColor,
-              skinBorderStyle,
-              skinBorderWidth,
-              skinColor
-            },
-            uid: null
-          })
-        );
+        dispatch(userSet({} as userInfoType));
       }
     });
+    socket.on('GAME_END_SCORE', async () => {
+      const newScore = await fbGetUserScore(user.uid!);
+      dispatch(userSetScore(newScore));
+    });
+    return () => {
+      socket.off('GAME_END_SCORE');
+    };
     // eslint-disable-next-line
   }, [auth.currentUser]);
 
@@ -122,7 +110,7 @@ function App() {
             <Info />
           </Route>
           <Route exact path="/score">
-            <Dummy />
+            <Score />
             <Info />
           </Route>
           <Route exact path="/skins">
