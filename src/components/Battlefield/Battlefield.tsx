@@ -51,11 +51,13 @@ function Battlefield({ dataGained }: { dataGained: boolean }) {
       }
     }
     socket.on('GAME_END', (data) => {
+      socket.emit('USER_ROOM', { user, code: lobby.code, room: 'game_end' });
       dispatch(gameDotsSet(data.dots));
       dispatch(gameTimeSet(data.time));
       dispatch(gameReplaySet(data.replay));
     });
-    socket.on('GAME_END_SCORE', (data) => {
+    socket.on('GAME_END_SCORE', async (data) => {
+      socket.emit('USER_ROOM', { user, code: lobby.code, room: 'game_end' });
       dispatch(gameDotsSet(data.dots));
       dispatch(gameTimeSet(data.time));
       dispatch(gameReplaySet(data.replay));

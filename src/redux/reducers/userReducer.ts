@@ -54,6 +54,10 @@ export const userReducer = (state = initialUserState, action: UserActionsType): 
       const skinOptions = action.payload;
       return { ...state, skinOptions };
     }
+    case 'USER_SET_SCORE': {
+      const score = action.payload;
+      return { ...state, score };
+    }
     default: {
       return { ...state };
     }

@@ -11,8 +11,15 @@ export const initialGameReducer: gameReducerType = {
 export const gameReducer = (state = initialGameReducer, action: GameActionsType): gameReducerType => {
   switch (action.type) {
     case 'GAME_SET': {
-      const game = action.payload;
-      return { ...state, ...game };
+      const { addScore, decreaseScore, dots, replay, time } = action.payload;
+      const newState = {
+        addScore,
+        decreaseScore,
+        dots,
+        replay,
+        time
+      } as gameReducerType;
+      return { ...state, ...newState };
     }
     case 'GAME_DOTS_SET': {
       const dots = action.payload;
