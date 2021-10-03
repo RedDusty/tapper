@@ -15,13 +15,13 @@ function StartPage() {
   const user = useTypedSelector((state) => state.user);
 
   const renderGame = () => {
-    if (code && code.length === 6 && user.uid !== null && isError === false) {
+    if (code && code.length === 6 && user.uid && user.uid !== null && user.uid !== undefined && isError === false) {
       return (
         <Link to="/lobby" className="button button-yellow">
           {t('LOBBY')}
         </Link>
       );
-    } else if (user.uid !== null && isError === false) {
+    } else if (user.uid && user.uid !== null && user.uid !== undefined && isError === false) {
       return (
         <Link to="/games" className="button button-yellow">
           {t('PLAY')}
@@ -35,13 +35,13 @@ function StartPage() {
   };
 
   const renderUser = () => {
-    if (user.uid !== null) {
+    if (user.uid && user.uid !== null && user.uid !== undefined) {
       return (
         <>
           <div>
             <div className="flex items-center">
               {renderImage(user.avatar)}
-              <p className="ml-2">{user.nickname || user.uid.slice(0, 16)}</p>
+              <p className="ml-2">{(user.nickname || user.uid).slice(0, 16)}</p>
             </div>
             <div className="w-0 h-0 relative left-10 top-2">{(user.score || 0).toFixed(3)}</div>
           </div>
@@ -60,7 +60,7 @@ function StartPage() {
   };
 
   const renderOptions = () => {
-    if (user.uid !== null) {
+    if (user.uid && user.uid !== null && user.uid !== undefined) {
       return (
         <div className="flex mt-4 gap-4">
           <Link to="/skins" className="button button-green">

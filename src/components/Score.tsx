@@ -9,8 +9,6 @@ function Score() {
   useEffect(() => {
     socket.emit('SCORE_GET');
     socket.on('SCORE_RETURN', (users) => {
-      console.log(users);
-
       setUsers(users);
     });
     return () => {
