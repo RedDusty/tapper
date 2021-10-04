@@ -1,5 +1,5 @@
 import io from 'socket.io-client';
 
-const socket = io('https://tapper-server.vercel.app/');
+const socket = io();
 
 export default socket;
