@@ -6,6 +6,7 @@ import { skinBorderStyleType, skinType } from "../redux/types";
 import { useTypedSelector } from "../redux/useTypedSelector";
 import socket from "../socketio";
 import { renderImage } from "./Lobby/Lobby";
+import UserSkin from './UserSkin';
 
 const colors = [
   "red",
@@ -32,8 +33,6 @@ function Skins() {
   const dispatch = useDispatch();
   const user = useTypedSelector((state) => state.user);
   const code = useTypedSelector((state) => state.lobby.code);
-
-  const skin = user.skin;
 
   const [skinColor, setSkinColor] = useState<string>(
     user.skin.color || "orange-600"
@@ -85,16 +84,6 @@ function Skins() {
     // eslint-disable-next-line
   }, []);
 
-  const currentSkin = () => {
-    let skinData = `bg-${skin.color}`;
-    if (skin.withBorder) {
-      skinData =
-        skinData +
-        ` border-${skin.borderColor} border-${skin.borderStyle}`;
-    }
-    return skinData;
-  };
-
   const nextSkin = () => {
     let skinData = `bg-${skinColor}`;
     if (withBorder) {
@@ -109,14 +98,7 @@ function Skins() {
       <div className="bg-gray-300 hover:bg-gray-200 w-full flex items-center justify-center gap-x-2 mx-auto p-4 rounded-bl-md rounded-br-md">
         {renderImage(user.avatar)}
         <p className="font-bold">{user.nickname}</p>
-        <div
-          className={`${currentSkin()} w-8 h-8`}
-          style={{
-            borderWidth: skin.withBorder
-              ? skin.borderWidth
-              : 0,
-          }}
-        ></div>
+        <UserSkin key={user.nickname + 'skin'} {...user.skin} />
         <p className="flex items-center font-bold text-black text-xl">{"=>"}</p>
         <div
           className={`${nextSkin()} w-8 h-8`}

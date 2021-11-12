@@ -1,6 +1,7 @@
 import { dotType, scoreType, userInfoType } from '../redux/types';
 import { useTypedSelector } from '../redux/useTypedSelector';
 import { renderImage } from './Lobby/Lobby';
+import UserSkin from './UserSkin';
 
 function GameScores() {
   const game = useTypedSelector((state) => state.game);
@@ -40,17 +41,11 @@ type onePlayerType = {
 };
 
 const PlayerBlockDots: (player: onePlayerType) => JSX.Element = (player) => {
-  const skin = player.user.skin;
   return (
     <>
       {renderImage(player.user.avatar)}
       <p className="hidden sm:block">{(player.user.nickname || '').slice(0, 16)}</p>
-      <div
-        className={`w-8 h-8 ${skin.withBorder ? ' border-' + skin.borderColor + ' border-' + skin.borderStyle : ''} ${
-          ' bg-' + skin.color
-        }`}
-        style={{ borderWidth: skin.withBorder ? skin.borderWidth : 0 }}
-      ></div>
+      <UserSkin key={player.user.nickname + 'skin'} {...player.user.skin} />
       <p>{player.dotsCount}</p>
     </>
   );

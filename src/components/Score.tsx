@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { userInfoType } from "../redux/types";
 import socket from "../socketio";
 import { renderImage } from "./Lobby/Lobby";
+import UserSkin from "./UserSkin";
 
 function Score() {
   const [users, setUsers] = useState<userInfoType[]>([]);
@@ -65,35 +66,6 @@ const RenderUser: ({
     return "text-base";
   };
 
-  const currentSkin = () => {
-    if (user.skin.color) {
-      let skinData = "bg-" + user.skin.color;
-      if (user.skin.withBorder) {
-        skinData =
-          skinData +
-          " border-" +
-          user.skin.borderColor +
-          " border-" +
-          user.skin.borderStyle;
-      }
-      return skinData;
-    } else {
-      return "bg-gray-300 border-gray-900 border-solid";
-    }
-  };
-
-  const currentSkinBorderWidth = () => {
-    if (user.skin.color) {
-      if (user.skin.withBorder) {
-        return user.skin.borderWidth;
-      } else {
-        return 0;
-      }
-    } else {
-      return 2
-    }
-  };
-
   return (
     <div
       className={`shadow-md rounded-xl m-2 min-w-min max-w-max mx-auto ${placeUpper()}`}
@@ -103,14 +75,7 @@ const RenderUser: ({
       >
         {renderImage(user.avatar)}
         <p className="ml-2">{(user.nickname || "").slice(0, 16)}</p>
-        <div
-          className={`${currentSkin()} w-8 h-8 ml-2 font-bold text-lg text-gray-600 text-center`}
-          style={{
-            borderWidth: currentSkinBorderWidth(),
-          }}
-        >
-          {user.skin.color ? "" : "?"}
-        </div>
+        <UserSkin key={user.nickname + 'skin'} {...user.skin} />
         <p className="ml-2">{(user.score || 0).toFixed(3)}</p>
       </div>
     </div>

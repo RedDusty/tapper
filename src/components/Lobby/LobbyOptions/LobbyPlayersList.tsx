@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
-import Cross from '../../../icons/cross';
-import { userInfoType } from '../../../redux/types';
-import { useTypedSelector } from '../../../redux/useTypedSelector';
-import { renderImage } from '../Lobby';
+import { useEffect, useState } from "react";
+import Cross from "../../../icons/cross";
+import { userInfoType } from "../../../redux/types";
+import { useTypedSelector } from "../../../redux/useTypedSelector";
+import UserSkin from "../../UserSkin";
+import { renderImage } from "../Lobby";
 
 function LobbyPlayersList() {
   const [listPlayers, setListPlayers] = useState<userInfoType[]>([]);
@@ -19,18 +20,13 @@ function LobbyPlayersList() {
         return (
           <div
             className="flex items-center p-2 my-2 min-w-min max-w-max hover:bg-gray-200 rounded-md"
-            key={user.id + '|||' + user.uid}
+            key={user.id + "|||" + user.uid}
           >
             {renderImage(user.avatar)}
             <p className="ml-2">{(user.nickname || user.uid!).substr(0, 16)}</p>
-            <div
-              className={`w-8 h-8 ml-4 bg-${user.skin.color} ${
-                user.skin.withBorder
-                  ? ' border-' + user.skin.borderColor + ' border-' + user.skin.borderStyle
-                  : ''
-              }`}
-              style={{ borderWidth: user.skin.withBorder ? user.skin.borderWidth : 0 }}
-            ></div>
+            <div className="ml-4">
+              <UserSkin key={user.nickname + "skin"} {...user.skin} />
+            </div>
             {user.uid === ownerUID ? (
               <></>
             ) : userUID === ownerUID ? (

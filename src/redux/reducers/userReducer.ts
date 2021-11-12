@@ -16,7 +16,7 @@ export const initialUserState: userInfoType = {
     borderColor: 'lime-600',
     borderStyle: 'solid',
     borderWidth: 2,
-    color: 'orange-600'
+    color: 'orange-300'
   },
   banned: false,
   isLeft: false
