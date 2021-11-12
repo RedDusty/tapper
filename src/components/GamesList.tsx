@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { lobbyType, shapeType } from '../redux/types';
 import { useTypedSelector } from '../redux/useTypedSelector';
 import { useDispatch } from 'react-redux';
-import socket from '../socketio';
+import socket, { getServerURL } from '../socketio';
 import { lobbySet } from '../redux/actions/lobbyActions';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -30,6 +30,13 @@ function GamesList() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    const firstLoading = async () => {
+      const fetcher = await fetch(getServerURL() + '/data');
+      const data = await fetcher.json();
+
+      setLobbyList(data.lobbies)
+    }
+    firstLoading()
     socket.on('LOBBY_GET', (lobbyListArray) => {
       setLobbyList(lobbyListArray);
     });

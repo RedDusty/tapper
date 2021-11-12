@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
 import Connection from '../icons/connection';
 import { useTypedSelector } from '../redux/useTypedSelector';
-import socket from '../socketio';
+import socket, { getServerURL } from '../socketio';
 import InfoButton from './InfoButton';
 
 function latencyShow(latency: number | '?' | 'Offline' | 'Reconnect', t: TFunction<'translation'>) {
@@ -47,6 +47,13 @@ function Info() {
   const { code, inLobbyPlayers, maxPlayers } = useTypedSelector((state) => state.lobby);
 
   useEffect(() => {
+    const firstLoading = async () => {
+      const fetcher = await fetch(getServerURL() + '/data');
+      const data = await fetcher.json();
+
+      setOnline(data.online)
+    }
+    firstLoading()
     const interval = setInterval(() => {
       const start = Date.now();
 
