@@ -1,9 +1,9 @@
 import io from "socket.io-client";
 require("dotenv").config();
 
-let serverURL = "";
-let serverID = -1;
-let isConnected = false;
+let serverURL: string | "offline" = "";
+let serverID: -1 | 1 | 2 = -1;
+let isConnected: boolean = false;
 export const getServerURL = () => serverURL;
 export const getServerID = () => serverID;
 export const getIsConnected = () => isConnected;

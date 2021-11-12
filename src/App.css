@@ -66,7 +66,7 @@
 }
 
 .copyCode .toolTipText::after {
-  content: '';
+  content: "";
   position: absolute;
   top: -10px;
   left: 70px;
@@ -79,4 +79,31 @@
 .copyCode:hover .toolTipText {
   visibility: visible;
   opacity: 1;
+}
+
+.failConnect {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: fixed;
+  z-index: 1000;
+  width: 100vw;
+  height: 100vh;
+  background: black;
+  animation: failConnectAnimation 2.5s normal 0s 1;
+}
+
+.failConnect p {
+  color: white;
+  text-shadow: white 0 0 12px;
+}
+
+@keyframes failConnectAnimation {
+  0% {
+    background: rgba(0, 0, 0, 0.25);
+  }
+  100% {
+    background: black;
+  }
 }
