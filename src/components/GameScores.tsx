@@ -9,8 +9,6 @@ function GameScores() {
     <div className="w-full">
       <div className="panelWidth mx-auto bg-gray-600 lg:rounded-bl-md lg:rounded-br-md text-gray-200 font-bold flex shadow">
         <div className="bg-gray-500 rounded-md w-full text-lg p-1 m-2 flex gap-x-2 justify-evenly">
-          <p className="capitalize">{lobby.shape}</p>
-          <p>{lobby.rounds}</p>
           <p>{lobby.fieldX + 'x' + lobby.fieldY + ` (${Number(lobby.fieldX) * Number(lobby.fieldY)})`}</p>
           <p>{lobby.inLobbyPlayers + ' / ' + lobby.maxPlayers}</p>
           <p>{convertDateDifference(game.time.start, game.time.end)}</p>
@@ -42,16 +40,16 @@ type onePlayerType = {
 };
 
 const PlayerBlockDots: (player: onePlayerType) => JSX.Element = (player) => {
-  const skin = player.user.skinOptions;
+  const skin = player.user.skin;
   return (
     <>
       {renderImage(player.user.avatar)}
       <p className="hidden sm:block">{(player.user.nickname || '').slice(0, 16)}</p>
       <div
-        className={`w-8 h-8 ${skin.skinBorder ? skin.skinBorderColor + ' border-' + skin.skinBorderStyle : ''} ${
-          skin.skinColor
+        className={`w-8 h-8 ${skin.withBorder ? ' border-' + skin.borderColor + ' border-' + skin.borderStyle : ''} ${
+          ' bg-' + skin.color
         }`}
-        style={{ borderWidth: skin.skinBorder ? skin.skinBorderWidth : 0 }}
+        style={{ borderWidth: skin.withBorder ? skin.borderWidth : 0 }}
       ></div>
       <p>{player.dotsCount}</p>
     </>

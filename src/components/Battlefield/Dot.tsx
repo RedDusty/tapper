@@ -21,11 +21,11 @@ function Dot({ index, user }: { index: number; user: userInfoType | undefined })
     }
     setController(() => {
       if (user) {
-        const skin = user.skinOptions;
-        if (skin.skinBorder) {
-          setDotClass([skin.skinColor, skin.skinBorderColor, `border-${skin.skinBorderStyle}`]);
+        const skin = user.skin;
+        if (skin.withBorder) {
+          setDotClass(['bg-' + skin.color, 'border-' + skin.borderColor, `border-${skin.borderStyle}`]);
         } else {
-          setDotClass([skin.skinBorderColor])
+          setDotClass(['bg-' + skin.color])
         }
         return true;
       } else {
@@ -36,7 +36,7 @@ function Dot({ index, user }: { index: number; user: userInfoType | undefined })
   return (
     <div
       className={dotClass.join(' ')}
-      style={{ width: `100%`, height: `100%`, borderWidth: user ? user.skinOptions.skinBorderWidth : 1 }}
+      style={{ width: `100%`, height: `100%`, borderWidth: user ? user.skin.borderWidth : 1 }}
       onClick={() => {
         if (tap && isControlled === false) {
           socket.emit('TAP_DOT', {

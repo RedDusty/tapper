@@ -15,12 +15,12 @@ export type skinTypesType = 'standard';
 export type skinBorderStyleType = 'solid' | 'dashed' | 'dotted' | 'double';
 
 export type skinType = {
-  skin: skinTypesType;
-  skinColor: string;
-  skinBorder: boolean;
-  skinBorderStyle: skinBorderStyleType;
-  skinBorderColor: string;
-  skinBorderWidth: number;
+  type: skinTypesType;
+  color: string;
+  withBorder: boolean;
+  borderColor: string;
+  borderStyle: skinBorderStyleType;
+  borderWidth: number;
 };
 
 export type userInfoType = {
@@ -32,7 +32,7 @@ export type userInfoType = {
   id: string | undefined;
   isLoaded?: boolean;
   isLeft?: boolean;
-  skinOptions: skinType;
+  skin: skinType;
   banned: boolean;
   key: string | null;
 };

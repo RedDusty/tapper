@@ -24,12 +24,12 @@ function LobbyPlayersList() {
             {renderImage(user.avatar)}
             <p className="ml-2">{(user.nickname || user.uid!).substr(0, 16)}</p>
             <div
-              className={`w-8 h-8 ml-4 ${user.skinOptions.skinColor} ${
-                user.skinOptions.skinBorder
-                  ? user.skinOptions.skinBorderColor + ' border-' + user.skinOptions.skinBorderStyle
+              className={`w-8 h-8 ml-4 bg-${user.skin.color} ${
+                user.skin.withBorder
+                  ? ' border-' + user.skin.borderColor + ' border-' + user.skin.borderStyle
                   : ''
               }`}
-              style={{ borderWidth: user.skinOptions.skinBorder ? user.skinOptions.skinBorderWidth : 0 }}
+              style={{ borderWidth: user.skin.withBorder ? user.skin.borderWidth : 0 }}
             ></div>
             {user.uid === ownerUID ? (
               <></>

@@ -10,13 +10,13 @@ export const initialUserState: userInfoType = {
   id: undefined,
   isLoaded: false,
   key: '',
-  skinOptions: {
-    skin: 'standard',
-    skinBorder: true,
-    skinBorderColor: 'border-orange-600',
-    skinBorderStyle: 'solid',
-    skinBorderWidth: 2,
-    skinColor: 'bg-red-300'
+  skin: {
+    type: 'standard',
+    withBorder: true,
+    borderColor: 'lime-600',
+    borderStyle: 'solid',
+    borderWidth: 2,
+    color: 'orange-600'
   },
   banned: false,
   isLeft: false
@@ -25,7 +25,7 @@ export const initialUserState: userInfoType = {
 export const userReducer = (state = initialUserState, action: UserActionsType): userInfoType => {
   switch (action.type) {
     case 'USER_SET': {
-      const { avatar, firstLogin, nickname, score, uid, id, isLoaded, skinOptions, banned, isLeft, key } =
+      const { avatar, firstLogin, nickname, score, uid, id, isLoaded, skin, banned, isLeft, key } =
         action.payload;
       const newState: userInfoType = {
         avatar,
@@ -35,7 +35,7 @@ export const userReducer = (state = initialUserState, action: UserActionsType): 
         uid,
         id,
         isLoaded,
-        skinOptions,
+        skin,
         banned,
         isLeft,
         key
@@ -51,8 +51,8 @@ export const userReducer = (state = initialUserState, action: UserActionsType): 
       return { ...state, isLoaded: loading };
     }
     case 'USER_SET_SKIN': {
-      const skinOptions = action.payload;
-      return { ...state, skinOptions };
+      const skin = action.payload;
+      return { ...state, skin };
     }
     case 'USER_SET_SCORE': {
       const score = action.payload;

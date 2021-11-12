@@ -10,7 +10,7 @@ import GameScores from './components/GameScores';
 import Skins from './components/Skins';
 import Score from './components/Score';
 import { useDispatch } from 'react-redux';
-import { skinBorderStyleType, userInfoType } from './redux/types';
+import { userInfoType } from './redux/types';
 import { userSet, userSetScore } from './redux/actions/userActions';
 import socket from './socketio';
 import { useTypedSelector } from './redux/useTypedSelector';
@@ -27,11 +27,6 @@ function App() {
   });
 
   useEffect(() => {
-    const skinColor = localStorage.getItem('skin-color') || 'bg-red-300';
-    const skinBorder = Boolean(localStorage.getItem('skin-border')) || Boolean('false');
-    const skinBorderColor = localStorage.getItem('skin-border-color') || 'border-red-300';
-    const skinBorderStyle = (localStorage.getItem('skin-border-style') as skinBorderStyleType) || 'solid';
-    const skinBorderWidth = Number(localStorage.getItem('skin-border-width')) || Number('1');
     onAuthStateChanged(auth, async (gUser) => {
       if (gUser !== null) {
         const userData = await fbAuthUser(gUser);
@@ -44,13 +39,13 @@ function App() {
             nickname: gUser.displayName,
             score: userData.score,
             key: userData.key,
-            skinOptions: {
-              skin: 'standard',
-              skinBorder,
-              skinBorderColor,
-              skinBorderStyle,
-              skinBorderWidth,
-              skinColor
+            skin: {
+              type: userData.skin.type,
+              color: userData.skin.color,
+              withBorder: userData.skin.withBorder,
+              borderColor: userData.skin.borderColor,
+              borderStyle: userData.skin.borderStyle,
+              borderWidth: userData.skin.borderWidth
             },
             uid: gUser.uid,
             isLoaded: false
@@ -64,13 +59,13 @@ function App() {
           nickname: gUser.displayName,
           score: userData.score,
           key: null,
-          skinOptions: {
-            skin: 'standard',
-            skinBorder,
-            skinBorderColor,
-            skinBorderStyle,
-            skinBorderWidth,
-            skinColor
+          skin: {
+            type: "standard",
+            color: "orange-600",
+            withBorder: true,
+            borderColor: "lime-600",
+            borderStyle: "solid",
+            borderWidth: 2
           },
           uid: gUser.uid,
           isLoaded: false
