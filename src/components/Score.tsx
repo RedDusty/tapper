@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { userInfoType } from "../redux/types";
 import socket from "../socketio";
 import { renderImage } from "./Lobby/Lobby";
-import UserSkin from "./UserSkin";
+import UserSkin from "./Helpers/UserSkin";
 
 function Score() {
   const [users, setUsers] = useState<userInfoType[]>([]);

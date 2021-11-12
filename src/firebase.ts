@@ -55,10 +55,17 @@ export async function fbAuthUser(gUser: User) {
       firstLogin: new Date().getTime(),
       nickname: gUser.displayName,
       score: 0,
-      skin: 'standard',
+      skin: {
+        type: 'standard',
+        color: "orange-300",
+        withBorder: true,
+        borderColor: "lime-600",
+        borderStyle: "solid",
+        borderWidth: 2
+      },
       key: generateAccessKey(),
       uid: gUser.uid
-    };
+    } as userInfoType;
     await setDoc(doc(firestore, 'users', gUser.uid), docData);
 
     return docData;

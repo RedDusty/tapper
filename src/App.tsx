@@ -5,7 +5,7 @@ import StartPage from './components/StartPage';
 import GamesList from './components/GamesList';
 import { Lobby } from './components/Lobby/Lobby';
 import Info from './components/Info';
-import Dummy from './components/Dummy';
+import Dummy from './components/Helpers/Dummy';
 import GameScores from './components/GameScores';
 import Skins from './components/Skins';
 import Score from './components/Score';

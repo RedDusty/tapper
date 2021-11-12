@@ -9,7 +9,6 @@ module.exports = {
         rose: colors.rose,
         fuchsia: colors.fuchsia,
         violet: colors.violet,
-        lightBlue: colors.lightBlue,
         sky: colors.sky,
         green: colors.green,
         cyan: colors.cyan,

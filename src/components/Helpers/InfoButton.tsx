@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
-import { gameSet } from '../redux/actions/gameActions';
-import { lobbySet } from '../redux/actions/lobbyActions';
-import { gameReducerType, lobbyType } from '../redux/types';
-import { useTypedSelector } from '../redux/useTypedSelector';
+import { gameSet } from '../../redux/actions/gameActions';
+import { lobbySet } from '../../redux/actions/lobbyActions';
+import { gameReducerType, lobbyType } from '../../redux/types';
+import { useTypedSelector } from '../../redux/useTypedSelector';
 
 function InfoButton() {
   const { pathname } = useLocation();

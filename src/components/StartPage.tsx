@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { logOut, signInWithGoogle } from '../firebase';
 import { useTypedSelector } from '../redux/useTypedSelector';
 import { renderImage } from './Lobby/Lobby';
-import StartPageLogo from './StartPageLogo';
+import StartPageLogo from './Helpers/StartPageLogo';
 
 function StartPage() {
   const [isError] = useState<boolean>(!('IntersectionObserver' in window));

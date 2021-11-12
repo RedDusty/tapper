@@ -6,7 +6,7 @@ import { skinBorderStyleType, skinType } from "../redux/types";
 import { useTypedSelector } from "../redux/useTypedSelector";
 import socket from "../socketio";
 import { renderImage } from "./Lobby/Lobby";
-import UserSkin from './UserSkin';
+import UserSkin from './Helpers/UserSkin';
 
 const colors = [
   "red",

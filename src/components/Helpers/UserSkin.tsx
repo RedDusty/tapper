@@ -1,4 +1,4 @@
-import { skinType } from "../redux/types";
+import { skinType } from "../../redux/types";
 
 const UserSkin = (skin: skinType) => {
   const { color, withBorder, borderColor, borderStyle, borderWidth } = skin;

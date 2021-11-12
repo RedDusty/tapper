@@ -3,7 +3,7 @@ import { TFunction, useTranslation } from 'react-i18next';
 import Connection from '../icons/connection';
 import { useTypedSelector } from '../redux/useTypedSelector';
 import socket, { getServerURL } from '../socketio';
-import InfoButton from './InfoButton';
+import InfoButton from './Helpers/InfoButton';
 
 function latencyShow(latency: number | '?' | 'Offline' | 'Reconnect', t: TFunction<'translation'>) {
   if (typeof latency === 'number') {

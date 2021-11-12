@@ -1,7 +1,7 @@
 import { dotType, scoreType, userInfoType } from '../redux/types';
 import { useTypedSelector } from '../redux/useTypedSelector';
 import { renderImage } from './Lobby/Lobby';
-import UserSkin from './UserSkin';
+import UserSkin from './Helpers/UserSkin';
 
 function GameScores() {
   const game = useTypedSelector((state) => state.game);

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Cross from "../../../icons/cross";
 import { userInfoType } from "../../../redux/types";
 import { useTypedSelector } from "../../../redux/useTypedSelector";
-import UserSkin from "../../UserSkin";
+import UserSkin from "../../Helpers/UserSkin";
 import { renderImage } from "../Lobby";
 
 function LobbyPlayersList() {
