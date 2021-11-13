@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { gameDotsSet, gameReplaySet, gameScoresSet, gameTimeSet } from '../../redux/actions/gameActions';
 import { lobbySetUsers } from '../../redux/actions/lobbyActions';
 import { userSetLoading } from '../../redux/actions/userActions';
-import { dotType, lobbyUsersGetType } from '../../redux/types';
+import { dotType } from '../../redux/types';
 import { useTypedSelector } from '../../redux/useTypedSelector';
 import socket from '../../socketio';
 import Dot from './Dot';
@@ -73,12 +73,7 @@ function Battlefield({ dataGained }: { dataGained: boolean }) {
       setStart(data);
     });
     socket.on('USER_LOADED_RETURN', (data) => {
-      const loadUsers: lobbyUsersGetType = {
-        lobby: lobby,
-        type: 'userLoaded',
-        value: data
-      };
-      dispatch(lobbySetUsers(loadUsers));
+      dispatch(lobbySetUsers(data.value));
     });
     return () => {
       socket.off('GAME_TAP');

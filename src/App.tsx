@@ -33,7 +33,7 @@ function App() {
   useEffect(() => {
     onAuthStateChanged(auth, async (gUser) => {
       if (gUser !== null) {
-        const userData = await fbAuthUser(gUser) as userInfoType;
+        const userData = (await fbAuthUser(gUser)) as userInfoType;
         dispatch(
           userSet({
             avatar: gUser.photoURL,
@@ -108,6 +108,15 @@ function App() {
 }
 
 const RenderApp = () => {
+  const [isKick, setKick] = React.useState<boolean>(false);
+  useEffect(() => {
+    socket.on("LOBBY_KICK", () => {
+      setKick(true);
+    });
+    return () => {
+      socket.off("LOBBY_KICK");
+    };
+  }, []);
   return (
     <>
       <Suspense
@@ -121,7 +130,7 @@ const RenderApp = () => {
       >
         <Switch>
           <Route exact path="/">
-            <StartPage />
+            <StartPage isKick={isKick} setKick={setKick} />
             <Info />
           </Route>
           <Route exact path="/faq">

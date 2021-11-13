@@ -80,11 +80,7 @@ function Skins() {
   useEffect(() => {
     socket.on("SKIN_CHANGE_USERS", (data) => {
       dispatch(
-        lobbySetUsers({
-          lobby: data,
-          type: "userSkinChange",
-          value: data.users,
-        })
+        lobbySetUsers(data.users)
       );
     });
     return () => {

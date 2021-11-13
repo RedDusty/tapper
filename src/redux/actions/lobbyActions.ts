@@ -11,10 +11,10 @@ import {
   LOBBY_SET_MAX_PLAYERS,
   LOBBY_SET_IN_LOBBY_PLAYERS,
   LOBBY_SET_USERS,
-  lobbyUsersGetType,
   visibilityType,
   LOBBY_SET_STARTED,
   LOBBY_SET_STARTS_IN,
+  userInfoType,
 } from './../types';
 import { Dispatch } from 'redux';
 
@@ -62,9 +62,9 @@ export const lobbySetVisibility = (visibility: visibilityType) => {
     dispatch({ type: LOBBY_SET_VISIBILITY, payload: visibility });
   };
 };
-export const lobbySetUsers = (lobby: lobbyUsersGetType) => {
+export const lobbySetUsers = (users: userInfoType[]) => {
   return (dispatch: Dispatch<LobbyActionsType>) => {
-    dispatch({ type: LOBBY_SET_USERS, payload: lobby });
+    dispatch({ type: LOBBY_SET_USERS, payload: users });
   };
 };
 export const lobbySetinLobbyPlayers = (inLobbyPlayers: string) => {

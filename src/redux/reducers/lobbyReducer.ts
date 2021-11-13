@@ -43,7 +43,7 @@ export const lobbyReducer = (state = initialLobbyState, action: LobbyActionsType
       return { ...state, visibility: visibility };
     }
     case 'LOBBY_SET_USERS': {
-      const users = action.payload.value;
+      const users = action.payload;
       return { ...state, users };
     }
     case 'LOBBY_SET_IN_LOBBY_PLAYERS': {

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router";
 import { Dispatch } from "redux";
 import { gameDotsSet } from "../../redux/actions/gameActions";
 import {
@@ -13,6 +14,7 @@ import {
   lobbySetUsers,
   lobbySetVisibility,
 } from "../../redux/actions/lobbyActions";
+import { initialLobbyState } from "../../redux/reducers/lobbyReducer";
 import {
   dotType,
   lobbySocketOptionsType,
@@ -23,7 +25,7 @@ import {
 import { useTypedSelector } from "../../redux/useTypedSelector";
 import socket from "../../socketio";
 import Battlefield from "../Battlefield/Battlefield";
-import Loading from '../Helpers/Loading';
+import Loading from "../Helpers/Loading";
 import LobbyChat from "./LobbyChat/LobbyChat";
 import LobbyHeader from "./LobbyHeader";
 import LobbyOptions from "./LobbyOptions/LobbyOptions";
@@ -92,9 +94,11 @@ function renderTab(tab: lobbyTab, code: string) {
 export function Lobby() {
   const [tab, setTab] = useState<lobbyTab>("chat");
   const [dataGained, setDataGain] = useState<boolean>(false);
+  const history = useHistory()
   const dispatch = useDispatch();
 
   const lobby = useTypedSelector((state) => state.lobby);
+  const onwerUID = lobby.ownerUID;
   const code = lobby.code;
   const user = useTypedSelector((state) => state.user);
 
@@ -103,7 +107,7 @@ export function Lobby() {
       switch (data.type) {
         case "userJoin": {
           dispatch(lobbySetinLobbyPlayers(String(data.value.length)));
-          dispatch(lobbySetUsers(data));
+          dispatch(lobbySetUsers(data.value));
           if (!lobby.code) {
             dispatch(lobbySet(data.lobby));
           }
@@ -111,10 +115,20 @@ export function Lobby() {
         }
         case "userLeave": {
           dispatch(lobbySetinLobbyPlayers(String(data.value.length)));
-          dispatch(lobbySetUsers(data));
+          dispatch(lobbySetUsers(data.value));
           return 0;
         }
-        case "hostChange": {
+        case "userKick": {
+          if (data.uid === user.uid) {
+            dispatch(lobbySet(initialLobbyState));
+            history.push("/")
+            return 0;
+          }
+          dispatch(lobbySetinLobbyPlayers(String(data.value.length)));
+          dispatch(lobbySetUsers(data.value));
+          return 0;
+        }
+        case "userOwner": {
           dispatch(lobbySet(data.lobby));
           return 0;
         }
@@ -133,32 +147,24 @@ export function Lobby() {
       dispatch(lobbySetFieldX(data.field.fieldX));
       dispatch(lobbySetFieldY(data.field.fieldY));
       dispatch(gameDotsSet(data.dots));
-      dispatch(
-        lobbySetUsers({ lobby: lobby, type: "usersGet", value: data.users })
-      );
+      dispatch(lobbySetUsers(data.value));
       setDataGain(true);
     });
     socket.on("SKIN_CHANGE_USERS", (data) => {
-      dispatch(
-        lobbySetUsers({
-          lobby: data,
-          type: "userSkinChange",
-          value: data.users,
-        })
-      );
+      dispatch(lobbySetUsers(data.value));
     });
-    socket.on("LOBBY_GET_MESSAGES" , (msgData) => {
-      dispatch(lobbySetMessages(msgData))
-    })
+    socket.on("LOBBY_GET_MESSAGES", (msgData) => {
+      dispatch(lobbySetMessages(msgData));
+    });
     return () => {
       socket.off("LOBBY_USERS_UPDATE");
       socket.off("LOBBY_OPTIONS_UPDATE");
       socket.off("GAME_LOADING");
       socket.off("SKIN_CHANGE_USERS");
-      socket.off("LOBBY_GET_MESSAGES")
+      socket.off("LOBBY_GET_MESSAGES");
     };
     // eslint-disable-next-line
-  }, [code]);
+  }, [code, onwerUID]);
 
   return (
     <div className="w-full h-full">

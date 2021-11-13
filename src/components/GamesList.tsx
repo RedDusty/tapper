@@ -1,13 +1,13 @@
-import { Link } from 'react-router-dom';
-import { lobbyType } from '../redux/types';
-import { useTypedSelector } from '../redux/useTypedSelector';
-import { useDispatch } from 'react-redux';
-import socket, { getServerURL } from '../socketio';
-import { lobbySet } from '../redux/actions/lobbyActions';
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import LobbyItem from './Lobby/LobbyItem';
-import { gameSet } from '../redux/actions/gameActions';
+import { Link } from "react-router-dom";
+import { lobbyType } from "../redux/types";
+import { useTypedSelector } from "../redux/useTypedSelector";
+import { useDispatch } from "react-redux";
+import socket, { getServerURL } from "../socketio";
+import { lobbySet } from "../redux/actions/lobbyActions";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import LobbyItem from "./Lobby/LobbyItem";
+import { gameSet } from "../redux/actions/gameActions";
 
 export type lobbyShortType = {
   ownerUID: string;
@@ -29,17 +29,17 @@ function GamesList() {
 
   useEffect(() => {
     const firstLoading = async () => {
-      const fetcher = await fetch(getServerURL() + '/data');
+      const fetcher = await fetch(getServerURL() + "/data");
       const data = await fetcher.json();
 
-      setLobbyList(data.lobbies)
-    }
-    firstLoading()
-    socket.on('LOBBY_GET', (lobbyListArray) => {
+      setLobbyList(data.lobbies);
+    };
+    firstLoading();
+    socket.on("LOBBY_GET", (lobbyListArray) => {
       setLobbyList(lobbyListArray);
     });
     return () => {
-      socket.off('LOBBY_GET');
+      socket.off("LOBBY_GET");
     };
     // eslint-disable-next-line
   }, []);
@@ -52,50 +52,70 @@ function GamesList() {
       <div className="h-full">
         <div className="flex justify-evenly pt-4">
           <Link to="/" className="button button-green">
-            {t('MAIN')}
+            {t("MAIN")}
           </Link>
-          <div className="button bg-gray-300 hover:bg-gray-200">{t('L_PUBLIC') + ': ' + lobbyList.length}</div>
+          <div className="button bg-gray-300 hover:bg-gray-200">
+            {t("L_PUBLIC") + ": " + lobbyList.length}
+          </div>
           <Link
             to="/lobby"
             className="button button-yellow"
             onClick={() => {
               if (user.uid && lobby.code.length === 0) {
                 const defaultLobby: lobbyType = {
-                  fieldX: '3',
-                  fieldY: '3',
+                  fieldX: "3",
+                  fieldY: "3",
                   ownerUID: user.uid!,
-                  nickname: user.nickname?.slice(0, 16) || user.uid?.slice(0, 16) || user.id!.slice(0, 16),
-                  inLobbyPlayers: '1',
-                  maxPlayers: '2',
+                  nickname:
+                    user.nickname?.slice(0, 16) ||
+                    user.uid?.slice(0, 16) ||
+                    user.id!.slice(0, 16),
+                  inLobbyPlayers: "1",
+                  maxPlayers: "2",
                   messages: [
                     {
-                      avatar: 'system',
-                      code: '',
-                      id: 'system',
-                      message: 'The rating system does not work in single player mode.',
-                      nickname: 'System',
+                      avatar: "system",
+                      code: "",
+                      id: "system",
+                      message:
+                        "The rating system does not work in single player mode.",
+                      nickname: "System",
                       time: Date.now(),
-                      uid: 'system'
-                    }
+                      uid: "system",
+                    },
                   ],
-                  users: [user],
-                  code: '',
-                  visibility: 'private',
+                  users: [
+                    {
+                      ...user,
+                      key: null,
+                    },
+                  ],
+                  code: "",
+                  visibility: "private",
                   isStarted: false,
-                  startsIn: 10
+                  startsIn: 10,
                 };
                 dispatch(
-                  gameSet({ addScore: null, decreaseScore: null, dots: [], replay: [], time: { end: 0, start: 0 } })
+                  gameSet({
+                    addScore: null,
+                    decreaseScore: null,
+                    dots: [],
+                    replay: [],
+                    time: { end: 0, start: 0 },
+                  })
                 );
                 dispatch(lobbySet(defaultLobby));
-                socket.emit('LOBBY_CREATE', defaultLobby);
+                socket.emit("LOBBY_CREATE", defaultLobby);
               }
             }}
           >
-            {t(lobby.code.length === 6 ? 'LOBBY' : 'CREATE')}
+            {t(lobby.code.length === 6 ? "LOBBY" : "CREATE")}
           </Link>
         </div>
-        <div className="overflow-y-scroll" style={{ height: 'calc(100% - 104px)' }}>
+        <div
+          className="overflow-y-scroll"
+          style={{ height: "calc(100% - 104px)" }}
+        >
           {renderLobbyList}
         </div>
       </div>

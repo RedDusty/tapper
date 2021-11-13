@@ -8,7 +8,7 @@ import StartPageLogo from "./Helpers/StartPageLogo";
 import { getServerID } from "../socketio";
 import ErrorWindow from "./ErrorWindow";
 
-function StartPage() {
+function StartPage({isKick, setKick}: {isKick: boolean; setKick: (v: boolean) => void}) {
   const [isError] = useState<boolean>(!("IntersectionObserver" in window));
   const [isVisibleError, setVisibilityError] = useState<boolean>(false);
   const { t } = useTranslation();
@@ -140,6 +140,23 @@ function StartPage() {
       <div className="flex mt-4 gap-4 items-center justify-center">
         {renderOtherInfo()}
       </div>
+      {isKick ? (
+        <div className="fixed w-screen h-screen z-10 flex items-center justify-center bg-red-300 bg-opacity-75">
+          <div className="bg-red-100 text-red-900 font-bold w-min rounded-md gap-4 flex flex-col items-center justify-center p-8">
+            <p className="w-36">You have been kicked out of the game.</p>
+            <button
+              className="button button-red"
+              onClick={() => {
+                setKick(false);
+              }}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      ) : (
+        <></>
+      )}
       <ErrorWindow
         isError={isError}
         isVisibleError={isVisibleError}

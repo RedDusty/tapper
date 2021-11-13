@@ -97,7 +97,7 @@ export type lobbyOptionsType = {
   option: optionType;
 };
 
-type actionType = 'userKick' | 'userJoin' | 'userLeave' | 'hostChange' | 'userLoaded' | 'userSkinChange' | 'usersGet';
+type actionType = 'userKick' | 'userJoin' | 'userLeave' | 'userOwner' | 'userLoaded' | 'userSkinChange' | 'usersGet';
 
 export type lobbyUsersType = {
   code: string;
@@ -110,6 +110,7 @@ export type lobbyUsersGetType = {
   type: actionType;
   value: userInfoType[];
   lobby: lobbyType;
+  uid: string
 };
 
 export type messageType = {
@@ -170,7 +171,7 @@ export type lobbySetFieldYType = {
 
 export type lobbySetUsersType = {
   type: typeof LOBBY_SET_USERS;
-  payload: lobbyUsersGetType;
+  payload: userInfoType[];
 };
 export type lobbySetInLobbyPlayersType = {
   type: typeof LOBBY_SET_IN_LOBBY_PLAYERS;

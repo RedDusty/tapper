@@ -12,7 +12,6 @@ function InfoButton() {
   const [render, setRender] = useState(<></>);
   const { t } = useTranslation();
 
-  const lobby = useTypedSelector((state) => state.lobby);
   const user = useTypedSelector((state) => state.user);
   const gameEnd = useTypedSelector((state) => state.game.time.end);
   const visibility = useTypedSelector((state) => state.lobby.visibility);
@@ -67,18 +66,7 @@ function InfoButton() {
         break;
     }
   };
-  useEffect(() => {
-    if (
-      pathname !== "/lobby" &&
-      lobby.code &&
-      lobby.code.length === 6 &&
-      lobby.visibility !== "game" &&
-      gameEnd === 0
-    ) {
-      setRender(toLocation(t, "lobby", clickHandler, pathname));
-    } else if (pathname === "/lobby" && lobby.visibility !== "game") {
-      setRender(toLocation(t, "", clickHandler, pathname));
-    } else if (
+  useEffect(() => {if (
       pathname === "/skins" ||
       pathname === "/score" ||
       pathname === "/replays" ||
@@ -117,7 +105,7 @@ const toLocation: (
         return "";
     }
   };
-  
+
   return (
     <Link
       className={`rounded-md px-2 m-2 font-bold flex items-center justify-center ${

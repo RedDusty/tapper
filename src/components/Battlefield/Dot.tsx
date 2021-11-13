@@ -62,7 +62,7 @@ function Dot({
     <div
       className={
         dotClass.join(" ") +
-        "font-bold text-lg text-gray-600 flex justify-center items-center"
+        " focus:font-bold text-lg text-gray-600 flex justify-center items-center"
       }
       style={{
         width: `100%`,
