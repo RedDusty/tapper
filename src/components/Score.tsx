@@ -74,9 +74,9 @@ const RenderUser: ({
         className={`w-full h-full rounded-xl p-2 flex items-center ${placeUnder()}`}
       >
         {renderImage(user.avatar)}
-        <p className="ml-2">{(user.nickname || "").slice(0, 16)}</p>
+        <p className="ml-2 select-text">{(user.nickname || "").slice(0, 16)}</p>
         <UserSkin key={user.nickname + 'skin'} {...user.skin} />
-        <p className="ml-2">{(user.score || 0).toFixed(3)}</p>
+        <p className="ml-2 select-text">{(user.score || 0).toFixed(3)}</p>
       </div>
     </div>
   );

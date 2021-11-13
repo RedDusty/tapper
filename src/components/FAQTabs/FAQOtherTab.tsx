@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { lobbyType } from '../../redux/types';
+import { lobbyType } from "../../redux/types";
 
 const FAQOtherTab = (lobby: lobbyType) => {
   const renderConnectionLink = () => {
@@ -43,7 +43,11 @@ const FAQOtherTab = (lobby: lobbyType) => {
           , your current server is listed at the bottom.{")"}
         </p>
         <p className="mt-2">
-          Copy text is available only in the {renderLobbyLink()}.
+          Copy text is available only in the {renderLobbyLink()} and{" "}
+          <Link to="/score" className="text-green-700 underline">
+            score
+          </Link>
+          .
         </p>
       </div>
     </div>
