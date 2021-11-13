@@ -8,6 +8,7 @@ import {
   lobbySetFieldY,
   lobbySetinLobbyPlayers,
   lobbySetMaxPlayers,
+  lobbySetMessages,
   lobbySetRounds,
   lobbySetShape,
   lobbySetStarted,
@@ -97,6 +98,7 @@ export function Lobby() {
   const dispatch = useDispatch();
 
   const lobby = useTypedSelector((state) => state.lobby);
+  const code = lobby.code;
   const user = useTypedSelector((state) => state.user);
 
   useEffect(() => {
@@ -148,14 +150,18 @@ export function Lobby() {
         })
       );
     });
+    socket.on("LOBBY_GET_MESSAGES" , (msgData) => {
+      dispatch(lobbySetMessages(msgData))
+    })
     return () => {
       socket.off("LOBBY_USERS_UPDATE");
       socket.off("LOBBY_OPTIONS_UPDATE");
       socket.off("GAME_LOADING");
       socket.off("SKIN_CHANGE_USERS");
+      socket.off("LOBBY_GET_MESSAGES")
     };
     // eslint-disable-next-line
-  }, []);
+  }, [code]);
 
   return (
     <div className="w-full h-full">

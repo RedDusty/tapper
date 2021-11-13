@@ -25,6 +25,7 @@ function LobbyOptField() {
               pattern="[0-9]"
               maxLength={2}
               className="ml-1 mr-4 w-16 lobbyOptInput"
+              readOnly={user.uid !== lobby.ownerUID}
               onChange={(e) => {
                 if (user.uid !== lobby.ownerUID) return 0;
                 const nums = e.target.value.match(/\d/g);
@@ -32,11 +33,18 @@ function LobbyOptField() {
                 if (num !== lobby.fieldX) {
                   dispatch(lobbySetFieldX(num || ''));
                   if ((num || '').length !== 0) {
+                    const emmitedNumber = () => {
+                      if (num && Number(num) > 0) {
+                        return num
+                      } else {
+                        return String(1)
+                      }
+                    }
                     socket.emit('LOBBY_OPTIONS', {
                       code: lobby.code,
                       option: 'setFieldX',
                       ownerUID: lobby.ownerUID,
-                      fieldX: num || '1'
+                      fieldX: emmitedNumber()
                     } as lobbyOptionsType);
                   }
                 }
@@ -49,6 +57,7 @@ function LobbyOptField() {
               pattern="[0-9]"
               maxLength={2}
               className="ml-1 mr-4 w-16 lobbyOptInput"
+              readOnly={user.uid !== lobby.ownerUID}
               onChange={(e) => {
                 if (user.uid !== lobby.ownerUID) return 0;
                 const nums = e.target.value.match(/\d/g);
@@ -56,11 +65,18 @@ function LobbyOptField() {
                 if (num !== lobby.fieldY) {
                   dispatch(lobbySetFieldY(num || ''));
                   if ((num || '').length !== 0) {
+                    const emmitedNumber = () => {
+                      if (num && Number(num) > 0) {
+                        return num
+                      } else {
+                        return String(1)
+                      }
+                    }
                     socket.emit('LOBBY_OPTIONS', {
                       code: lobby.code,
                       option: 'setFieldY',
                       ownerUID: lobby.ownerUID,
-                      fieldY: num || '1'
+                      fieldY: emmitedNumber()
                     } as lobbyOptionsType);
                   }
                 }
