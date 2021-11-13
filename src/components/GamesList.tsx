@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { lobbyType, shapeType } from '../redux/types';
+import { lobbyType } from '../redux/types';
 import { useTypedSelector } from '../redux/useTypedSelector';
 import { useDispatch } from 'react-redux';
 import socket, { getServerURL } from '../socketio';
@@ -13,10 +13,8 @@ export type lobbyShortType = {
   ownerUID: string;
   avatar: string;
   nickname: string;
-  shape: shapeType;
   inLobbyPlayers: string;
   maxPlayers: string;
-  rounds: string;
   fieldX: string;
   fieldY: string;
   code: string;
@@ -80,8 +78,6 @@ function GamesList() {
                       uid: 'system'
                     }
                   ],
-                  rounds: '1',
-                  shape: 'square',
                   users: [user],
                   code: '',
                   visibility: 'private',

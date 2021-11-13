@@ -9,8 +9,6 @@ import {
   lobbySetinLobbyPlayers,
   lobbySetMaxPlayers,
   lobbySetMessages,
-  lobbySetRounds,
-  lobbySetShape,
   lobbySetStarted,
   lobbySetUsers,
   lobbySetVisibility,
@@ -20,7 +18,6 @@ import {
   lobbySocketOptionsType,
   lobbyType,
   lobbyUsersGetType,
-  shapeType,
   visibilityType,
 } from "../../redux/types";
 import { useTypedSelector } from "../../redux/useTypedSelector";
@@ -197,14 +194,6 @@ function setOptions(
     }
     case "setMaxPlayers": {
       dispatch(lobbySetMaxPlayers(String(data.option)));
-      return 0;
-    }
-    case "setRounds": {
-      dispatch(lobbySetRounds(String(data.option)));
-      return 0;
-    }
-    case "setShape": {
-      dispatch(lobbySetShape(data.option as shapeType));
       return 0;
     }
     case "setVisibility": {

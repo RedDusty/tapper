@@ -69,8 +69,6 @@ export const LOBBY_SET = 'LOBBY_SET';
 export const LOBBY_SET_CODE = 'LOBBY_SET_CODE';
 export const LOBBY_SET_FIELD_X = 'LOBBY_SET_FIELD_X';
 export const LOBBY_SET_FIELD_Y = 'LOBBY_SET_FIELD_Y';
-export const LOBBY_SET_ROUNDS = 'LOBBY_SET_ROUNDS';
-export const LOBBY_SET_SHAPE = 'LOBBY_SET_SHAPE';
 export const LOBBY_SET_USERS = 'LOBBY_SET_USERS';
 export const LOBBY_SET_IN_LOBBY_PLAYERS = 'LOBBY_SET_IN_LOBBY_PLAYERS';
 export const LOBBY_SET_MAX_PLAYERS = 'LOBBY_SET_MAX_PLAYERS';
@@ -79,12 +77,8 @@ export const LOBBY_SET_VISIBILITY = 'LOBBY_SET_VISIBILITY';
 export const LOBBY_SET_STARTED = 'LOBBY_SET_STARTED';
 export const LOBBY_SET_STARTS_IN = 'LOBBY_SET_STARTS_IN';
 
-export type shapeType = 'square' | 'triangle' | 'circle' | 'random';
-
 type optionType =
   | 'setVisibility'
-  | 'setShape'
-  | 'setRounds'
   | 'setFieldX'
   | 'setFieldY'
   | 'setInLobbyPlayers'
@@ -92,7 +86,7 @@ type optionType =
 
 export type lobbySocketOptionsType = {
   code: string;
-  option: string | visibilityType | shapeType;
+  option: string | visibilityType;
   type: optionType;
 };
 
@@ -133,10 +127,8 @@ export type visibilityType = 'public' | 'private' | 'game';
 export type lobbyType = {
   ownerUID: string;
   nickname: string;
-  shape: shapeType;
   inLobbyPlayers: string;
   maxPlayers: string;
-  rounds: string;
   fieldX: string;
   fieldY: string;
   messages: messageType[];
@@ -176,16 +168,6 @@ export type lobbySetFieldYType = {
   payload: string;
 };
 
-export type lobbySetRoundsType = {
-  type: typeof LOBBY_SET_ROUNDS;
-  payload: string;
-};
-
-export type lobbySetShapeType = {
-  type: typeof LOBBY_SET_SHAPE;
-  payload: shapeType;
-};
-
 export type lobbySetUsersType = {
   type: typeof LOBBY_SET_USERS;
   payload: lobbyUsersGetType;
@@ -214,8 +196,6 @@ export type LobbyActionsType =
   | lobbySetCodeType
   | lobbySetFieldXType
   | lobbySetFieldYType
-  | lobbySetRoundsType
-  | lobbySetShapeType
   | lobbySetMaxPlayersType
   | lobbySetMessagesType
   | lobbySetVisibilityType

@@ -3,8 +3,6 @@ import { lobbyType, LobbyActionsType } from './../types';
 export const initialLobbyState: lobbyType = {
   ownerUID: '',
   nickname: '',
-  shape: 'square',
-  rounds: '0',
   fieldX: '',
   fieldY: '',
   users: [],
@@ -20,39 +18,7 @@ export const initialLobbyState: lobbyType = {
 export const lobbyReducer = (state = initialLobbyState, action: LobbyActionsType): lobbyType => {
   switch (action.type) {
     case 'LOBBY_SET': {
-      const {
-        fieldX,
-        fieldY,
-        ownerUID,
-        nickname,
-        inLobbyPlayers,
-        maxPlayers,
-        messages,
-        rounds,
-        shape,
-        users,
-        code,
-        visibility,
-        isStarted,
-        startsIn,
-      } = action.payload;
-      const newState: lobbyType = {
-        fieldX,
-        fieldY,
-        ownerUID,
-        nickname,
-        inLobbyPlayers,
-        maxPlayers,
-        messages,
-        rounds,
-        shape,
-        users,
-        code,
-        visibility,
-        isStarted,
-        startsIn,
-      };
-      return { ...state, ...newState };
+      return { ...state, ...action.payload };
     }
     case 'LOBBY_SET_CODE': {
       const code = action.payload;
@@ -67,14 +33,6 @@ export const lobbyReducer = (state = initialLobbyState, action: LobbyActionsType
       const fieldY = action.payload;
       const newField = fieldY;
       return { ...state, fieldY: newField };
-    }
-    case 'LOBBY_SET_ROUNDS': {
-      const rounds = action.payload;
-      return { ...state, rounds };
-    }
-    case 'LOBBY_SET_SHAPE': {
-      const shape = action.payload;
-      return { ...state, shape };
     }
     case 'LOBBY_SET_MESSAGES': {
       const messages = action.payload;

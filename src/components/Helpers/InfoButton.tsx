@@ -45,8 +45,6 @@ function InfoButton() {
                 uid: "system",
               },
             ],
-            rounds: "1",
-            shape: "square",
             users: [user],
             code: "",
             visibility: "private",
