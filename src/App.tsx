@@ -19,7 +19,7 @@ import { auth } from "./fbConfig";
 import { fbAuthUser, fbGetUserScore } from "./firebase";
 import Loading from "./components/Helpers/Loading";
 import Connecting from "./components/Helpers/Connecting";
-import FAQ from "./components/Helpers/FAQ";
+import FAQ from "./components/FAQ";
 function App() {
   const [serverConnected, setServerConnected] = React.useState(false);
   const dispatch = useDispatch();

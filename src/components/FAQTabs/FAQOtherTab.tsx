@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { lobbyType } from "../../../redux/types";
+import { lobbyType } from '../../redux/types';
 
 const FAQOtherTab = (lobby: lobbyType) => {
   const renderConnectionLink = () => {

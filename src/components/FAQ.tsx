@@ -1,4 +1,4 @@
-import { useTypedSelector } from "../../redux/useTypedSelector";
+import { useTypedSelector } from "../redux/useTypedSelector";
 import FAQBattlefieldTab from "./FAQTabs/FAQBattlefieldTab";
 import FAQLobbyTab from "./FAQTabs/FAQLobbyTab";
 import FAQOtherTab from "./FAQTabs/FAQOtherTab";

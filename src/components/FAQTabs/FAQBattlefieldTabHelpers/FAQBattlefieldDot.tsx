@@ -1,4 +1,4 @@
-import { useTypedSelector } from "../../../../redux/useTypedSelector";
+import { useTypedSelector } from '../../../redux/useTypedSelector';
 
 const FAQBattlefieldDot = ({ isEnemy }: { isEnemy: boolean }) => {
   const skin = useTypedSelector((state) => state.user.skin);

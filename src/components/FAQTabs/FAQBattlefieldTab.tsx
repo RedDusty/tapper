@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { userInfoType } from "../../../redux/types";
-import { renderImage } from "../../Lobby/Lobby";
-import UserSkin from "../UserSkin";
+import { userInfoType } from '../../redux/types';
+import UserSkin from '../Helpers/UserSkin';
+import { renderImage } from '../Lobby/Lobby';
 import FAQBattlefieldRender from "./FAQBattlefieldTabHelpers/FAQBattlefieldRender";
 
 const FAQBattlefieldTab = (user: userInfoType) => {
