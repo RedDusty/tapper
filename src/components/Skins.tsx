@@ -6,7 +6,7 @@ import { skinBorderStyleType, skinType } from "../redux/types";
 import { useTypedSelector } from "../redux/useTypedSelector";
 import socket from "../socketio";
 import { renderImage } from "./Lobby/Lobby";
-import UserSkin from './Helpers/UserSkin';
+import UserSkin from "./Helpers/UserSkin";
 
 const colors = [
   "red",
@@ -49,6 +49,9 @@ function Skins() {
   const [skinBorderWidth, setSkinBorderWidth] = useState<number>(
     user.skin.borderWidth || 2
   );
+  const [only2Colors, setOnly2Colors] = useState<boolean>(
+    user.skin.only2Colors
+  );
 
   const confirmHandler = () => {
     const skinData: skinType = {
@@ -58,6 +61,7 @@ function Skins() {
       borderStyle: skinBorderStyle,
       borderWidth: skinBorderWidth,
       color: skinColor,
+      only2Colors: only2Colors,
     };
 
     dispatch(userSetSkin(skinData));
@@ -98,7 +102,7 @@ function Skins() {
       <div className="bg-gray-300 hover:bg-gray-200 w-full flex items-center justify-center gap-x-2 mx-auto p-4 rounded-bl-md rounded-br-md">
         {renderImage(user.avatar)}
         <p className="font-bold">{user.nickname}</p>
-        <UserSkin key={user.nickname + 'skin'} {...user.skin} />
+        <UserSkin key={user.nickname + "skin"} {...user.skin} />
         <p className="flex items-center font-bold text-black text-xl">{"=>"}</p>
         <div
           className={`${nextSkin()} w-8 h-8`}
@@ -176,31 +180,33 @@ const renderSkinColors: renderSkinType = (
   borderWidth,
   setSkinColor
 ) => {
-  const showBorder = border ? `border-${borderColor} border-${borderStyle}` : "";
+  const showBorder = border
+    ? `border-${borderColor} border-${borderStyle}`
+    : "";
   return (
     <>
       <button
         className={`bg-${color}-300 w-8 h-8 ${showBorder} focus:animate-pulse`}
         style={{ borderWidth: border ? borderWidth : 0 }}
-        key={`skin-color-${color + '300'}`}
+        key={`skin-color-${color + "300"}`}
         onClick={() => {
-          setSkinColor(color + '-300');
+          setSkinColor(color + "-300");
         }}
       ></button>
       <button
         className={`bg-${color}-600 w-8 h-8 ${showBorder} focus:animate-pulse`}
         style={{ borderWidth: border ? borderWidth : 0 }}
-        key={`skin-color-${color + '600'}`}
+        key={`skin-color-${color + "600"}`}
         onClick={() => {
-          setSkinColor(color + '-600');
+          setSkinColor(color + "-600");
         }}
       ></button>
       <button
         className={`bg-${color}-900 w-8 h-8 ${showBorder} focus:animate-pulse`}
         style={{ borderWidth: border ? borderWidth : 0 }}
-        key={`skin-color-${color + '900'}`}
+        key={`skin-color-${color + "900"}`}
         onClick={() => {
-          setSkinColor(color + '-900');
+          setSkinColor(color + "-900");
         }}
       ></button>
     </>

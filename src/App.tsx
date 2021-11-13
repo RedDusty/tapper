@@ -19,6 +19,7 @@ import { auth } from "./fbConfig";
 import { fbAuthUser, fbGetUserScore } from "./firebase";
 import Loading from "./components/Helpers/Loading";
 import Connecting from "./components/Helpers/Connecting";
+import FAQ from "./components/Helpers/FAQ";
 function App() {
   const [serverConnected, setServerConnected] = React.useState(false);
   const dispatch = useDispatch();
@@ -32,7 +33,7 @@ function App() {
   useEffect(() => {
     onAuthStateChanged(auth, async (gUser) => {
       if (gUser !== null) {
-        const userData = await fbAuthUser(gUser);
+        const userData = await fbAuthUser(gUser) as userInfoType;
         dispatch(
           userSet({
             avatar: gUser.photoURL,
@@ -49,6 +50,7 @@ function App() {
               borderColor: userData.skin.borderColor,
               borderStyle: userData.skin.borderStyle,
               borderWidth: userData.skin.borderWidth,
+              only2Colors: userData.skin.only2Colors
             },
             uid: gUser.uid,
             isLoaded: false,
@@ -63,12 +65,13 @@ function App() {
           score: userData.score,
           key: null,
           skin: {
-            type: "standard",
-            color: "orange-600",
-            withBorder: true,
-            borderColor: "lime-600",
-            borderStyle: "solid",
-            borderWidth: 2,
+            type: userData.skin.type,
+            color: userData.skin.color,
+            withBorder: userData.skin.withBorder,
+            borderColor: userData.skin.borderColor,
+            borderStyle: userData.skin.borderStyle,
+            borderWidth: userData.skin.borderWidth,
+            only2Colors: userData.skin.only2Colors
           },
           uid: gUser.uid,
           isLoaded: false,
@@ -121,6 +124,10 @@ const RenderApp = () => {
         <Switch>
           <Route exact path="/">
             <StartPage />
+            <Info />
+          </Route>
+          <Route exact path="/faq">
+            <FAQ />
             <Info />
           </Route>
           <Route exact path="/game-score">

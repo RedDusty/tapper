@@ -55,7 +55,9 @@ function StartPage() {
           <div>
             <div className="flex items-center">
               {renderImage(user.avatar)}
-              <p className="ml-2 font-bold">{(user.nickname || user.uid).slice(0, 16)}</p>
+              <p className="ml-2 font-bold">
+                {(user.nickname || user.uid).slice(0, 16)}
+              </p>
             </div>
           </div>
           <button className="button button-red" onClick={() => logOut()}>
@@ -118,6 +120,11 @@ function StartPage() {
   return (
     <div className="w-full h-full flex items-center justify-center flex-col">
       <StartPageLogo />
+      <div className="flex mt-4">
+        <Link to="/faq" className="button button-sky w-16 text-center">
+          FAQ
+        </Link>
+      </div>
       <div className="flex mt-4 gap-4">
         <Link to="/score" className="button button-yellow">
           {t("SCORE")}

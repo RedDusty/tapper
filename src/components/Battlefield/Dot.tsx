@@ -49,7 +49,6 @@ function Dot({
   }, [startsIn, user]);
   const skinWithBorder = () => {
     if (user) {
-      if (!user.skin.color) return 2;
       if (user.skin.withBorder) {
         return user.skin.borderWidth;
       } else {
@@ -57,17 +56,6 @@ function Dot({
       }
     } else {
       return 1;
-    }
-  };
-  const undefinedUserSkin = () => {
-    if (user) {
-      if (user.skin.color) {
-        return "";
-      } else {
-        return "?";
-      }
-    } else {
-      return "";
     }
   };
   return (
@@ -91,7 +79,6 @@ function Dot({
         }
       }}
     >
-      {undefinedUserSkin()}
     </div>
   );
 }

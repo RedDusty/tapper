@@ -3,13 +3,16 @@
     @apply font-bold p-2 rounded-md;
   }
   .button-yellow {
-    @apply bg-yellow-300 hover:bg-yellow-400 focus:bg-yellow-500;
+    @apply bg-yellow-300 hover:bg-yellow-400 focus:bg-yellow-500 text-yellow-900;
   }
   .button-green {
-    @apply bg-green-300 hover:bg-green-400 focus:bg-green-500;
+    @apply bg-green-300 hover:bg-green-400 focus:bg-green-500 text-green-900;
   }
   .button-red {
-    @apply bg-red-300 hover:bg-red-400 focus:bg-red-500;
+    @apply bg-red-300 hover:bg-red-400 focus:bg-red-500 text-red-900;
+  }
+  .button-sky {
+    @apply bg-sky-800 hover:bg-sky-600 focus:bg-sky-400 text-white
   }
   .infoBlock {
     @apply bg-gray-200 hover:bg-gray-300 rounded-md px-2 m-2 font-bold flex items-center justify-center;

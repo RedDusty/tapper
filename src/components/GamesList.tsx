@@ -74,7 +74,7 @@ function GamesList() {
                       avatar: 'system',
                       code: '',
                       id: 'system',
-                      message: 'Score is only works in public games with other players.',
+                      message: 'The rating system does not work in single player mode.',
                       nickname: 'System',
                       time: Date.now(),
                       uid: 'system'
