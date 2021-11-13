@@ -7,8 +7,10 @@ import { useTypedSelector } from "../redux/useTypedSelector";
 import socket from "../socketio";
 import { renderImage } from "./Lobby/Lobby";
 import UserSkin from "./Helpers/UserSkin";
+import SkinColors from "./Skins/SkinColors";
+import SkinBorder from "./Skins/SkinBorder";
 
-const colors = [
+export const colors = [
   "red",
   "orange",
   "yellow",
@@ -27,7 +29,14 @@ const colors = [
   "rose",
 ];
 
-const skinBorderStyleArray = ["solid", "dashed", "dotted", "double"];
+export type renderSkinType = (
+  color: string,
+  border: boolean,
+  borderColor: string,
+  borderStyle: skinBorderStyleType,
+  borderWidth: number,
+  [key]: any
+) => JSX.Element;
 
 function Skins() {
   const dispatch = useDispatch();
@@ -49,9 +58,6 @@ function Skins() {
   const [skinBorderWidth, setSkinBorderWidth] = useState<number>(
     user.skin.borderWidth || 2
   );
-  const [only2Colors, setOnly2Colors] = useState<boolean>(
-    user.skin.only2Colors
-  );
 
   const confirmHandler = () => {
     const skinData: skinType = {
@@ -61,7 +67,6 @@ function Skins() {
       borderStyle: skinBorderStyle,
       borderWidth: skinBorderWidth,
       color: skinColor,
-      only2Colors: only2Colors,
     };
 
     dispatch(userSetSkin(skinData));
@@ -136,7 +141,7 @@ function Skins() {
         <p className="text-lg font-bold mt-4 text-center">Main color</p>
         <div className="w-full flex flex-wrap gap-4 mt-2">
           {colors.map((color) =>
-            renderSkinColors(
+            SkinColors(
               color,
               withBorder,
               skinBorderColor,
@@ -146,7 +151,7 @@ function Skins() {
             )
           )}
         </div>
-        {renderBorder(
+        {SkinBorder(
           skinColor,
           withBorder,
           skinBorderColor,
@@ -162,200 +167,3 @@ function Skins() {
 }
 
 export default Skins;
-
-type renderSkinType = (
-  color: string,
-  border: boolean,
-  borderColor: string,
-  borderStyle: skinBorderStyleType,
-  borderWidth: number,
-  [key]: any
-) => JSX.Element;
-
-const renderSkinColors: renderSkinType = (
-  color,
-  border,
-  borderColor,
-  borderStyle,
-  borderWidth,
-  setSkinColor
-) => {
-  const showBorder = border
-    ? `border-${borderColor} border-${borderStyle}`
-    : "";
-  return (
-    <>
-      <button
-        className={`bg-${color}-300 w-8 h-8 ${showBorder} focus:animate-pulse`}
-        style={{ borderWidth: border ? borderWidth : 0 }}
-        key={`skin-color-${color + "300"}`}
-        onClick={() => {
-          setSkinColor(color + "-300");
-        }}
-      ></button>
-      <button
-        className={`bg-${color}-600 w-8 h-8 ${showBorder} focus:animate-pulse`}
-        style={{ borderWidth: border ? borderWidth : 0 }}
-        key={`skin-color-${color + "600"}`}
-        onClick={() => {
-          setSkinColor(color + "-600");
-        }}
-      ></button>
-      <button
-        className={`bg-${color}-900 w-8 h-8 ${showBorder} focus:animate-pulse`}
-        style={{ borderWidth: border ? borderWidth : 0 }}
-        key={`skin-color-${color + "900"}`}
-        onClick={() => {
-          setSkinColor(color + "-900");
-        }}
-      ></button>
-    </>
-  );
-};
-
-const renderSkinBorderColors: renderSkinType = (
-  color,
-  border,
-  borderColor,
-  borderStyle,
-  borderWidth,
-  setSkinBorderColor
-) => {
-  return (
-    <>
-      <button
-        className={`bg-${color} border-${borderColor}-300 border-${borderStyle} w-8 h-8 focus:animate-pulse`}
-        style={{ borderWidth: borderWidth }}
-        key={`skin-border-color-${borderColor + "300"}`}
-        onClick={() => {
-          setSkinBorderColor(borderColor + "-300");
-        }}
-      ></button>
-      <button
-        className={`bg-${color} border-${borderColor}-600 border-${borderStyle} w-8 h-8 focus:animate-pulse`}
-        style={{ borderWidth: borderWidth }}
-        key={`skin-border-color-${borderColor + "600"}`}
-        onClick={() => {
-          setSkinBorderColor(borderColor + "-600");
-        }}
-      ></button>
-      <button
-        className={`bg-${color} border-${borderColor}-900 border-${borderStyle} w-8 h-8 focus:animate-pulse`}
-        style={{ borderWidth: borderWidth }}
-        key={`skin-border-color-${borderColor + "900"}`}
-        onClick={() => {
-          setSkinBorderColor(borderColor + "-900");
-        }}
-      ></button>
-    </>
-  );
-};
-
-const renderSkinBorderStyle: renderSkinType = (
-  color,
-  border,
-  borderColor,
-  borderStyle,
-  borderWidth,
-  setSkinBorderStyle
-) => {
-  return (
-    <button
-      className={`bg-${color} border-${borderColor} border-${borderStyle} w-8 h-8 focus:animate-pulse`}
-      style={{ borderWidth: borderWidth }}
-      key={`skin-border-style-${borderStyle}`}
-      onClick={() => {
-        setSkinBorderStyle(borderStyle);
-      }}
-    ></button>
-  );
-};
-
-const renderSkinBorderWidth: renderSkinType = (
-  color,
-  border,
-  borderColor,
-  borderStyle,
-  borderWidth,
-  setSkinBorderWidth
-) => {
-  let buttons: JSX.Element[] = [];
-  for (let index = 1; index < 17; index++) {
-    buttons.push(
-      <button
-        className={`bg-${color} border-${borderColor} border-${borderStyle} w-8 h-8 focus:animate-pulse`}
-        style={{ borderWidth: index }}
-        key={`skin-border-width-${index}`}
-        onClick={() => {
-          setSkinBorderWidth(index);
-        }}
-      ></button>
-    );
-  }
-  return <div className="w-full flex flex-wrap gap-4 mt-2">{buttons}</div>;
-};
-
-type renderBorderType = (
-  skinColor: string,
-  skinBorder: boolean,
-  skinBorderColor: string,
-  skinBorderStyle: skinBorderStyleType,
-  skinBorderWidth: number,
-  setSkinBorderColor: React.Dispatch<React.SetStateAction<string>>,
-  setSkinBorderStyle: React.Dispatch<React.SetStateAction<skinBorderStyleType>>,
-  setSkinBorderWidth: React.Dispatch<React.SetStateAction<number>>
-) => JSX.Element;
-
-const renderBorder: renderBorderType = (
-  skinColor,
-  skinBorder,
-  skinBorderColor,
-  skinBorderStyle,
-  skinBorderWidth,
-  setSkinBorderColor,
-  setSkinBorderStyle,
-  setSkinBorderWidth
-) => {
-  if (skinBorder === false) {
-    return <></>;
-  }
-  return (
-    <div className="w-full">
-      <p className="text-lg font-bold text-center mt-4">Border color</p>
-      <div className="w-full flex flex-wrap gap-4 mt-2">
-        {colors.map((borderColor) =>
-          renderSkinBorderColors(
-            skinColor,
-            skinBorder,
-            borderColor,
-            skinBorderStyle,
-            skinBorderWidth,
-            setSkinBorderColor
-          )
-        )}
-      </div>
-      <p className="text-lg font-bold text-center mt-4">Border style</p>
-      <div className="w-full flex flex-wrap gap-4 mt-2">
-        {skinBorderStyleArray.map((borderStyle) =>
-          renderSkinBorderStyle(
-            skinColor,
-            skinBorder,
-            skinBorderColor,
-            borderStyle as skinBorderStyleType,
-            skinBorderWidth,
-            setSkinBorderStyle
-          )
-        )}
-      </div>
-      <p className="text-lg font-bold text-center mt-4">Border width</p>
-      {renderSkinBorderWidth(
-        skinColor,
-        skinBorder,
-        skinBorderColor,
-        skinBorderStyle,
-        skinBorderWidth,
-        setSkinBorderWidth
-      )}
-    </div>
-  );
-};

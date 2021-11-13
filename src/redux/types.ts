@@ -21,7 +21,6 @@ export type skinType = {
   borderColor: string;
   borderStyle: skinBorderStyleType;
   borderWidth: number;
-  only2Colors: boolean;
 };
 
 export type userInfoType = {

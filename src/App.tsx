@@ -50,7 +50,6 @@ function App() {
               borderColor: userData.skin.borderColor,
               borderStyle: userData.skin.borderStyle,
               borderWidth: userData.skin.borderWidth,
-              only2Colors: userData.skin.only2Colors
             },
             uid: gUser.uid,
             isLoaded: false,
@@ -71,7 +70,6 @@ function App() {
             borderColor: userData.skin.borderColor,
             borderStyle: userData.skin.borderStyle,
             borderWidth: userData.skin.borderWidth,
-            only2Colors: userData.skin.only2Colors
           },
           uid: gUser.uid,
           isLoaded: false,

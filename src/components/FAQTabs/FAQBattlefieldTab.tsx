@@ -44,7 +44,6 @@ const FAQBattlefieldTab = (user: userInfoType) => {
                 borderStyle={"double"}
                 borderWidth={6}
                 color={"red-300"}
-                only2Colors={user.skin.only2Colors}
                 type={"standard"}
                 withBorder={true}
               />

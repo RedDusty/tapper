@@ -1,5 +1,5 @@
-import { UserActionsType } from './../types';
-import { userInfoType } from '../types';
+import { UserActionsType } from "./../types";
+import { userInfoType } from "../types";
 
 export const initialUserState: userInfoType = {
   nickname: null,
@@ -9,25 +9,38 @@ export const initialUserState: userInfoType = {
   uid: null,
   id: undefined,
   isLoaded: false,
-  key: '',
+  key: "",
   skin: {
-    type: 'standard',
+    type: "standard",
     withBorder: true,
-    borderColor: 'lime-600',
-    borderStyle: 'solid',
+    borderColor: "lime-600",
+    borderStyle: "solid",
     borderWidth: 2,
-    color: 'orange-300',
-    only2Colors: false
+    color: "orange-300",
   },
   banned: false,
-  isLeft: false
+  isLeft: false,
 };
 
-export const userReducer = (state = initialUserState, action: UserActionsType): userInfoType => {
+export const userReducer = (
+  state = initialUserState,
+  action: UserActionsType
+): userInfoType => {
   switch (action.type) {
-    case 'USER_SET': {
-      const { avatar, firstLogin, nickname, score, uid, id, isLoaded, skin, banned, isLeft, key } =
-        action.payload;
+    case "USER_SET": {
+      const {
+        avatar,
+        firstLogin,
+        nickname,
+        score,
+        uid,
+        id,
+        isLoaded,
+        skin,
+        banned,
+        isLeft,
+        key,
+      } = action.payload;
       const newState: userInfoType = {
         avatar,
         firstLogin,
@@ -39,23 +52,23 @@ export const userReducer = (state = initialUserState, action: UserActionsType): 
         skin,
         banned,
         isLeft,
-        key
+        key,
       };
       return { ...state, ...newState };
     }
-    case 'USER_SET_ID': {
+    case "USER_SET_ID": {
       const id = action.payload;
       return { ...state, id };
     }
-    case 'USER_SET_LOADING': {
+    case "USER_SET_LOADING": {
       const loading = action.payload;
       return { ...state, isLoaded: loading };
     }
-    case 'USER_SET_SKIN': {
+    case "USER_SET_SKIN": {
       const skin = action.payload;
       return { ...state, skin };
     }
-    case 'USER_SET_SCORE': {
+    case "USER_SET_SCORE": {
       const score = action.payload;
       return { ...state, score };
     }
