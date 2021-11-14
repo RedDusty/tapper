@@ -28,49 +28,22 @@ export const userReducer = (
 ): userInfoType => {
   switch (action.type) {
     case "USER_SET": {
-      const {
-        avatar,
-        firstLogin,
-        nickname,
-        score,
-        uid,
-        id,
-        isLoaded,
-        skin,
-        banned,
-        isLeft,
-        key,
-      } = action.payload;
-      const newState: userInfoType = {
-        avatar,
-        firstLogin,
-        nickname,
-        score,
-        uid,
-        id,
-        isLoaded,
-        skin,
-        banned,
-        isLeft,
-        key,
-      };
-      return { ...state, ...newState };
+      return { ...state, ...action.payload };
     }
     case "USER_SET_ID": {
-      const id = action.payload;
-      return { ...state, id };
+      return { ...state, id: action.payload };
     }
     case "USER_SET_LOADING": {
-      const loading = action.payload;
-      return { ...state, isLoaded: loading };
+      return { ...state, isLoaded: action.payload };
+    }
+    case "USER_SET_LEFT": {
+      return {...state, isLeft: action.payload}
     }
     case "USER_SET_SKIN": {
-      const skin = action.payload;
-      return { ...state, skin };
+      return { ...state, skin: action.payload };
     }
     case "USER_SET_SCORE": {
-      const score = action.payload;
-      return { ...state, score };
+      return { ...state, score: action.payload };
     }
     default: {
       return { ...state };

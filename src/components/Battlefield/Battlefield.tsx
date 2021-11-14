@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import {
   gameDotsSet,
@@ -18,6 +18,8 @@ function Battlefield({ dataGained }: { dataGained: boolean }) {
   const [dotSize, setDotSize] = useState<number>(12);
   const [htmlField, setHtmlField] = useState<JSX.Element[]>([]);
   const [canStart, setStart] = useState<boolean>(false);
+
+  const htmlFieldContainer = useRef<HTMLDivElement | null>(null);
 
   const { user } = useTypedSelector((state) => state);
   const { lobby } = useTypedSelector((state) => state);
@@ -44,27 +46,12 @@ function Battlefield({ dataGained }: { dataGained: boolean }) {
       const fieldSize = Number(Number(lobby.fieldX) * Number(lobby.fieldY));
 
       for (let index = 0; index < fieldSize; index++) {
-        if (index === fieldSize - 1) {
-          setTimeout(() => {
-            socket.emit("USER_LOADED", {
-              user: user,
-              isLoaded: true,
-              lobby: lobby,
-            });
-            dispatch(userSetLoading(true));
-            setHtmlField((arr) => [
-              ...arr,
-              <Dot key={"Dot" + index} index={index} user={undefined} />,
-            ]);
-          }, fieldSize * 10);
-        } else {
-          setTimeout(() => {
-            setHtmlField((arr) => [
-              ...arr,
-              <Dot key={"Dot" + index} index={index} user={undefined} />,
-            ]);
-          }, index * 10);
-        }
+        setTimeout(() => {
+          setHtmlField((arr) => [
+            ...arr,
+            <Dot key={"Dot" + index} index={index} user={undefined} />,
+          ]);
+        }, index * 10);
       }
     }
     socket.on("GAME_END", (data) => {
@@ -95,13 +82,31 @@ function Battlefield({ dataGained }: { dataGained: boolean }) {
     socket.on("USER_LOADED_RETURN", (data) => {
       dispatch(lobbySetUsers(data));
     });
+    const fieldChecker = setInterval(() => {
+      if (htmlFieldContainer && htmlFieldContainer.current && user.isLoaded === false) {
+        if (
+          htmlFieldContainer.current.childNodes.length ===
+          Number(Number(lobby.fieldX) * Number(lobby.fieldY))
+        ) {
+          socket.emit("USER_LOADED", {
+            user: user,
+            isLoaded: true,
+            lobby: lobby,
+          });
+          
+          dispatch(userSetLoading(true));
+          clearInterval(fieldChecker);
+        }
+      }
+    }, 100);
     return () => {
       socket.off("GAME_TAP");
       socket.off("GAME_LOADED");
       socket.off("USER_LOADED_RETURN");
+      clearInterval(fieldChecker);
     };
     // eslint-disable-next-line
-  }, [dataGained, startsIn]);
+  }, [dataGained, startsIn, htmlFieldContainer]);
   return (
     <div
       className="w-full flex items-center justify-center"
@@ -109,6 +114,7 @@ function Battlefield({ dataGained }: { dataGained: boolean }) {
     >
       <div
         className="grid w-full h-full p-2 justify-center"
+        ref={htmlFieldContainer}
         style={{
           gridTemplateColumns: `repeat(${lobby.fieldX}, ${dotSize}px)`,
           gridTemplateRows: `repeat(${lobby.fieldY}, ${dotSize}px)`,

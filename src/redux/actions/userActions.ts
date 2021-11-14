@@ -6,7 +6,8 @@ import {
   USER_SET_LOADING,
   USER_SET_SKIN,
   skinType,
-  USER_SET_SCORE
+  USER_SET_SCORE,
+  USER_SET_LEFT
 } from './../types';
 import { Dispatch } from 'redux';
 
@@ -30,6 +31,11 @@ export const userSetId = (id: string) => {
 export const userSetLoading = (loading: boolean) => {
   return (dispatch: Dispatch<UserActionsType>) => {
     dispatch({ type: USER_SET_LOADING, payload: loading });
+  };
+};
+export const userSetLeft = (left: boolean) => {
+  return (dispatch: Dispatch<UserActionsType>) => {
+    dispatch({ type: USER_SET_LEFT, payload: left });
   };
 };
 

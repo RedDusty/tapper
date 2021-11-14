@@ -2,11 +2,15 @@ import { useEffect, useState } from "react";
 import { TFunction, useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
-import { Dispatch } from 'redux';
+import { Dispatch } from "redux";
 import { fbGetUserScore } from "../../firebase";
 import { gameSet } from "../../redux/actions/gameActions";
 import { lobbySet } from "../../redux/actions/lobbyActions";
-import { userSetScore } from "../../redux/actions/userActions";
+import {
+  userSetLeft,
+  userSetLoading,
+  userSetScore,
+} from "../../redux/actions/userActions";
 import { initialGameReducer } from "../../redux/reducers/gameReducer";
 import { initialLobbyState } from "../../redux/reducers/lobbyReducer";
 import { useTypedSelector } from "../../redux/useTypedSelector";
@@ -44,7 +48,9 @@ function InfoButton() {
     ) {
       setRender(toLocation(t, "", clickHandler, pathname, dispatch, userUID));
     } else if (gameEnd !== 0) {
-      setRender(toLocation(t, "game-score", clickHandler, pathname, dispatch, userUID));
+      setRender(
+        toLocation(t, "game-score", clickHandler, pathname, dispatch, userUID)
+      );
     } else {
       setRender(<></>);
     }
@@ -79,12 +85,15 @@ const toLocation: (
   if (pathname === "/game-score") {
     const setScore = async () => {
       const newScore = await fbGetUserScore(userUID!);
-      console.log(newScore);
-      
+
       dispatch(userSetScore(newScore));
     };
-
     setScore();
+  }
+
+  if (pathname === "/game-score") {
+    dispatch(userSetLoading(false));
+    dispatch(userSetLeft(false));
   }
 
   return (

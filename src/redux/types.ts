@@ -3,6 +3,7 @@ export const USER_SET = 'USER_SET';
 export const USER_SET_SCORE = 'USER_SET_SCORE';
 export const USER_SET_ID = 'USER_SET_ID';
 export const USER_SET_LOADING = 'USER_SET_LOADING';
+export const USER_SET_LEFT = 'USER_SET_LEFT';
 export const USER_SET_SKIN = 'USER_SET_SKIN';
 export const USER_SET_SKIN_COLOR = 'USER_SET_SKIN_COLOR';
 export const USER_SET_SKIN_BORDER = 'USER_SET_SKIN_BORDER';
@@ -55,13 +56,17 @@ export type userSetLoadingType = {
   type: typeof USER_SET_LOADING;
   payload: boolean;
 };
+export type userSetLeftType = {
+  type: typeof USER_SET_LEFT;
+  payload: boolean;
+};
 
 export type userSetScoreType = {
   type: typeof USER_SET_SCORE;
   payload: number;
 };
 
-export type UserActionsType = userSetType | userSetIdType | userSetLoadingType | userSetSkin | userSetScoreType;
+export type UserActionsType = userSetType | userSetIdType | userSetLoadingType | userSetSkin | userSetScoreType | userSetLeftType;
 
 // LOBBY REDUCER
 
