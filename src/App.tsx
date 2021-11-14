@@ -20,6 +20,7 @@ import { fbAuthUser, logOut } from "./firebase";
 import Loading from "./components/Helpers/Loading";
 import Connecting from "./components/Helpers/Connecting";
 import FAQ from "./components/FAQ";
+import GlobalChat from "./components/GlobalChat";
 
 function App() {
   const [serverConnected, setServerConnected] = React.useState(false);
@@ -133,7 +134,9 @@ const RenderApp = () => {
     });
     return () => {
       getSocket().off("LOBBY_KICK");
+      getSocket().off("G_CHAT_MESSENGER");
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <>
@@ -177,6 +180,10 @@ const RenderApp = () => {
           </Route>
           <Route exact path="/replays">
             <Dummy />
+            <Info />
+          </Route>
+          <Route exact path="/gChat">
+            <GlobalChat />
             <Info />
           </Route>
         </Switch>

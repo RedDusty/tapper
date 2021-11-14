@@ -44,7 +44,8 @@ function InfoButton() {
       pathname === "/replays" ||
       pathname === "/games" ||
       pathname === "/game-score" ||
-      pathname === "/faq"
+      pathname === "/faq" ||
+      pathname === "/gChat"
     ) {
       setRender(toLocation(t, "", clickHandler, pathname, dispatch, userUID));
     } else if (gameEnd !== 0) {
@@ -96,11 +97,15 @@ const toLocation: (
     dispatch(userSetLeft(false));
   }
 
+  const buttonColor = () => {
+    if (pathname === "/faq" || pathname === "/gChat") {
+      return "button-sky";
+    } else return "button-green";
+  };
+
   return (
     <Link
-      className={`rounded-md px-2 m-2 font-bold flex items-center justify-center ${
-        pathname === "/faq" ? "button-sky" : "button-green"
-      }`}
+      className={`rounded-md px-2 m-2 font-bold flex items-center justify-center ${buttonColor()}`}
       to={"/" + location}
       onClick={clickHandler}
     >

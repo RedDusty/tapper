@@ -1,19 +1,19 @@
 // USER REDUCER
-export const USER_SET = 'USER_SET';
-export const USER_SET_SCORE = 'USER_SET_SCORE';
-export const USER_SET_ID = 'USER_SET_ID';
-export const USER_SET_LOADING = 'USER_SET_LOADING';
-export const USER_SET_LEFT = 'USER_SET_LEFT';
-export const USER_SET_SKIN = 'USER_SET_SKIN';
-export const USER_SET_SKIN_COLOR = 'USER_SET_SKIN_COLOR';
-export const USER_SET_SKIN_BORDER = 'USER_SET_SKIN_BORDER';
-export const USER_SET_SKIN_BORDER_STYLE = 'USER_SET_SKIN_BORDER_STYLE';
-export const USER_SET_SKIN_BORDER_COLOR = 'USER_SET_SKIN_BORDER_COLOR';
-export const USER_SET_SKIN_BORDER_WIDTH = 'USER_SET_SKIN_BORDER_WIDTH';
+export const USER_SET = "USER_SET";
+export const USER_SET_SCORE = "USER_SET_SCORE";
+export const USER_SET_ID = "USER_SET_ID";
+export const USER_SET_LOADING = "USER_SET_LOADING";
+export const USER_SET_LEFT = "USER_SET_LEFT";
+export const USER_SET_SKIN = "USER_SET_SKIN";
+export const USER_SET_SKIN_COLOR = "USER_SET_SKIN_COLOR";
+export const USER_SET_SKIN_BORDER = "USER_SET_SKIN_BORDER";
+export const USER_SET_SKIN_BORDER_STYLE = "USER_SET_SKIN_BORDER_STYLE";
+export const USER_SET_SKIN_BORDER_COLOR = "USER_SET_SKIN_BORDER_COLOR";
+export const USER_SET_SKIN_BORDER_WIDTH = "USER_SET_SKIN_BORDER_WIDTH";
 
-export type skinTypesType = 'standard';
+export type skinTypesType = "standard";
 
-export type skinBorderStyleType = 'solid' | 'dashed' | 'dotted' | 'double';
+export type skinBorderStyleType = "solid" | "dashed" | "dotted" | "double";
 
 export type skinType = {
   type: skinTypesType;
@@ -66,28 +66,34 @@ export type userSetScoreType = {
   payload: number;
 };
 
-export type UserActionsType = userSetType | userSetIdType | userSetLoadingType | userSetSkin | userSetScoreType | userSetLeftType;
+export type UserActionsType =
+  | userSetType
+  | userSetIdType
+  | userSetLoadingType
+  | userSetSkin
+  | userSetScoreType
+  | userSetLeftType;
 
 // LOBBY REDUCER
 
-export const LOBBY_SET = 'LOBBY_SET';
-export const LOBBY_SET_CODE = 'LOBBY_SET_CODE';
-export const LOBBY_SET_FIELD_X = 'LOBBY_SET_FIELD_X';
-export const LOBBY_SET_FIELD_Y = 'LOBBY_SET_FIELD_Y';
-export const LOBBY_SET_USERS = 'LOBBY_SET_USERS';
-export const LOBBY_SET_IN_LOBBY_PLAYERS = 'LOBBY_SET_IN_LOBBY_PLAYERS';
-export const LOBBY_SET_MAX_PLAYERS = 'LOBBY_SET_MAX_PLAYERS';
-export const LOBBY_SET_MESSAGES = 'LOBBY_SET_MESSAGES';
-export const LOBBY_SET_VISIBILITY = 'LOBBY_SET_VISIBILITY';
-export const LOBBY_SET_STARTED = 'LOBBY_SET_STARTED';
-export const LOBBY_SET_STARTS_IN = 'LOBBY_SET_STARTS_IN';
+export const LOBBY_SET = "LOBBY_SET";
+export const LOBBY_SET_CODE = "LOBBY_SET_CODE";
+export const LOBBY_SET_FIELD_X = "LOBBY_SET_FIELD_X";
+export const LOBBY_SET_FIELD_Y = "LOBBY_SET_FIELD_Y";
+export const LOBBY_SET_USERS = "LOBBY_SET_USERS";
+export const LOBBY_SET_IN_LOBBY_PLAYERS = "LOBBY_SET_IN_LOBBY_PLAYERS";
+export const LOBBY_SET_MAX_PLAYERS = "LOBBY_SET_MAX_PLAYERS";
+export const LOBBY_SET_MESSAGES = "LOBBY_SET_MESSAGES";
+export const LOBBY_SET_VISIBILITY = "LOBBY_SET_VISIBILITY";
+export const LOBBY_SET_STARTED = "LOBBY_SET_STARTED";
+export const LOBBY_SET_STARTS_IN = "LOBBY_SET_STARTS_IN";
 
 type optionType =
-  | 'setVisibility'
-  | 'setFieldX'
-  | 'setFieldY'
-  | 'setInLobbyPlayers'
-  | 'setMaxPlayers';
+  | "setVisibility"
+  | "setFieldX"
+  | "setFieldY"
+  | "setInLobbyPlayers"
+  | "setMaxPlayers";
 
 export type lobbySocketOptionsType = {
   code: string;
@@ -102,7 +108,14 @@ export type lobbyOptionsType = {
   option: optionType;
 };
 
-type actionType = 'userKick' | 'userJoin' | 'userLeave' | 'userOwner' | 'userLoaded' | 'userSkinChange' | 'usersGet';
+type actionType =
+  | "userKick"
+  | "userJoin"
+  | "userLeave"
+  | "userOwner"
+  | "userLoaded"
+  | "userSkinChange"
+  | "usersGet";
 
 export type lobbyUsersType = {
   code: string;
@@ -115,7 +128,7 @@ export type lobbyUsersGetType = {
   type: actionType;
   value: userInfoType[];
   lobby: lobbyType;
-  uid: string
+  uid: string;
 };
 
 export type messageType = {
@@ -128,7 +141,7 @@ export type messageType = {
   code: string;
 };
 
-export type visibilityType = 'public' | 'private' | 'game';
+export type visibilityType = "public" | "private" | "game";
 
 export type lobbyType = {
   ownerUID: string;
@@ -212,11 +225,11 @@ export type LobbyActionsType =
 
 // GAME REDUCER;
 
-export const GAME_SET = 'GAME_SET';
-export const GAME_DOTS_SET = 'GAME_DOTS_SET';
-export const GAME_TIME_SET = 'GAME_TIME_SET';
-export const GAME_REPLAY_SET = 'GAME_REPLAY_SET';
-export const GAME_SCORES_SET = 'GAME_SCORES_SET';
+export const GAME_SET = "GAME_SET";
+export const GAME_DOTS_SET = "GAME_DOTS_SET";
+export const GAME_TIME_SET = "GAME_TIME_SET";
+export const GAME_REPLAY_SET = "GAME_REPLAY_SET";
+export const GAME_SCORES_SET = "GAME_SCORES_SET";
 
 export type dotType = {
   posX: number;
@@ -239,7 +252,7 @@ export type timeType = {
 export type scoreType = {
   user: userInfoType;
   score: number;
-  scoreChange: 'add' | 'decrease';
+  scoreChange: "add" | "decrease";
 };
 
 export type gameReducerType = {
@@ -278,4 +291,31 @@ export type gameDotsSetType = {
   payload: dotType[];
 };
 
-export type GameActionsType = gameSetType | gameDotsSetType | gameScoresSetType | gameReplaySetType | gameTimeSetType;
+export type GameActionsType =
+  | gameSetType
+  | gameDotsSetType
+  | gameScoresSetType
+  | gameReplaySetType
+  | gameTimeSetType;
+
+export const G_MESSAGES_SET = "G_MESSAGES_SET";
+
+export type GmessageType = {
+  avatar: string | null;
+  id: string;
+  nickname: string | null;
+  uid: string | null;
+  message: string;
+  time: number;
+};
+
+export type globalReducerType = {
+  messages: GmessageType[];
+};
+
+export type GmessagesSetType = {
+  type: typeof G_MESSAGES_SET;
+  payload: GmessageType[];
+};
+
+export type GActionsType = GmessagesSetType;

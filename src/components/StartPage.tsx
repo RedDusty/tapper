@@ -132,9 +132,12 @@ function StartPage({
   return (
     <div className="w-full h-full flex items-center justify-center flex-col">
       <StartPageLogo />
-      <div className="flex mt-4">
+      <div className="flex mt-4 gap-4 items-center justify-center">
         <Link to="/faq" className="button button-sky w-16 text-center">
           FAQ
+        </Link>
+        <Link to="/gChat" className="button button-sky text-center">
+          Global chat
         </Link>
       </div>
       <div className="flex mt-4 gap-4">

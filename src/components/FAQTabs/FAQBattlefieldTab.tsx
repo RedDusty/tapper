@@ -23,7 +23,7 @@ const FAQBattlefieldTab = (user: userInfoType) => {
         </div>
         <p>
           After the end of the game, you can see your statistics and rating
-          changes.
+          changes by clicking button in bottom of window.
         </p>
         <div>
           <div className="panelWidth mx-auto mt-4 bg-gray-100 lg:rounded-md flex shadow flex-wrap">

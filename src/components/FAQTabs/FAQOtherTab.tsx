@@ -43,6 +43,13 @@ const FAQOtherTab = (lobby: lobbyType) => {
           , your current server is listed at the bottom.{")"}
         </p>
         <p className="mt-2">
+          Everyone can write in the{" "}
+          <Link to="/gChat" className="text-green-700 underline">
+            global chat
+          </Link>
+          . Maximum messages - 100
+        </p>
+        <p className="mt-2">
           Copy text is available only in the {renderLobbyLink()} and{" "}
           <Link to="/score" className="text-green-700 underline">
             score
