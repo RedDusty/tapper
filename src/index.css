@@ -2,18 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
 :root {
   --scrollbar: rgb(54, 61, 71);
   --scrollbar-thumb: rgb(160, 170, 184);
   --scrollbar-thumb-hover: rgb(182, 192, 206);
   --scrollbar-thumb-active: rgb(219, 225, 233);
   --scrollbarInactiveAction: rgb(134, 134, 134);
-}
-
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
 }
 
 html,
