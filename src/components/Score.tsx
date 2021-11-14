@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { userInfoType } from "../redux/types";
-import socket from "../socketio";
+import { getSocket } from "../socketio";
 import { renderImage } from "./Lobby/Lobby";
 import UserSkin from "./Helpers/UserSkin";
 
@@ -8,12 +8,12 @@ function Score() {
   const [users, setUsers] = useState<userInfoType[]>([]);
 
   useEffect(() => {
-    socket.emit("SCORE_GET");
-    socket.on("SCORE_RETURN", (users) => {
+    getSocket().emit("SCORE_GET");
+    getSocket().on("SCORE_RETURN", (users) => {
       setUsers(users);
     });
     return () => {
-      socket.off("SCORE_RETURN");
+      getSocket().off("SCORE_RETURN");
     };
   }, []);
 
@@ -75,7 +75,7 @@ const RenderUser: ({
       >
         {renderImage(user.avatar)}
         <p className="ml-2 select-text">{(user.nickname || "").slice(0, 16)}</p>
-        <UserSkin key={user.nickname + 'skin'} {...user.skin} />
+        <UserSkin key={user.nickname + "skin"} {...user.skin} />
         <p className="ml-2 select-text">{(user.score || 0).toFixed(3)}</p>
       </div>
     </div>

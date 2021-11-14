@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { lobbySetVisibility } from '../../../redux/actions/lobbyActions';
 import { lobbyOptionsType } from '../../../redux/types';
 import { useTypedSelector } from '../../../redux/useTypedSelector';
-import socket from '../../../socketio';
+import { getSocket } from '../../../socketio';
 import { renderImage } from '../Lobby';
 
 function LobbyOptOther() {
@@ -30,7 +30,7 @@ function LobbyOptOther() {
               if (user.uid !== lobby.ownerUID) return 0;
               if (lobby.visibility === 'public') {
                 dispatch(lobbySetVisibility('private'));
-                socket.emit('LOBBY_OPTIONS', {
+                getSocket().emit('LOBBY_OPTIONS', {
                   code: lobby.code,
                   option: 'setVisibility',
                   ownerUID: lobby.ownerUID,
@@ -47,7 +47,7 @@ function LobbyOptOther() {
               if (user.uid !== lobby.ownerUID) return 0;
               if (lobby.visibility === 'private') {
                 dispatch(lobbySetVisibility('public'));
-                socket.emit('LOBBY_OPTIONS', {
+                getSocket().emit('LOBBY_OPTIONS', {
                   code: lobby.code,
                   ownerUID: lobby.ownerUID,
                   visibility: 'public',

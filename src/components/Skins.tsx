@@ -4,7 +4,7 @@ import { lobbySetUsers } from "../redux/actions/lobbyActions";
 import { userSetSkin } from "../redux/actions/userActions";
 import { skinBorderStyleType, skinType } from "../redux/types";
 import { useTypedSelector } from "../redux/useTypedSelector";
-import socket from "../socketio";
+import { getSocket } from "../socketio";
 import { renderImage } from "./Lobby/Lobby";
 import UserSkin from "./Helpers/UserSkin";
 import SkinColors from "./Skins/SkinColors";
@@ -70,7 +70,7 @@ function Skins() {
     };
 
     dispatch(userSetSkin(skinData));
-    socket.emit("SKIN_CHANGE", {
+    getSocket().emit("SKIN_CHANGE", {
       code,
       user,
       skinData,
@@ -78,13 +78,13 @@ function Skins() {
   };
 
   useEffect(() => {
-    socket.on("SKIN_CHANGE_USERS", (data) => {
+    getSocket().on("SKIN_CHANGE_USERS", (data) => {
       dispatch(
         lobbySetUsers(data.users)
       );
     });
     return () => {
-      socket.off("SKIN_CHANGE_USERS");
+      getSocket().off("SKIN_CHANGE_USERS");
     };
     // eslint-disable-next-line
   }, []);

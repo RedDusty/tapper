@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { userInfoType } from "../../redux/types";
 import { useTypedSelector } from "../../redux/useTypedSelector";
-import socket from "../../socketio";
+import { getSocket } from "../../socketio";
 
 function Dot({
   index,
@@ -71,7 +71,7 @@ function Dot({
       }}
       onClick={() => {
         if (tap && isControlled === false) {
-          socket.emit("TAP_DOT", {
+          getSocket().emit("TAP_DOT", {
             user: userRedux,
             index,
             code,

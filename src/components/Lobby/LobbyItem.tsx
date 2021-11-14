@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { lobbyUsersType } from "../../redux/types";
 import { useTypedSelector } from "../../redux/useTypedSelector";
-import socket from "../../socketio";
+import { getSocket } from "../../socketio";
 import { lobbyShortType } from "../GamesList";
 import { renderImage } from "./Lobby";
 
@@ -49,7 +49,7 @@ function LobbyItem(lobby: lobbyShortType) {
         onClick={() => {
           if (lobby.inLobbyPlayers < lobby.maxPlayers) {
             // if (user.uid.length > 0 && user.id) {
-            socket.emit("LOBBY_USERS", {
+            getSocket().emit("LOBBY_USERS", {
               action: "userJoin",
               code: lobby.code,
               ownerUID: lobby.ownerUID,

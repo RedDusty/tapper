@@ -12,7 +12,7 @@ import Score from "./components/Score";
 import { useDispatch } from "react-redux";
 import { userInfoType } from "./redux/types";
 import { userSet } from "./redux/actions/userActions";
-import socket from "./socketio";
+import { getSocket } from "./socketio";
 import { useTypedSelector } from "./redux/useTypedSelector";
 import { onAuthStateChanged } from "@firebase/auth";
 import { auth } from "./fbConfig";
@@ -28,8 +28,8 @@ function App() {
 
   const user = useTypedSelector((state) => state.user);
 
-  socket.on("connect", () => {
-    console.log(socket.id);
+  getSocket().on("connect", () => {
+    console.log(getSocket().id);
   });
 
   useEffect(() => {
@@ -41,7 +41,7 @@ function App() {
             avatar: gUser.photoURL,
             banned: userData.banned,
             firstLogin: userData.firstLogin,
-            id: socket.id,
+            id: getSocket().id,
             nickname: gUser.displayName,
             score: userData.score,
             key: userData.key,
@@ -57,7 +57,7 @@ function App() {
             isLoaded: false,
           })
         );
-        socket.emit("USER_LOGIN", {
+        getSocket().emit("USER_LOGIN", {
           avatar: gUser.photoURL,
           banned: userData.banned,
           firstLogin: userData.firstLogin,
@@ -80,9 +80,9 @@ function App() {
         dispatch(userSet({} as userInfoType));
       }
     });
-    socket.on("ACCOUNT_DUPLICATE", (val) => setDuplicate(val));
+    getSocket().on("ACCOUNT_DUPLICATE", (val) => setDuplicate(val));
     return () => {
-      socket.off("ACCOUNT_DUPLICATE");
+      getSocket().off("ACCOUNT_DUPLICATE");
     };
     // eslint-disable-next-line
   }, [auth.currentUser]);
@@ -98,7 +98,7 @@ function App() {
           style={{ boxShadow: "0 0 4px 2px #ffffff" }}
           onClick={() => {
             logOut();
-            socket.emit("USER_LOGOUT");
+            getSocket().emit("USER_LOGOUT");
             setDuplicate(false);
           }}
         >
@@ -128,11 +128,11 @@ function App() {
 const RenderApp = () => {
   const [isKick, setKick] = React.useState<boolean>(false);
   useEffect(() => {
-    socket.on("LOBBY_KICK", () => {
+    getSocket().on("LOBBY_KICK", () => {
       setKick(true);
     });
     return () => {
-      socket.off("LOBBY_KICK");
+      getSocket().off("LOBBY_KICK");
     };
   }, []);
   return (

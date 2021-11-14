@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useTypedSelector } from '../../../redux/useTypedSelector';
-import socket from '../../../socketio';
+import { getSocket } from '../../../socketio';
 
 function LobbyChatInput() {
   const [message, setMessage] = useState<string>('');
@@ -24,7 +24,7 @@ function LobbyChatInput() {
             if (code.length > 0) {
               if (message.length > 0)
                 if (!(message.length === 1 && message.charAt(0) === ' ')) {
-                  socket.emit('LOBBY_MESSENGER', {
+                  getSocket().emit('LOBBY_MESSENGER', {
                     avatar,
                     id,
                     nickname,

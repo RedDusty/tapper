@@ -7,7 +7,7 @@ import Exit from "../../icons/exit";
 import Options from "../../icons/options";
 import { lobbySet, lobbySetCode } from "../../redux/actions/lobbyActions";
 import { useTypedSelector } from "../../redux/useTypedSelector";
-import socket from "../../socketio";
+import { getSocket } from "../../socketio";
 import { lobbyTab } from "./Lobby";
 import { initialLobbyState } from "../../redux/reducers/lobbyReducer";
 
@@ -25,11 +25,11 @@ function LobbyHeader({
   const dispatch = useDispatch();
 
   useEffect(() => {
-    socket.on("LOBBY_GET_CODE", (code) => {
+    getSocket().on("LOBBY_GET_CODE", (code) => {
       dispatch(lobbySetCode(code));
     });
     return () => {
-      socket.off("LOBBY_GET_CODE");
+      getSocket().off("LOBBY_GET_CODE");
     };
     // eslint-disable-next-line
   }, [code]);
@@ -54,7 +54,7 @@ function LobbyHeader({
         className="fill-current text-gray-200 hover:text-gray-300 focus:animate-pulse w-8 h-8"
         onClick={() => {
           dispatch(lobbySet(initialLobbyState));
-          socket.emit("LOBBY_USERS", {
+          getSocket().emit("LOBBY_USERS", {
             action: "userLeave",
             code: lobby.code,
             user: user,

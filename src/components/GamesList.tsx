@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { lobbyType } from "../redux/types";
 import { useTypedSelector } from "../redux/useTypedSelector";
 import { useDispatch } from "react-redux";
-import socket, { getServerURL } from "../socketio";
+import { getServerURL, getSocket } from "../socketio";
 import { lobbySet } from "../redux/actions/lobbyActions";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -35,11 +35,11 @@ function GamesList() {
       setLobbyList(data.lobbies);
     };
     firstLoading();
-    socket.on("LOBBY_GET", (lobbyListArray) => {
+    getSocket().on("LOBBY_GET", (lobbyListArray) => {
       setLobbyList(lobbyListArray);
     });
     return () => {
-      socket.off("LOBBY_GET");
+      getSocket().off("LOBBY_GET");
     };
     // eslint-disable-next-line
   }, []);
@@ -105,7 +105,7 @@ function GamesList() {
                   })
                 );
                 dispatch(lobbySet(defaultLobby));
-                socket.emit("LOBBY_CREATE", defaultLobby);
+                getSocket().emit("LOBBY_CREATE", defaultLobby);
               }
             }}
           >

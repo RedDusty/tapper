@@ -3,7 +3,7 @@ import Cross from "../../../icons/cross";
 import Crown from "../../../icons/crown";
 import { lobbyType, userInfoType } from "../../../redux/types";
 import { useTypedSelector } from "../../../redux/useTypedSelector";
-import socket from "../../../socketio";
+import { getSocket } from "../../../socketio";
 import UserSkin from "../../Helpers/UserSkin";
 import { renderImage } from "../Lobby";
 
@@ -93,7 +93,7 @@ const PlayerButtonsRender = ({
         <button
           className="w-8 h-8 ml-2 fill-current bg-gray-300 text-gray-500 hover:text-red-600 hover:bg-red-200 p-1.5 rounded-full"
           onClick={() => {
-            socket.emit("LOBBY_USERS", {
+            getSocket().emit("LOBBY_USERS", {
               action: "userKick",
               code: lobby.code,
               user: user,
@@ -106,7 +106,7 @@ const PlayerButtonsRender = ({
         <button
           className="w-8 h-8 ml-2 fill-current bg-gray-300 text-gray-500 hover:text-green-600 hover:bg-green-200 p-1.5 rounded-full"
           onClick={() => {
-            socket.emit("LOBBY_USERS", {
+            getSocket().emit("LOBBY_USERS", {
               action: "userOwner",
               code: lobby.code,
               user: user,

@@ -10,7 +10,7 @@ import { lobbySetUsers } from "../../redux/actions/lobbyActions";
 import { userSetLoading } from "../../redux/actions/userActions";
 import { dotType } from "../../redux/types";
 import { useTypedSelector } from "../../redux/useTypedSelector";
-import socket from "../../socketio";
+import { getSocket } from "../../socketio";
 import Dot from "./Dot";
 import LoadingWindow from "./LoadingWindow";
 
@@ -54,14 +54,14 @@ function Battlefield({ dataGained }: { dataGained: boolean }) {
         }, index * 10);
       }
     }
-    socket.on("GAME_END", (data) => {
-      socket.emit("USER_ROOM", { user, code: lobby.code, room: "game_end" });
+    getSocket().on("GAME_END", (data) => {
+      getSocket().emit("USER_ROOM", { user, code: lobby.code, room: "game_end" });
       dispatch(gameDotsSet(data.dots));
       dispatch(gameTimeSet(data.time));
       dispatch(gameReplaySet(data.replay));
     });
-    socket.on("GAME_END_SCORE", async (data) => {
-      socket.emit("USER_ROOM", { user, code: lobby.code, room: "game_end" });
+    getSocket().on("GAME_END_SCORE", async (data) => {
+      getSocket().emit("USER_ROOM", { user, code: lobby.code, room: "game_end" });
       dispatch(gameDotsSet(data.dots));
       dispatch(gameTimeSet(data.time));
       dispatch(gameReplaySet(data.replay));
@@ -72,14 +72,14 @@ function Battlefield({ dataGained }: { dataGained: boolean }) {
         })
       );
     });
-    socket.on("GAME_TAP", (data) => {
+    getSocket().on("GAME_TAP", (data) => {
       dispatch(gameDotsSet(data.dots));
       setField(data.dots);
     });
-    socket.once("GAME_LOADED", (data) => {
+    getSocket().once("GAME_LOADED", (data) => {
       setStart(data);
     });
-    socket.on("USER_LOADED_RETURN", (data) => {
+    getSocket().on("USER_LOADED_RETURN", (data) => {
       dispatch(lobbySetUsers(data));
     });
     const fieldChecker = setInterval(() => {
@@ -88,7 +88,7 @@ function Battlefield({ dataGained }: { dataGained: boolean }) {
           htmlFieldContainer.current.childNodes.length ===
           Number(Number(lobby.fieldX) * Number(lobby.fieldY))
         ) {
-          socket.emit("USER_LOADED", {
+          getSocket().emit("USER_LOADED", {
             user: user,
             isLoaded: true,
             lobby: lobby,
@@ -100,9 +100,9 @@ function Battlefield({ dataGained }: { dataGained: boolean }) {
       }
     }, 100);
     return () => {
-      socket.off("GAME_TAP");
-      socket.off("GAME_LOADED");
-      socket.off("USER_LOADED_RETURN");
+      getSocket().off("GAME_TAP");
+      getSocket().off("GAME_LOADED");
+      getSocket().off("USER_LOADED_RETURN");
       clearInterval(fieldChecker);
     };
     // eslint-disable-next-line

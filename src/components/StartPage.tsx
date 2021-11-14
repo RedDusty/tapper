@@ -5,7 +5,7 @@ import { logOut, signInWithGoogle } from "../firebase";
 import { useTypedSelector } from "../redux/useTypedSelector";
 import { renderImage } from "./Lobby/Lobby";
 import StartPageLogo from "./Helpers/StartPageLogo";
-import socket, { getServerID } from "../socketio";
+import { getServerID, getSocket } from "../socketio";
 import ErrorWindow from "./ErrorWindow";
 
 function StartPage({
@@ -70,7 +70,7 @@ function StartPage({
             className="button button-red"
             onClick={() => {
               logOut();
-              socket.emit("USER_LOGOUT");
+              getSocket().emit("USER_LOGOUT");
             }}
           >
             {t("LOG_OUT")}

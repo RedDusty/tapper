@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from '../../../redux/useTypedSelector';
-import socket from '../../../socketio';
+import { getSocket } from '../../../socketio';
 import LobbyOptField from './LobbyOptField';
 import LobbyOptOther from './LobbyOptOther';
 import LobbyOptPlayers from './LobbyOptPlayers';
@@ -22,7 +22,7 @@ function LobbyOptions() {
         <button
           className="button button-yellow text-black"
           onClick={() => {
-            socket.emit('GAME_START', lobby);
+            getSocket().emit('GAME_START', lobby);
           }}
         >
           {t('START')}

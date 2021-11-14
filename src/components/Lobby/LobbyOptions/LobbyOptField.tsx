@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { lobbySetFieldX, lobbySetFieldY } from '../../../redux/actions/lobbyActions';
 import { lobbyOptionsType } from '../../../redux/types';
 import { useTypedSelector } from '../../../redux/useTypedSelector';
-import socket from '../../../socketio';
+import { getSocket } from '../../../socketio';
 
 function LobbyOptField() {
   const dispatch = useDispatch();
@@ -40,7 +40,7 @@ function LobbyOptField() {
                         return String(1)
                       }
                     }
-                    socket.emit('LOBBY_OPTIONS', {
+                    getSocket().emit('LOBBY_OPTIONS', {
                       code: lobby.code,
                       option: 'setFieldX',
                       ownerUID: lobby.ownerUID,
@@ -72,7 +72,7 @@ function LobbyOptField() {
                         return String(1)
                       }
                     }
-                    socket.emit('LOBBY_OPTIONS', {
+                    getSocket().emit('LOBBY_OPTIONS', {
                       code: lobby.code,
                       option: 'setFieldY',
                       ownerUID: lobby.ownerUID,

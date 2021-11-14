@@ -23,7 +23,7 @@ import {
   visibilityType,
 } from "../../redux/types";
 import { useTypedSelector } from "../../redux/useTypedSelector";
-import socket from "../../socketio";
+import { getSocket } from "../../socketio";
 import Battlefield from "../Battlefield/Battlefield";
 import Loading from "../Helpers/Loading";
 import LobbyChat from "./LobbyChat/LobbyChat";
@@ -103,7 +103,7 @@ export function Lobby() {
   const user = useTypedSelector((state) => state.user);
 
   useEffect(() => {
-    socket.on("LOBBY_USERS_UPDATE", (data: lobbyUsersGetType) => {
+    getSocket().on("LOBBY_USERS_UPDATE", (data: lobbyUsersGetType) => {
       switch (data.type) {
         case "userJoin": {
           dispatch(lobbySetinLobbyPlayers(String(data.value.length)));
@@ -136,12 +136,12 @@ export function Lobby() {
           return 0;
       }
     });
-    socket.on("LOBBY_OPTIONS_UPDATE", (data: lobbySocketOptionsType) => {
+    getSocket().on("LOBBY_OPTIONS_UPDATE", (data: lobbySocketOptionsType) => {
       if (user.id !== lobby.ownerUID) {
         setOptions(dispatch, data, lobby);
       }
     });
-    socket.on("GAME_LOADING", (data) => {
+    getSocket().on("GAME_LOADING", (data) => {
       dispatch(lobbySetStarted(true));
       dispatch(lobbySet(data.lobby));
       dispatch(lobbySetFieldX(data.field.fieldX));
@@ -150,18 +150,18 @@ export function Lobby() {
       dispatch(lobbySetUsers(data.users));
       setDataGain(true);
     });
-    socket.on("SKIN_CHANGE_USERS", (data) => {
+    getSocket().on("SKIN_CHANGE_USERS", (data) => {
       dispatch(lobbySetUsers(data.lobby.users));
     });
-    socket.on("LOBBY_GET_MESSAGES", (msgData) => {
+    getSocket().on("LOBBY_GET_MESSAGES", (msgData) => {
       dispatch(lobbySetMessages(msgData));
     });
     return () => {
-      socket.off("LOBBY_USERS_UPDATE");
-      socket.off("LOBBY_OPTIONS_UPDATE");
-      socket.off("GAME_LOADING");
-      socket.off("SKIN_CHANGE_USERS");
-      socket.off("LOBBY_GET_MESSAGES");
+      getSocket().off("LOBBY_USERS_UPDATE");
+      getSocket().off("LOBBY_OPTIONS_UPDATE");
+      getSocket().off("GAME_LOADING");
+      getSocket().off("SKIN_CHANGE_USERS");
+      getSocket().off("LOBBY_GET_MESSAGES");
     };
     // eslint-disable-next-line
   }, [code, onwerUID]);

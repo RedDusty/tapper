@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { lobbySetMaxPlayers } from '../../../redux/actions/lobbyActions';
 import { lobbyOptionsType } from '../../../redux/types';
 import { useTypedSelector } from '../../../redux/useTypedSelector';
-import socket from '../../../socketio';
+import { getSocket } from '../../../socketio';
 import LobbyPlayersList from './LobbyPlayersList';
 
 function LobbyOptPlayers() {
@@ -32,7 +32,7 @@ function LobbyOptPlayers() {
               if (num !== lobby.maxPlayers) {
                 dispatch(lobbySetMaxPlayers(num || ''));
                 if ((num || '').length !== 0) {
-                  socket.emit('LOBBY_OPTIONS', {
+                  getSocket().emit('LOBBY_OPTIONS', {
                     code: lobby.code,
                     option: 'setMaxPlayers',
                     ownerUID: lobby.ownerUID,
