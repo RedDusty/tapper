@@ -11,15 +11,16 @@ import Skins from "./components/Skins";
 import Score from "./components/Score";
 import { useDispatch } from "react-redux";
 import { userInfoType } from "./redux/types";
-import { userSet, userSetScore } from "./redux/actions/userActions";
+import { userSet } from "./redux/actions/userActions";
 import socket from "./socketio";
 import { useTypedSelector } from "./redux/useTypedSelector";
 import { onAuthStateChanged } from "@firebase/auth";
 import { auth } from "./fbConfig";
-import { fbAuthUser, fbGetUserScore } from "./firebase";
+import { fbAuthUser } from "./firebase";
 import Loading from "./components/Helpers/Loading";
 import Connecting from "./components/Helpers/Connecting";
 import FAQ from "./components/FAQ";
+
 function App() {
   const [serverConnected, setServerConnected] = React.useState(false);
   const dispatch = useDispatch();
@@ -78,13 +79,6 @@ function App() {
         dispatch(userSet({} as userInfoType));
       }
     });
-    socket.on("GAME_END_SCORE", async () => {
-      const newScore = await fbGetUserScore(user.uid!);
-      dispatch(userSetScore(newScore));
-    });
-    return () => {
-      socket.off("GAME_END_SCORE");
-    };
     // eslint-disable-next-line
   }, [auth.currentUser]);
 

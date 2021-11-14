@@ -147,11 +147,11 @@ export function Lobby() {
       dispatch(lobbySetFieldX(data.field.fieldX));
       dispatch(lobbySetFieldY(data.field.fieldY));
       dispatch(gameDotsSet(data.dots));
-      dispatch(lobbySetUsers(data.value));
+      dispatch(lobbySetUsers(data.users));
       setDataGain(true);
     });
     socket.on("SKIN_CHANGE_USERS", (data) => {
-      dispatch(lobbySetUsers(data.value));
+      dispatch(lobbySetUsers(data.lobby.users));
     });
     socket.on("LOBBY_GET_MESSAGES", (msgData) => {
       dispatch(lobbySetMessages(msgData));

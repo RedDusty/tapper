@@ -1,13 +1,18 @@
-import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { gameDotsSet, gameReplaySet, gameScoresSet, gameTimeSet } from '../../redux/actions/gameActions';
-import { lobbySetUsers } from '../../redux/actions/lobbyActions';
-import { userSetLoading } from '../../redux/actions/userActions';
-import { dotType } from '../../redux/types';
-import { useTypedSelector } from '../../redux/useTypedSelector';
-import socket from '../../socketio';
-import Dot from './Dot';
-import LoadingWindow from './LoadingWindow';
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import {
+  gameDotsSet,
+  gameReplaySet,
+  gameScoresSet,
+  gameTimeSet,
+} from "../../redux/actions/gameActions";
+import { lobbySetUsers } from "../../redux/actions/lobbyActions";
+import { userSetLoading } from "../../redux/actions/userActions";
+import { dotType } from "../../redux/types";
+import { useTypedSelector } from "../../redux/useTypedSelector";
+import socket from "../../socketio";
+import Dot from "./Dot";
+import LoadingWindow from "./LoadingWindow";
 
 function Battlefield({ dataGained }: { dataGained: boolean }) {
   const [dotSize, setDotSize] = useState<number>(12);
@@ -22,7 +27,9 @@ function Battlefield({ dataGained }: { dataGained: boolean }) {
   const setField = (dots: dotType[]) => {
     let tempField: JSX.Element[] = [];
 
-    dots.forEach((dot, index) => tempField.push(<Dot index={index} user={dot.user} />));
+    dots.forEach((dot, index) =>
+      tempField.push(<Dot index={index} user={dot.user} />)
+    );
 
     setHtmlField(tempField);
   };
@@ -39,56 +46,72 @@ function Battlefield({ dataGained }: { dataGained: boolean }) {
       for (let index = 0; index < fieldSize; index++) {
         if (index === fieldSize - 1) {
           setTimeout(() => {
-            socket.emit('USER_LOADED', { user: user, isLoaded: true, lobby: lobby });
+            socket.emit("USER_LOADED", {
+              user: user,
+              isLoaded: true,
+              lobby: lobby,
+            });
             dispatch(userSetLoading(true));
-            setHtmlField((arr) => [...arr, <Dot key={'Dot' + index} index={index} user={undefined} />]);
+            setHtmlField((arr) => [
+              ...arr,
+              <Dot key={"Dot" + index} index={index} user={undefined} />,
+            ]);
           }, fieldSize * 10);
         } else {
           setTimeout(() => {
-            setHtmlField((arr) => [...arr, <Dot key={'Dot' + index} index={index} user={undefined} />]);
+            setHtmlField((arr) => [
+              ...arr,
+              <Dot key={"Dot" + index} index={index} user={undefined} />,
+            ]);
           }, index * 10);
         }
       }
     }
-    socket.on('GAME_END', (data) => {
-      socket.emit('USER_ROOM', { user, code: lobby.code, room: 'game_end' });
+    socket.on("GAME_END", (data) => {
+      socket.emit("USER_ROOM", { user, code: lobby.code, room: "game_end" });
       dispatch(gameDotsSet(data.dots));
       dispatch(gameTimeSet(data.time));
       dispatch(gameReplaySet(data.replay));
     });
-    socket.on('GAME_END_SCORE', async (data) => {
-      socket.emit('USER_ROOM', { user, code: lobby.code, room: 'game_end' });
+    socket.on("GAME_END_SCORE", async (data) => {
+      socket.emit("USER_ROOM", { user, code: lobby.code, room: "game_end" });
       dispatch(gameDotsSet(data.dots));
       dispatch(gameTimeSet(data.time));
       dispatch(gameReplaySet(data.replay));
-      dispatch(gameScoresSet({ addScore: data.addScore, decreaseScore: data.decreaseScore }));
+      dispatch(
+        gameScoresSet({
+          addScore: data.addScore,
+          decreaseScore: data.decreaseScore,
+        })
+      );
     });
-    if (startsIn <= 0) {
-      socket.on('GAME_TAP', (data) => {
-        dispatch(gameDotsSet(data.dots));
-        setField(data.dots);
-      });
-    }
-    socket.once('GAME_LOADED', (data) => {
+    socket.on("GAME_TAP", (data) => {
+      dispatch(gameDotsSet(data.dots));
+      setField(data.dots);
+    });
+    socket.once("GAME_LOADED", (data) => {
       setStart(data);
     });
-    socket.on('USER_LOADED_RETURN', (data) => {
-      dispatch(lobbySetUsers(data.value));
+    socket.on("USER_LOADED_RETURN", (data) => {
+      dispatch(lobbySetUsers(data));
     });
     return () => {
-      socket.off('GAME_TAP');
-      socket.off('GAME_LOADED');
-      socket.off('USER_LOADED_RETURN');
+      socket.off("GAME_TAP");
+      socket.off("GAME_LOADED");
+      socket.off("USER_LOADED_RETURN");
     };
     // eslint-disable-next-line
   }, [dataGained, startsIn]);
   return (
-    <div className="w-full flex items-center justify-center" style={{ height: 'calc(100% - 48px)' }}>
+    <div
+      className="w-full flex items-center justify-center"
+      style={{ height: "calc(100% - 48px)" }}
+    >
       <div
         className="grid w-full h-full p-2 justify-center"
         style={{
           gridTemplateColumns: `repeat(${lobby.fieldX}, ${dotSize}px)`,
-          gridTemplateRows: `repeat(${lobby.fieldY}, ${dotSize}px)`
+          gridTemplateRows: `repeat(${lobby.fieldY}, ${dotSize}px)`,
         }}
       >
         {htmlField}

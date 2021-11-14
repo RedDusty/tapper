@@ -75,6 +75,7 @@ export async function fbAuthUser(gUser: User) {
 export async function fbGetUserScore(gUID: string) {
   const docRef = doc(firestore, 'users', gUID);
   const userDoc = await getDoc(docRef);
-  const userData = await userDoc.data()!.score;
-  return userData;
+  const userData = await userDoc.data() as userInfoType;
+  const score = userData.score;
+  return score || 0;
 }

@@ -2,9 +2,13 @@ import { useEffect, useState } from "react";
 import { TFunction, useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
+import { Dispatch } from 'redux';
+import { fbGetUserScore } from "../../firebase";
 import { gameSet } from "../../redux/actions/gameActions";
 import { lobbySet } from "../../redux/actions/lobbyActions";
-import { gameReducerType, lobbyType } from "../../redux/types";
+import { userSetScore } from "../../redux/actions/userActions";
+import { initialGameReducer } from "../../redux/reducers/gameReducer";
+import { initialLobbyState } from "../../redux/reducers/lobbyReducer";
 import { useTypedSelector } from "../../redux/useTypedSelector";
 
 function InfoButton() {
@@ -12,61 +16,25 @@ function InfoButton() {
   const [render, setRender] = useState(<></>);
   const { t } = useTranslation();
 
-  const user = useTypedSelector((state) => state.user);
   const gameEnd = useTypedSelector((state) => state.game.time.end);
   const visibility = useTypedSelector((state) => state.lobby.visibility);
+  const userUID = useTypedSelector((state) => state.user.uid!);
 
   const dispatch = useDispatch();
 
   const clickHandler = () => {
     switch (pathname) {
       case "/game-score":
-        dispatch(
-          lobbySet({
-            fieldX: "3",
-            fieldY: "3",
-            ownerUID: user.uid!,
-            nickname:
-              user.nickname?.slice(0, 16) ||
-              user.uid?.slice(0, 16) ||
-              user.id!.slice(0, 16),
-            inLobbyPlayers: "1",
-            maxPlayers: "2",
-            messages: [
-              {
-                avatar: "system",
-                code: "",
-                id: "system",
-                message:
-                  "Score is only works in public games with other players.",
-                nickname: "System",
-                time: Date.now(),
-                uid: "system",
-              },
-            ],
-            users: [user],
-            code: "",
-            visibility: "private",
-            isStarted: false,
-            startsIn: 10,
-          } as lobbyType)
-        );
-        dispatch(
-          gameSet({
-            addScore: null,
-            decreaseScore: null,
-            dots: [],
-            replay: [],
-            time: { end: 0, start: 0 },
-          } as gameReducerType)
-        );
+        dispatch(lobbySet(initialLobbyState));
+        dispatch(gameSet(initialGameReducer));
         break;
 
       default:
         break;
     }
   };
-  useEffect(() => {if (
+  useEffect(() => {
+    if (
       pathname === "/skins" ||
       pathname === "/score" ||
       pathname === "/replays" ||
@@ -74,9 +42,9 @@ function InfoButton() {
       pathname === "/game-score" ||
       pathname === "/faq"
     ) {
-      setRender(toLocation(t, "", clickHandler, pathname));
+      setRender(toLocation(t, "", clickHandler, pathname, dispatch, userUID));
     } else if (gameEnd !== 0) {
-      setRender(toLocation(t, "game-score", clickHandler, pathname));
+      setRender(toLocation(t, "game-score", clickHandler, pathname, dispatch, userUID));
     } else {
       setRender(<></>);
     }
@@ -91,8 +59,10 @@ const toLocation: (
   t: TFunction<"translation">,
   location: string,
   clickHandler: () => void,
-  pathname: string
-) => JSX.Element = (t, location, clickHandler, pathname) => {
+  pathname: string,
+  dispatch: Dispatch<any>,
+  userUID: string
+) => JSX.Element = (t, location, clickHandler, pathname, dispatch, userUID) => {
   const text = () => {
     switch (location) {
       case "lobby":
@@ -105,6 +75,17 @@ const toLocation: (
         return "";
     }
   };
+
+  if (pathname === "/game-score") {
+    const setScore = async () => {
+      const newScore = await fbGetUserScore(userUID!);
+      console.log(newScore);
+      
+      dispatch(userSetScore(newScore));
+    };
+
+    setScore();
+  }
 
   return (
     <Link
