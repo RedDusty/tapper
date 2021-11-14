@@ -5,10 +5,16 @@ import { logOut, signInWithGoogle } from "../firebase";
 import { useTypedSelector } from "../redux/useTypedSelector";
 import { renderImage } from "./Lobby/Lobby";
 import StartPageLogo from "./Helpers/StartPageLogo";
-import { getServerID } from "../socketio";
+import socket, { getServerID } from "../socketio";
 import ErrorWindow from "./ErrorWindow";
 
-function StartPage({isKick, setKick}: {isKick: boolean; setKick: (v: boolean) => void}) {
+function StartPage({
+  isKick,
+  setKick,
+}: {
+  isKick: boolean;
+  setKick: (v: boolean) => void;
+}) {
   const [isError] = useState<boolean>(!("IntersectionObserver" in window));
   const [isVisibleError, setVisibilityError] = useState<boolean>(false);
   const { t } = useTranslation();
@@ -60,7 +66,13 @@ function StartPage({isKick, setKick}: {isKick: boolean; setKick: (v: boolean) =>
               </p>
             </div>
           </div>
-          <button className="button button-red" onClick={() => logOut()}>
+          <button
+            className="button button-red"
+            onClick={() => {
+              logOut();
+              socket.emit("USER_LOGOUT");
+            }}
+          >
             {t("LOG_OUT")}
           </button>
         </>

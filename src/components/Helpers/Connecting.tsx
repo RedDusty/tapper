@@ -32,7 +32,7 @@ const Connecting = ({
   if (isFail) {
     return (
       <div className="failConnect">
-        <p className="font-bold text-9xl text-center flex justify-center items-center">
+        <p className="font-bold text-center flex justify-center items-center text-2xl md:text-9xl">
           Server offline
         </p>
       </div>

@@ -88,6 +88,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   text-align: center;
   position: fixed;
   z-index: 1000;
@@ -97,7 +98,7 @@
   animation: failConnectAnimation 2.5s normal 0s 1;
 }
 
-.failConnect p {
+.failConnect p, svg, text {
   color: white;
   text-shadow: white 0 0 12px;
 }

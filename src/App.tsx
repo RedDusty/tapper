@@ -16,13 +16,14 @@ import socket from "./socketio";
 import { useTypedSelector } from "./redux/useTypedSelector";
 import { onAuthStateChanged } from "@firebase/auth";
 import { auth } from "./fbConfig";
-import { fbAuthUser } from "./firebase";
+import { fbAuthUser, logOut } from "./firebase";
 import Loading from "./components/Helpers/Loading";
 import Connecting from "./components/Helpers/Connecting";
 import FAQ from "./components/FAQ";
 
 function App() {
   const [serverConnected, setServerConnected] = React.useState(false);
+  const [isDuplicate, setDuplicate] = React.useState(false);
   const dispatch = useDispatch();
 
   const user = useTypedSelector((state) => state.user);
@@ -79,10 +80,33 @@ function App() {
         dispatch(userSet({} as userInfoType));
       }
     });
+    socket.on("ACCOUNT_DUPLICATE", (val) => setDuplicate(val));
+    return () => {
+      socket.off("ACCOUNT_DUPLICATE");
+    };
     // eslint-disable-next-line
   }, [auth.currentUser]);
 
-  if (serverConnected) {
+  if (isDuplicate) {
+    return (
+      <div className="failConnect">
+        <p className="font-bold text-center flex justify-center items-center text-2xl md:text-9xl">
+          Account duplicate not allowed.
+        </p>
+        <button
+          className="bg-white p-4 font-bold text-2xl md:text-4xl mt-12 text-black rounded-md"
+          style={{ boxShadow: "0 0 4px 2px #ffffff" }}
+          onClick={() => {
+            logOut();
+            socket.emit("USER_LOGOUT");
+            setDuplicate(false);
+          }}
+        >
+          Logout
+        </button>
+      </div>
+    );
+  } else if (serverConnected) {
     return (
       <div className="App">
         <RenderApp />
