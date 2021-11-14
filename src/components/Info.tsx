@@ -63,8 +63,6 @@ function Info() {
     firstLoading();
     const interval = setInterval(() => {
       const start = Date.now();
-      console.log('isConnected - ', getSocket());
-      
 
       if (getSocket().connected) {
         getSocket().volatile.emit("SERVER_PING", () => {

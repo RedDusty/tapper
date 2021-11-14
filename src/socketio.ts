@@ -21,7 +21,7 @@ export const getSocket = () => {
 };
 
 const server = async () => {
-  if (true) {
+  if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
     socket = io("http://127.0.0.1:3000", socketConfig);
     socket.connect();
     serverURL = "http://127.0.0.1:3000";

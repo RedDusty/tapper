@@ -19,8 +19,6 @@ const Connecting = ({
           return prev + 1;
         });
         if (serverURL !== "" && serverURL !== "offline") {
-          console.log(serverURL);
-          
           setServerConnected(true);
         } else if (serverURL === "offline") {
           setFail(true);
