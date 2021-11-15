@@ -92,7 +92,7 @@ const PlayerBlockScore: ({
       <div className="flex justify-center">
         <p>{user.score?.toFixed(3)}</p>
         <p className={`ml-2 ${isPlus ? "text-green-500" : "text-red-500"}`}>
-          {(isPlus ? "+" : "-") + score.score.toFixed(3)}
+          {(isPlus ? "+" : "") + score.score.toFixed(0)}
         </p>
       </div>
     </div>
