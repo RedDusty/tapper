@@ -15,8 +15,11 @@ import {
   LOBBY_SET_STARTED,
   LOBBY_SET_STARTS_IN,
   userInfoType,
-} from './../types';
-import { Dispatch } from 'redux';
+  LOBBY_SET_BOT,
+  LOBBY_SET_BOT_DIFFICULTY,
+  botDifficultyType,
+} from "./../types";
+import { Dispatch } from "redux";
 
 export const lobbySet = (lobby: lobbyType) => {
   return (dispatch: Dispatch<LobbyActionsType>) => {
@@ -28,7 +31,19 @@ export const lobbySetStartsIn = (startsIn: number) => {
   return (dispatch: Dispatch<LobbyActionsType>) => {
     dispatch({ type: LOBBY_SET_STARTS_IN, payload: startsIn });
   };
-}
+};
+
+export const lobbySetBot = (bot: boolean) => {
+  return (dispatch: Dispatch<LobbyActionsType>) => {
+    dispatch({ type: LOBBY_SET_BOT, payload: bot });
+  };
+};
+
+export const lobbySetBotDifficulty = (bot: botDifficultyType) => {
+  return (dispatch: Dispatch<LobbyActionsType>) => {
+    dispatch({ type: LOBBY_SET_BOT_DIFFICULTY, payload: bot });
+  };
+};
 
 export const lobbySetStarted = (isStarted: boolean) => {
   return (dispatch: Dispatch<LobbyActionsType>) => {

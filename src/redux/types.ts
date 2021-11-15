@@ -87,13 +87,17 @@ export const LOBBY_SET_MESSAGES = "LOBBY_SET_MESSAGES";
 export const LOBBY_SET_VISIBILITY = "LOBBY_SET_VISIBILITY";
 export const LOBBY_SET_STARTED = "LOBBY_SET_STARTED";
 export const LOBBY_SET_STARTS_IN = "LOBBY_SET_STARTS_IN";
+export const LOBBY_SET_BOT = "LOBBY_SET_BOT";
+export const LOBBY_SET_BOT_DIFFICULTY = "LOBBY_SET_BOT_DIFFICULTY";
 
 type optionType =
   | "setVisibility"
   | "setFieldX"
   | "setFieldY"
   | "setInLobbyPlayers"
-  | "setMaxPlayers";
+  | "setMaxPlayers"
+  | "setBot"
+  | "setDifficulty";
 
 export type lobbySocketOptionsType = {
   code: string;
@@ -143,6 +147,21 @@ export type messageType = {
 
 export type visibilityType = "public" | "private" | "game";
 
+export type botDifficultyType =
+  | "easy"
+  | "medium"
+  | "hard"
+  | "extreme"
+  | "tapper"
+  | "cheater-1"
+  | "cheater-2"
+  | "cheater-3";
+
+export type botType = {
+  isTurned: boolean;
+  difficulty: botDifficultyType;
+};
+
 export type lobbyType = {
   ownerUID: string;
   nickname: string;
@@ -154,6 +173,7 @@ export type lobbyType = {
   users: userInfoType[];
   code: string;
   visibility: visibilityType;
+  bot: botType;
   isStarted: boolean;
   startsIn: number;
 };
@@ -162,9 +182,20 @@ export type lobbySetStartsInType = {
   type: typeof LOBBY_SET_STARTS_IN;
   payload: number;
 };
+
 export type lobbySetStartedType = {
   type: typeof LOBBY_SET_STARTED;
   payload: boolean;
+};
+
+export type lobbySetBotType = {
+  type: typeof LOBBY_SET_BOT;
+  payload: boolean;
+};
+
+export type lobbySetBotDifficultyType = {
+  type: typeof LOBBY_SET_BOT_DIFFICULTY;
+  payload: botDifficultyType;
 };
 
 export type lobbySetType = {
@@ -221,7 +252,9 @@ export type LobbyActionsType =
   | lobbySetInLobbyPlayersType
   | lobbySetUsersType
   | lobbySetStartedType
-  | lobbySetStartsInType;
+  | lobbySetStartsInType
+  | lobbySetBotType
+  | lobbySetBotDifficultyType;
 
 // GAME REDUCER;
 

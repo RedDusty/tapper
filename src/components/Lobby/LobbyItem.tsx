@@ -26,13 +26,24 @@ function LobbyItem(lobby: lobbyShortType) {
   if (Number(lobby.maxPlayers) >= 5) colorPlayers = "text-yellow-800";
   if (Number(lobby.maxPlayers) >= 7) colorPlayers = "text-red-800";
 
+  let colorBot = "text-green-800";
+
+  if (lobby.bot.difficulty === "easy") colorBot = "text-green-600";
+  if (lobby.bot.difficulty === "medium") colorBot = "text-lime-600"
+  if (lobby.bot.difficulty === "hard") colorBot = "text-yellow-600";
+  if (lobby.bot.difficulty === "extreme") colorBot = "text-orange-600";
+  if (lobby.bot.difficulty === "tapper") colorBot = "text-red-600";
+  if (lobby.bot.difficulty === "cheater-1") colorBot = "text-pink-600";
+  if (lobby.bot.difficulty === "cheater-2") colorBot = "text-violet-600";
+  if (lobby.bot.difficulty === "cheater-3") colorBot = "text-sky-800";
+
   return (
-    <div className="p-2 m-2 grid grid-cols-4 items-center hover:bg-gray-200">
+    <div className={`p-2 m-2 grid ${lobby.bot.isTurned ? "grid-cols-5" : "grid-cols-4"} items-center hover:bg-gray-200`}>
       <div className="flex items-center font-bold">
         {renderImage(lobby.avatar)}
         <p className="ml-1">{lobby.nickname}</p>
       </div>
-      <div className="flex items-center text-lg">
+      <div className="flex items-center justify-center text-lg">
         <p className={`${colorField} font-bold`}>
           {lobby.fieldX +
             "x" +
@@ -40,12 +51,21 @@ function LobbyItem(lobby: lobbyShortType) {
             ` (${Number(lobby.fieldX) * Number(lobby.fieldY)})`}
         </p>
       </div>
-      <div className={`${colorPlayers} text-xl font-bold`}>
+      <div className={`${colorPlayers} flex justify-center text-xl font-bold`}>
         {lobby.inLobbyPlayers + "/" + lobby.maxPlayers}
       </div>
+      {(() => {
+        if (lobby.bot.isTurned === false) return <></>;
+        return (
+          <div className="flex flex-col items-center justify-center text-lg font-bold">
+            <p className="text-sky-700 leading-5">Bot</p>
+            <p className={`${colorBot} font-bold leading-5 capitalize`}>{lobby.bot.difficulty}</p>
+          </div>
+        );
+      })()}
       <Link
         to="/lobby"
-        className="ml-2 button button-yellow"
+        className="ml-2 button button-yellow text-center"
         onClick={() => {
           if (lobby.inLobbyPlayers < lobby.maxPlayers) {
             // if (user.uid.length > 0 && user.id) {

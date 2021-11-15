@@ -5,6 +5,8 @@ import { Dispatch } from "redux";
 import { gameDotsSet } from "../../redux/actions/gameActions";
 import {
   lobbySet,
+  lobbySetBot,
+  lobbySetBotDifficulty,
   lobbySetFieldX,
   lobbySetFieldY,
   lobbySetinLobbyPlayers,
@@ -16,6 +18,7 @@ import {
 } from "../../redux/actions/lobbyActions";
 import { initialLobbyState } from "../../redux/reducers/lobbyReducer";
 import {
+  botDifficultyType,
   dotType,
   lobbySocketOptionsType,
   lobbyType,
@@ -94,7 +97,7 @@ function renderTab(tab: lobbyTab, code: string) {
 export function Lobby() {
   const [tab, setTab] = useState<lobbyTab>("chat");
   const [dataGained, setDataGain] = useState<boolean>(false);
-  const history = useHistory()
+  const history = useHistory();
   const dispatch = useDispatch();
 
   const lobby = useTypedSelector((state) => state.lobby);
@@ -121,7 +124,7 @@ export function Lobby() {
         case "userKick": {
           if (data.uid === user.uid) {
             dispatch(lobbySet(initialLobbyState));
-            history.push("/")
+            history.push("/");
             return 0;
           }
           dispatch(lobbySetinLobbyPlayers(String(data.value.length)));
@@ -204,6 +207,14 @@ function setOptions(
     }
     case "setVisibility": {
       dispatch(lobbySetVisibility(data.option as visibilityType));
+      return 0;
+    }
+    case "setBot": {
+      dispatch(lobbySetBot(Boolean(data.option)));
+      return 0;
+    }
+    case "setDifficulty": {
+      dispatch(lobbySetBotDifficulty(data.option as botDifficultyType));
       return 0;
     }
     default:

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { lobbyType } from "../redux/types";
+import { botType, lobbyType } from "../redux/types";
 import { useTypedSelector } from "../redux/useTypedSelector";
 import { useDispatch } from "react-redux";
 import { getServerURL, getSocket } from "../socketio";
@@ -18,6 +18,7 @@ export type lobbyShortType = {
   fieldX: string;
   fieldY: string;
   code: string;
+  bot: botType
 };
 
 function GamesList() {
@@ -72,6 +73,7 @@ function GamesList() {
                     user.id!.slice(0, 16),
                   inLobbyPlayers: "1",
                   maxPlayers: "2",
+                  bot: { isTurned: false, difficulty: "medium" },
                   messages: [
                     {
                       avatar: "system",

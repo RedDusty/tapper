@@ -26,7 +26,7 @@ const usersLoading = (users: userInfoType[]) => {
           }
         };
         const loadingColor = () => {
-          if (user.isLeft) return "bg-blue-200";
+          if (user.isLeft || user.id === "system") return "bg-blue-200";
           if (user.isLoaded) return "bg-green-200";
           return "userLoading";
         }
