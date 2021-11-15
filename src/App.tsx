@@ -86,7 +86,7 @@ function App() {
       getSocket().off("ACCOUNT_DUPLICATE");
     };
     // eslint-disable-next-line
-  }, [auth.currentUser]);
+  }, [auth]);
 
   if (isDuplicate) {
     return (

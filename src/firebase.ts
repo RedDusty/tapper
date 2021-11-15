@@ -10,6 +10,7 @@ export const signInWithGoogle = () => {
 };
 
 export const logOut = () => {
+  window.location.reload()
   auth
     .signOut()
     .then((res) => {
