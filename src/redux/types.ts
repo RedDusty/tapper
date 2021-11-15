@@ -89,6 +89,7 @@ export const LOBBY_SET_STARTED = "LOBBY_SET_STARTED";
 export const LOBBY_SET_STARTS_IN = "LOBBY_SET_STARTS_IN";
 export const LOBBY_SET_BOT = "LOBBY_SET_BOT";
 export const LOBBY_SET_BOT_DIFFICULTY = "LOBBY_SET_BOT_DIFFICULTY";
+export const LOBBY_SET_BOT_SPEED = "LOBBY_SET_BOT_SPEED";
 
 type optionType =
   | "setVisibility"
@@ -97,7 +98,8 @@ type optionType =
   | "setInLobbyPlayers"
   | "setMaxPlayers"
   | "setBot"
-  | "setDifficulty";
+  | "setDifficulty"
+  | "setSpeed";
 
 export type lobbySocketOptionsType = {
   code: string;
@@ -155,11 +157,13 @@ export type botDifficultyType =
   | "tapper"
   | "cheater-1"
   | "cheater-2"
-  | "cheater-3";
+  | "cheater-3"
+  | "custom";
 
 export type botType = {
   isTurned: boolean;
   difficulty: botDifficultyType;
+  speed: string;
 };
 
 export type lobbyType = {
@@ -196,6 +200,11 @@ export type lobbySetBotType = {
 export type lobbySetBotDifficultyType = {
   type: typeof LOBBY_SET_BOT_DIFFICULTY;
   payload: botDifficultyType;
+};
+
+export type lobbySetBotSpeedType = {
+  type: typeof LOBBY_SET_BOT_SPEED;
+  payload: string;
 };
 
 export type lobbySetType = {
@@ -254,7 +263,8 @@ export type LobbyActionsType =
   | lobbySetStartedType
   | lobbySetStartsInType
   | lobbySetBotType
-  | lobbySetBotDifficultyType;
+  | lobbySetBotDifficultyType
+  | lobbySetBotSpeedType;
 
 // GAME REDUCER;
 

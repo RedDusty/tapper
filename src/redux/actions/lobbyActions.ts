@@ -18,6 +18,7 @@ import {
   LOBBY_SET_BOT,
   LOBBY_SET_BOT_DIFFICULTY,
   botDifficultyType,
+  LOBBY_SET_BOT_SPEED,
 } from "./../types";
 import { Dispatch } from "redux";
 
@@ -42,6 +43,12 @@ export const lobbySetBot = (bot: boolean) => {
 export const lobbySetBotDifficulty = (bot: botDifficultyType) => {
   return (dispatch: Dispatch<LobbyActionsType>) => {
     dispatch({ type: LOBBY_SET_BOT_DIFFICULTY, payload: bot });
+  };
+};
+
+export const lobbySetBotSpeed = (speed: string) => {
+  return (dispatch: Dispatch<LobbyActionsType>) => {
+    dispatch({ type: LOBBY_SET_BOT_SPEED, payload: speed });
   };
 };
 

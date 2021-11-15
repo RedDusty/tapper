@@ -7,6 +7,7 @@ import {
   lobbySet,
   lobbySetBot,
   lobbySetBotDifficulty,
+  lobbySetBotSpeed,
   lobbySetFieldX,
   lobbySetFieldY,
   lobbySetinLobbyPlayers,
@@ -215,6 +216,10 @@ function setOptions(
     }
     case "setDifficulty": {
       dispatch(lobbySetBotDifficulty(data.option as botDifficultyType));
+      return 0;
+    }
+    case "setSpeed": {
+      dispatch(lobbySetBotSpeed(data.option));
       return 0;
     }
     default:

@@ -26,7 +26,7 @@ function LobbyItem(lobby: lobbyShortType) {
   if (Number(lobby.maxPlayers) >= 5) colorPlayers = "text-yellow-800";
   if (Number(lobby.maxPlayers) >= 7) colorPlayers = "text-red-800";
 
-  let colorBot = "text-green-800";
+  let colorBot = "text-black";
 
   if (lobby.bot.difficulty === "easy") colorBot = "text-green-600";
   if (lobby.bot.difficulty === "medium") colorBot = "text-lime-600"
@@ -59,7 +59,7 @@ function LobbyItem(lobby: lobbyShortType) {
         return (
           <div className="flex flex-col items-center justify-center text-lg font-bold">
             <p className="text-sky-700 leading-5">Bot</p>
-            <p className={`${colorBot} font-bold leading-5 capitalize`}>{lobby.bot.difficulty}</p>
+            <p className={`${colorBot} font-bold leading-5 capitalize`}>{lobby.bot.difficulty}{lobby.bot.difficulty === "custom" ? ` (${lobby.bot.speed})` : ""}</p>
           </div>
         );
       })()}

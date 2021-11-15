@@ -16,6 +16,7 @@ export const initialLobbyState: lobbyType = {
   bot: {
     isTurned: false,
     difficulty: "medium",
+    speed: "6",
   },
 };
 
@@ -61,7 +62,46 @@ export const lobbyReducer = (
       return { ...state, bot: { ...state.bot, isTurned: action.payload } };
     }
     case "LOBBY_SET_BOT_DIFFICULTY": {
-      return { ...state, bot: { ...state.bot, difficulty: action.payload } };
+      const difficulty = action.payload;
+      let speed = "";
+      switch (difficulty) {
+        case "easy":
+          speed = "4";
+          break;
+        case "medium":
+          speed = "6";
+          break;
+        case "hard":
+          speed = "8";
+          break;
+        case "extreme":
+          speed = "18";
+          break;
+        case "tapper":
+          speed = "21";
+          break;
+        case "cheater-1":
+          speed = "24";
+          break;
+        case "cheater-2":
+          speed = "27";
+          break;
+        case "cheater-3":
+          speed = "30";
+          break;
+        case "custom":
+          break;
+        default:
+          speed = "0";
+          break;
+      }
+      return {
+        ...state,
+        bot: { ...state.bot, difficulty: difficulty, speed: speed },
+      };
+    }
+    case "LOBBY_SET_BOT_SPEED": {
+      return { ...state, bot: { ...state.bot, speed: action.payload } };
     }
     default: {
       return { ...state };

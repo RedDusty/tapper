@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import {
   lobbySetBot,
   lobbySetBotDifficulty,
+  lobbySetBotSpeed,
   lobbySetVisibility,
 } from "../../../redux/actions/lobbyActions";
 import { botDifficultyType, lobbyOptionsType } from "../../../redux/types";
@@ -19,6 +20,7 @@ const difficulties: botDifficultyType[] = [
   "cheater-1",
   "cheater-2",
   "cheater-3",
+  "custom",
 ];
 
 function LobbyOptOther() {
@@ -149,6 +151,46 @@ function LobbyOptOther() {
             <div className="flex gap-2 mt-2 items-center flex-wrap">
               <p>Bot difficulty</p>
               {renderBotDifficulty}
+              <input
+                type="text"
+                pattern="[0-9]"
+                maxLength={2}
+                className="ml-1 mr-4 w-16 lobbyOptInput"
+                readOnly={user.uid !== lobby.ownerUID}
+                onChange={(e) => {
+                  if (user.uid !== lobby.ownerUID) return 0;
+                  const nums = e.target.value.match(/\d/g);
+                  const num = nums?.join("").substr(0, 2);
+                  if (num !== lobby.bot.speed) {
+                    dispatch(lobbySetBotSpeed(num || ""));
+                    if ((num || "").length !== 0) {
+                      const emmitedNumber = () => {
+                        if (num && Number(num) > 0) {
+                          return num;
+                        } else {
+                          return String(1);
+                        }
+                      };
+                      if (lobby.bot.difficulty !== "custom") {
+                        dispatch(lobbySetBotDifficulty("custom"));
+                        getSocket().emit("LOBBY_OPTIONS", {
+                          code: lobby.code,
+                          option: "setDifficulty",
+                          ownerUID: lobby.ownerUID,
+                          difficulty: "custom",
+                        } as lobbyOptionsType);
+                      }
+                      getSocket().emit("LOBBY_OPTIONS", {
+                        code: lobby.code,
+                        option: "setSpeed",
+                        ownerUID: lobby.ownerUID,
+                        speed: emmitedNumber(),
+                      } as lobbyOptionsType);
+                    }
+                  }
+                }}
+                value={lobby.bot.speed}
+              />
             </div>
           );
         })()}

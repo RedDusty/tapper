@@ -73,7 +73,7 @@ function GamesList() {
                     user.id!.slice(0, 16),
                   inLobbyPlayers: "1",
                   maxPlayers: "2",
-                  bot: { isTurned: false, difficulty: "medium" },
+                  bot: { isTurned: false, difficulty: "medium", speed: '6' },
                   messages: [
                     {
                       avatar: "system",
