@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { userInfoType } from '../../redux/types';
-import UserSkin from '../Helpers/UserSkin';
-import { renderImage } from '../Lobby/Lobby';
+import { userInfoType } from "../../redux/types";
+import UserSkin from "../Helpers/UserSkin";
+import { renderImage } from "../Lobby/Lobby";
 import FAQBattlefieldRender from "./FAQBattlefieldTabHelpers/FAQBattlefieldRender";
 
 const FAQBattlefieldTab = (user: userInfoType) => {
@@ -21,7 +21,7 @@ const FAQBattlefieldTab = (user: userInfoType) => {
         <div>
           <FAQBattlefieldRender setDots={setDots} setEnemyDots={setEnemyDots} />
         </div>
-        <p>
+        <p className="mt-2">
           After the end of the game, you can see your statistics and rating
           changes by clicking button in bottom of window.
         </p>
@@ -51,6 +51,19 @@ const FAQBattlefieldTab = (user: userInfoType) => {
             </div>
           </div>
         </div>
+        <p className="mt-2 mb-4">
+          You can enable bot in the lobby, but then the{" "}
+          <span className="text-red-700">rating system will not be active</span>
+          . There are 8 difficulties in total.{" "}
+          <span className="text-orange-600">Extreme and higher</span> are
+          recommended only for professionals. Only bot has a{" "}
+          <span className="text-black">black skin</span> with{" "}
+          <span className="text-gray-500">gray borders</span>!
+          <span
+            className="w-8 h-8 border-gray-500 bg-black border-double inline-block ml-2 relative top-3"
+            style={{ borderWidth: 6 }}
+          ></span>
+        </p>
       </div>
     </div>
   );
