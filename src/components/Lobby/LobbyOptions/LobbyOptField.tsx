@@ -1,9 +1,12 @@
-import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
-import { lobbySetFieldX, lobbySetFieldY } from '../../../redux/actions/lobbyActions';
-import { lobbyOptionsType } from '../../../redux/types';
-import { useTypedSelector } from '../../../redux/useTypedSelector';
-import { getSocket } from '../../../socketio';
+import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
+import {
+  lobbySetFieldX,
+  lobbySetFieldY,
+} from "../../../redux/actions/lobbyActions";
+import { lobbyOptionsType } from "../../../redux/types";
+import { useTypedSelector } from "../../../redux/useTypedSelector";
+import { getSocket } from "../../../socketio";
 
 function LobbyOptField() {
   const dispatch = useDispatch();
@@ -11,13 +14,13 @@ function LobbyOptField() {
   const { t } = useTranslation();
 
   const lobby = useTypedSelector((state) => state.lobby);
-  const user = useTypedSelector(state => state.user)
+  const user = useTypedSelector((state) => state.user);
   return (
     <>
-      <p className="text-lg my-1">{t('FIELD')}</p>
+      <p className="text-lg my-1">{t("FIELD")}</p>
       <div className="w-full px-2">
         <div className="flex items-center">
-          <p>{t('FIELD')}</p>
+          <p>{t("FIELD")}</p>
           <div className="flex ml-2 items-center">
             <p>x:</p>
             <input
@@ -29,22 +32,26 @@ function LobbyOptField() {
               onChange={(e) => {
                 if (user.uid !== lobby.ownerUID) return 0;
                 const nums = e.target.value.match(/\d/g);
-                const num = nums?.join('').substr(0, 2);
+                const num = nums?.join("").substr(0, 2);
                 if (num !== lobby.fieldX) {
-                  dispatch(lobbySetFieldX(num || ''));
-                  if ((num || '').length !== 0) {
+                  dispatch(lobbySetFieldX(num || ""));
+                  if ((num || "").length !== 0) {
                     const emmitedNumber = () => {
                       if (num && Number(num) > 0) {
-                        return num
+                        if (Number(num) > 16) {
+                          return 16;
+                        } else {
+                          return num;
+                        }
                       } else {
-                        return String(1)
+                        return String(1);
                       }
-                    }
-                    getSocket().emit('LOBBY_OPTIONS', {
+                    };
+                    getSocket().emit("LOBBY_OPTIONS", {
                       code: lobby.code,
-                      option: 'setFieldX',
+                      option: "setFieldX",
                       ownerUID: lobby.ownerUID,
-                      fieldX: emmitedNumber()
+                      fieldX: emmitedNumber(),
                     } as lobbyOptionsType);
                   }
                 }
@@ -61,22 +68,26 @@ function LobbyOptField() {
               onChange={(e) => {
                 if (user.uid !== lobby.ownerUID) return 0;
                 const nums = e.target.value.match(/\d/g);
-                const num = nums?.join('').substr(0, 2);
+                const num = nums?.join("").substr(0, 2);
                 if (num !== lobby.fieldY) {
-                  dispatch(lobbySetFieldY(num || ''));
-                  if ((num || '').length !== 0) {
+                  dispatch(lobbySetFieldY(num || ""));
+                  if ((num || "").length !== 0) {
                     const emmitedNumber = () => {
                       if (num && Number(num) > 0) {
-                        return num
+                        if (Number(num) > 16) {
+                          return 16;
+                        } else {
+                          return num;
+                        }
                       } else {
-                        return String(1)
+                        return String(1);
                       }
-                    }
-                    getSocket().emit('LOBBY_OPTIONS', {
+                    };
+                    getSocket().emit("LOBBY_OPTIONS", {
                       code: lobby.code,
-                      option: 'setFieldY',
+                      option: "setFieldY",
                       ownerUID: lobby.ownerUID,
-                      fieldY: emmitedNumber()
+                      fieldY: emmitedNumber(),
                     } as lobbyOptionsType);
                   }
                 }
@@ -84,7 +95,9 @@ function LobbyOptField() {
               value={lobby.fieldY}
             />
           </div>
-          <p className="ml-2">({Number(lobby.fieldX || 1) * Number(lobby.fieldY || 1)})</p>
+          <p className="ml-2">
+            ({Number(lobby.fieldX || 1) * Number(lobby.fieldY || 1)})
+          </p>
         </div>
       </div>
     </>

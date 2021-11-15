@@ -32,11 +32,22 @@ function LobbyOptPlayers() {
               if (num !== lobby.maxPlayers) {
                 dispatch(lobbySetMaxPlayers(num || ''));
                 if ((num || '').length !== 0) {
+                  const emmitedNumber = () => {
+                    if (num && Number(num) > 2) {
+                      if (Number(num) > 8) {
+                        return 8;
+                      } else {
+                        return num;
+                      }
+                    } else {
+                      return String(2);
+                    }
+                  };
                   getSocket().emit('LOBBY_OPTIONS', {
                     code: lobby.code,
                     option: 'setMaxPlayers',
                     ownerUID: lobby.ownerUID,
-                    maxPlayers: num || lobby.inLobbyPlayers || '2'
+                    maxPlayers: emmitedNumber()
                   } as lobbyOptionsType);
                 }
               }
