@@ -30,13 +30,14 @@ function LobbyOptOther() {
 
   const lobby = useTypedSelector((state) => state.lobby);
   const user = useTypedSelector((state) => state.user);
-  const renderBotDifficulty = difficulties.map((diff) => {
+  const renderBotDifficulty = difficulties.map((diff, index) => {
     if (lobby.bot.isTurned === false) return <></>;
     return (
       <button
         className={`button text-black ${
           lobby.bot.difficulty === diff ? "button-green" : "button-red"
         }`}
+        key={diff + index + 'botDifficulty'}
         onClick={() => {
           if (user.uid !== lobby.ownerUID) return 0;
           if (lobby.bot.isTurned) {

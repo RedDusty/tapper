@@ -31,7 +31,14 @@ function GameScores() {
               )
             : {};
           return (
-            <div className={`bg-gray-200 p-2 m-2 rounded-md shadow font-bold ${player.user.isLeft ? "opacity-50 duration-200 hover:opacity-100" : ""}`}>
+            <div
+              className={`bg-gray-200 p-2 m-2 rounded-md shadow font-bold ${
+                player.user.isLeft
+                  ? "opacity-50 duration-200 hover:opacity-100"
+                  : ""
+              }`}
+              key={"score" + player.user.nickname + "" + player.user.id}
+            >
               <div className="flex items-center gap-x-2">
                 <PlayerBlockDots {...player} />
               </div>
@@ -72,7 +79,10 @@ const PlayerBlockDots: (player: onePlayerType) => JSX.Element = (player) => {
       <p className="hidden sm:block">
         {(player.user.nickname || "").slice(0, 16)}
       </p>
-      <UserSkin key={player.user.nickname + "skin"} {...player.user.skin} />
+      <UserSkin
+        key={player.user.nickname + "skin" + player.user.id}
+        {...player.user.skin}
+      />
       <p>{player.dotsCount}</p>
     </>
   );

@@ -20,14 +20,14 @@ function LobbyPlayersList() {
 
   return (
     <div className="bg-white p-2 rounded-md text-black max-h-48 lg:max-h-96 overflow-y-auto mt-2">
-      {listPlayers.map((user) => {
+      {listPlayers.map((user, index) => {
         return (
           <PlayerRender
             ownerUID={ownerUID}
             user={user}
             lobby={lobby}
             userUID={userUID!}
-            key={user.nickname + "listplayer"}
+            key={user.nickname + "listplayer" + index}
           />
         );
       })}
@@ -91,7 +91,7 @@ const PlayerButtonsRender = ({
     return (
       <>
         <button
-          className="w-8 h-8 ml-2 fill-current bg-gray-300 text-gray-500 hover:text-red-600 hover:bg-red-200 p-1.5 rounded-full"
+          className="w-8 h-8 ml-2 fill-current bg-gray-300 text-gray-500 hover:text-red-600 hover:bg-red-300 p-1.5 rounded-full"
           onClick={() => {
             getSocket().emit("LOBBY_USERS", {
               action: "userKick",
@@ -104,7 +104,7 @@ const PlayerButtonsRender = ({
           <Cross />
         </button>
         <button
-          className="w-8 h-8 ml-2 fill-current bg-gray-300 text-gray-500 hover:text-green-600 hover:bg-green-200 p-1.5 rounded-full"
+          className="w-8 h-8 ml-2 fill-current bg-gray-300 text-gray-500 hover:text-green-600 hover:bg-green-300 p-1.5 rounded-full"
           onClick={() => {
             getSocket().emit("LOBBY_USERS", {
               action: "userOwner",
