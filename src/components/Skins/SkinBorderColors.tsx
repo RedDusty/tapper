@@ -1,13 +1,29 @@
-import { renderSkinType } from "../Skins";
+import { skinBorderStyleType } from "../../redux/types";
 
-const SkinBorderColors: renderSkinType = (
+type SkinBorderColorsType = ({
   color,
   border,
   borderColor,
   borderStyle,
   borderWidth,
-  setSkinBorderColor
-) => {
+  setSkinBorderColor,
+}: {
+  color: string;
+  border: boolean;
+  borderColor: string;
+  borderStyle: skinBorderStyleType;
+  borderWidth: number;
+  setSkinBorderColor: React.Dispatch<React.SetStateAction<string>>;
+}) => JSX.Element;
+
+const SkinBorderColors: SkinBorderColorsType = ({
+  color,
+  border,
+  borderColor,
+  borderStyle,
+  borderWidth,
+  setSkinBorderColor,
+}) => {
   return (
     <>
       <button

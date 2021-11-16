@@ -29,15 +29,6 @@ export const colors = [
   "rose",
 ];
 
-export type renderSkinType = (
-  color: string,
-  border: boolean,
-  borderColor: string,
-  borderStyle: skinBorderStyleType,
-  borderWidth: number,
-  [key]: any
-) => JSX.Element;
-
 function Skins() {
   const dispatch = useDispatch();
   const user = useTypedSelector((state) => state.user);
@@ -79,9 +70,7 @@ function Skins() {
 
   useEffect(() => {
     getSocket().on("SKIN_CHANGE_USERS", (data) => {
-      dispatch(
-        lobbySetUsers(data.users)
-      );
+      dispatch(lobbySetUsers(data.users));
     });
     return () => {
       getSocket().off("SKIN_CHANGE_USERS");
@@ -136,27 +125,30 @@ function Skins() {
         </div>
         <p className="text-lg font-bold mt-4 text-center">Main color</p>
         <div className="w-full flex flex-wrap gap-4 mt-2">
-          {colors.map((color) =>
-            SkinColors(
-              color,
-              withBorder,
-              skinBorderColor,
-              skinBorderStyle,
-              skinBorderWidth,
-              setSkinColor
-            )
-          )}
+          {colors.map((color, index) => {
+            return (
+              <SkinColors
+                key={color + index + "skinColor"}
+                color={color}
+                border={withBorder}
+                borderColor={skinBorderColor}
+                borderStyle={skinBorderStyle}
+                borderWidth={skinBorderWidth}
+                setSkinColor={setSkinColor}
+              />
+            );
+          })}
         </div>
-        {SkinBorder(
-          skinColor,
-          withBorder,
-          skinBorderColor,
-          skinBorderStyle,
-          skinBorderWidth,
-          setSkinBorderColor,
-          setSkinBorderStyle,
-          setSkinBorderWidth
-        )}
+        <SkinBorder
+          skinColor={skinColor}
+          skinBorder={withBorder}
+          skinBorderColor={skinBorderColor}
+          skinBorderStyle={skinBorderStyle}
+          skinBorderWidth={skinBorderWidth}
+          setSkinBorderColor={setSkinBorderColor}
+          setSkinBorderStyle={setSkinBorderStyle}
+          setSkinBorderWidth={setSkinBorderWidth}
+        />
       </div>
     </div>
   );

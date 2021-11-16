@@ -8,7 +8,7 @@ const FAQ = () => {
   const lobby = useTypedSelector((state) => state.lobby);
   return (
     <div
-      className="flex flex-col items-center overflow-auto panelWidth mx-auto"
+      className="flex flex-col items-center overflow-auto panelWidth mx-auto px-2"
       style={{ height: window.innerHeight - 48 }}
     >
       <h1 className="text-6xl text-sky-500">Tapper - FAQ</h1>

@@ -4,20 +4,14 @@ import SkinBorderColors from "./SkinBorderColors";
 import SkinBorderStyle from "./SkinBorderStyle";
 import SkinBorderWidth from "./SkinBorderWidth";
 
-const skinBorderStyleArray = ["solid", "dashed", "dotted", "double"];
+const skinBorderStyleArray: skinBorderStyleType[] = [
+  "solid",
+  "dashed",
+  "dotted",
+  "double",
+];
 
-type renderBorderType = (
-  skinColor: string,
-  skinBorder: boolean,
-  skinBorderColor: string,
-  skinBorderStyle: skinBorderStyleType,
-  skinBorderWidth: number,
-  setSkinBorderColor: React.Dispatch<React.SetStateAction<string>>,
-  setSkinBorderStyle: React.Dispatch<React.SetStateAction<skinBorderStyleType>>,
-  setSkinBorderWidth: React.Dispatch<React.SetStateAction<number>>
-) => JSX.Element;
-
-const SkinBorder: renderBorderType = (
+type renderBorderType = ({
   skinColor,
   skinBorder,
   skinBorderColor,
@@ -25,48 +19,75 @@ const SkinBorder: renderBorderType = (
   skinBorderWidth,
   setSkinBorderColor,
   setSkinBorderStyle,
-  setSkinBorderWidth
-) => {
+  setSkinBorderWidth,
+}: {
+  skinColor: string;
+  skinBorder: boolean;
+  skinBorderColor: string;
+  skinBorderStyle: skinBorderStyleType;
+  skinBorderWidth: number;
+  setSkinBorderColor: React.Dispatch<React.SetStateAction<string>>;
+  setSkinBorderStyle: React.Dispatch<React.SetStateAction<skinBorderStyleType>>;
+  setSkinBorderWidth: React.Dispatch<React.SetStateAction<number>>;
+}) => JSX.Element;
+
+const SkinBorder: renderBorderType = ({
+  skinColor,
+  skinBorder,
+  skinBorderColor,
+  skinBorderStyle,
+  skinBorderWidth,
+  setSkinBorderColor,
+  setSkinBorderStyle,
+  setSkinBorderWidth,
+}) => {
   if (skinBorder === false) {
     return <></>;
   }
   return (
-    <div className="w-full">
+    <div className="w-full" key={skinColor + skinBorderColor}>
       <p className="text-lg font-bold text-center mt-4">Border color</p>
       <div className="w-full flex flex-wrap gap-4 mt-2">
-        {colors.map((borderColor) =>
-          SkinBorderColors(
-            skinColor,
-            skinBorder,
-            borderColor,
-            skinBorderStyle,
-            skinBorderWidth,
-            setSkinBorderColor
-          )
-        )}
+        {colors.map((borderColor, index) => {
+          return (
+            <SkinBorderColors
+              color={skinColor}
+              border={skinBorder}
+              borderColor={borderColor}
+              borderStyle={skinBorderStyle}
+              borderWidth={skinBorderWidth}
+              setSkinBorderColor={setSkinBorderColor}
+              key={borderColor + index + "borderColor"}
+            />
+          );
+        })}
       </div>
       <p className="text-lg font-bold text-center mt-4">Border style</p>
       <div className="w-full flex flex-wrap gap-4 mt-2">
-        {skinBorderStyleArray.map((borderStyle) =>
-          SkinBorderStyle(
-            skinColor,
-            skinBorder,
-            skinBorderColor,
-            borderStyle as skinBorderStyleType,
-            skinBorderWidth,
-            setSkinBorderStyle
-          )
-        )}
+        {skinBorderStyleArray.map((borderStyle, index) => {
+          return (
+            <SkinBorderStyle
+              color={skinColor}
+              border={skinBorder}
+              borderColor={skinBorderColor}
+              borderStyle={borderStyle}
+              borderWidth={skinBorderWidth}
+              setSkinBorderStyle={setSkinBorderStyle}
+              key={borderStyle + index + "borderStyle"}
+            />
+          );
+        })}
       </div>
       <p className="text-lg font-bold text-center mt-4">Border width</p>
-      {SkinBorderWidth(
-        skinColor,
-        skinBorder,
-        skinBorderColor,
-        skinBorderStyle,
-        skinBorderWidth,
-        setSkinBorderWidth
-      )}
+      <SkinBorderWidth
+        border={skinBorder}
+        borderColor={skinBorderColor}
+        borderStyle={skinBorderStyle}
+        borderWidth={skinBorderWidth}
+        color={skinColor}
+        setSkinBorderWidth={setSkinBorderWidth}
+        key={"borderWidthSetterContainer"}
+      />
     </div>
   );
 };
