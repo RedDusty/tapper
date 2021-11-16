@@ -22,6 +22,57 @@ import Connecting from "./components/Helpers/Connecting";
 import FAQ from "./components/FAQ";
 import GlobalChat from "./components/GlobalChat";
 
+declare global {
+  interface Window {
+    chrome: any;
+  }
+}
+
+let touchStartHandler: () => void,
+  touchMoveHandler: (e: TouchEvent) => void,
+  touchPoint: number | null;
+
+function handleContextMenu(e: TouchEvent | MouseEvent) {
+  e.preventDefault();
+}
+
+function gesturesDisable(e: TouchEvent) {
+  (function () {
+    if (
+      (window.chrome || navigator.userAgent.match("CriOS")) &&
+      "ontouchstart" in document.documentElement
+    ) {
+      touchStartHandler = function () {
+        touchPoint = e.touches.length === 1 ? e.touches[0].clientY : null;
+      };
+
+      touchMoveHandler = function (e) {
+        let newTouchPoint;
+
+        if (e.touches.length !== 1) {
+          touchPoint = null;
+
+          return;
+        }
+
+        newTouchPoint = e.touches[0].clientY;
+        if (newTouchPoint > (touchPoint || 0)) {
+          e.preventDefault();
+        }
+        touchPoint = newTouchPoint;
+      };
+
+      document.addEventListener("touchstart", touchStartHandler, {
+        passive: false,
+      });
+
+      document.addEventListener("touchmove", touchMoveHandler, {
+        passive: false,
+      });
+    }
+  })();
+}
+
 function App() {
   const [serverConnected, setServerConnected] = React.useState(false);
   const [isDuplicate, setDuplicate] = React.useState(false);
@@ -81,8 +132,14 @@ function App() {
         dispatch(userSet({} as userInfoType));
       }
     });
+    document.addEventListener("contextmenu", handleContextMenu);
+    window.addEventListener("touchstart", gesturesDisable);
     getSocket().on("ACCOUNT_DUPLICATE", (val) => setDuplicate(val));
     return () => {
+      document.removeEventListener("touchstart", touchStartHandler);
+      document.removeEventListener("touchmove", touchMoveHandler);
+      document.removeEventListener("contextmenu", handleContextMenu);
+      window.removeEventListener("touchstart", gesturesDisable);
       getSocket().off("ACCOUNT_DUPLICATE");
     };
     // eslint-disable-next-line
@@ -136,7 +193,7 @@ const RenderApp = () => {
       getSocket().off("LOBBY_KICK");
       getSocket().off("G_CHAT_MESSENGER");
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <>

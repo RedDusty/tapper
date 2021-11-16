@@ -1,41 +1,41 @@
-import { gameReducerType, GameActionsType } from './../types';
+import { gameReducerType, GameActionsType } from "./../types";
 
 export const initialGameReducer: gameReducerType = {
   dots: [],
   time: { end: 0, start: 0 },
   replay: [],
   addScore: null,
-  decreaseScore: null
+  decreaseScore: null,
 };
 
-export const gameReducer = (state = initialGameReducer, action: GameActionsType): gameReducerType => {
+export const gameReducer = (
+  state = initialGameReducer,
+  action: GameActionsType
+): gameReducerType => {
   switch (action.type) {
-    case 'GAME_SET': {
-      const { addScore, decreaseScore, dots, replay, time } = action.payload;
-      const newState = {
-        addScore,
-        decreaseScore,
-        dots,
-        replay,
-        time
-      } as gameReducerType;
-      return { ...state, ...newState };
+    case "GAME_SET": {
+      return { ...state, ...action.payload };
     }
-    case 'GAME_DOTS_SET': {
-      const dots = action.payload;
-      return { ...state, dots };
+    case "GAME_DOTS_SET": {
+      return { ...state, dots: action.payload };
     }
-    case 'GAME_REPLAY_SET': {
-      const replay = action.payload;
-      return { ...state, replay };
+    case "GAME_DOT_SET": {
+      const dots = state.dots.slice(0);
+      dots[action.payload.index].user = action.payload.user
+      return { ...state, dots: dots };
     }
-    case 'GAME_SCORES_SET': {
-      const { addScore, decreaseScore } = action.payload;
-      return { ...state, addScore, decreaseScore };
+    case "GAME_REPLAY_SET": {
+      return { ...state, replay: action.payload };
     }
-    case 'GAME_TIME_SET': {
-      const time = action.payload;
-      return { ...state, time };
+    case "GAME_SCORES_SET": {
+      return {
+        ...state,
+        addScore: action.payload.addScore,
+        decreaseScore: action.payload.decreaseScore,
+      };
+    }
+    case "GAME_TIME_SET": {
+      return { ...state, time: action.payload };
     }
     default: {
       return { ...state };

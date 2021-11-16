@@ -270,6 +270,7 @@ export type LobbyActionsType =
 
 export const GAME_SET = "GAME_SET";
 export const GAME_DOTS_SET = "GAME_DOTS_SET";
+export const GAME_DOT_SET = "GAME_DOT_SET";
 export const GAME_TIME_SET = "GAME_TIME_SET";
 export const GAME_REPLAY_SET = "GAME_REPLAY_SET";
 export const GAME_SCORES_SET = "GAME_SCORES_SET";
@@ -334,9 +335,15 @@ export type gameDotsSetType = {
   payload: dotType[];
 };
 
+export type gameDotSetType = {
+  type: typeof GAME_DOT_SET;
+  payload: dotType;
+};
+
 export type GameActionsType =
   | gameSetType
   | gameDotsSetType
+  | gameDotSetType
   | gameScoresSetType
   | gameReplaySetType
   | gameTimeSetType;

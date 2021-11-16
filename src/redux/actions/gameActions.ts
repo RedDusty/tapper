@@ -9,7 +9,8 @@ import {
   scoreType,
   timeType,
   GAME_SET,
-  gameReducerType
+  gameReducerType,
+  GAME_DOT_SET
 } from './../types';
 import { Dispatch } from 'redux';
 
@@ -21,6 +22,11 @@ export const gameSet = (game: gameReducerType) => {
 export const gameDotsSet = (dots: dotType[]) => {
   return (dispatch: Dispatch<GameActionsType>) => {
     dispatch({ type: GAME_DOTS_SET, payload: dots });
+  };
+};
+export const gameDotSet = (dot: dotType) => {
+  return (dispatch: Dispatch<GameActionsType>) => {
+    dispatch({ type: GAME_DOT_SET, payload: dot });
   };
 };
 export const gameTimeSet = (time: timeType) => {

@@ -20,6 +20,7 @@ function Dot({
     "hover:bg-gray-300",
     "hover:border-gray-500",
   ]);
+  const [borderWidth, setBorderWidth] = useState<number>(1);
   const userRedux = useTypedSelector((state) => state.user);
   useEffect(() => {
     if (startsIn <= 0) {
@@ -30,15 +31,18 @@ function Dot({
         const skin = user.skin;
         if (skin.color) {
           if (skin.withBorder) {
+            setBorderWidth(skin.borderWidth);
             setDotClass([
               "bg-" + skin.color,
               "border-" + skin.borderColor,
               `border-${skin.borderStyle}`,
             ]);
           } else {
+            setBorderWidth(0);
             setDotClass(["bg-" + skin.color]);
           }
         } else {
+          setBorderWidth(1);
           setDotClass(["bg-gray-300", "border-gray-900", "border-solid"]);
         }
         return true;
@@ -47,29 +51,19 @@ function Dot({
       }
     });
   }, [startsIn, user]);
-  const skinWithBorder = () => {
-    if (user) {
-      if (user.skin.withBorder) {
-        return user.skin.borderWidth;
-      } else {
-        return 0;
-      }
-    } else {
-      return 1;
-    }
-  };
   return (
     <div
       className={
         dotClass.join(" ") +
         " focus:font-bold text-lg text-gray-600 flex justify-center items-center"
       }
+      data-index={index}
       style={{
         width: `100%`,
         height: `100%`,
-        borderWidth: skinWithBorder(),
+        borderWidth: borderWidth,
       }}
-      onClick={() => {
+      onTouchEnd={(e) => {
         if (tap && isControlled === false) {
           getSocket().emit("TAP_DOT", {
             user: userRedux,
@@ -78,8 +72,16 @@ function Dot({
           });
         }
       }}
-    >
-    </div>
+      onMouseUp={(e) => {
+        if (tap && isControlled === false) {
+          getSocket().emit("TAP_DOT", {
+            user: userRedux,
+            index,
+            code,
+          });
+        }
+      }}
+    ></div>
   );
 }
 

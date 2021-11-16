@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import {
+  gameDotSet,
   gameDotsSet,
   gameReplaySet,
   gameScoresSet,
@@ -21,18 +22,23 @@ function Battlefield({ dataGained }: { dataGained: boolean }) {
 
   const htmlFieldContainer = useRef<HTMLDivElement | null>(null);
 
-  const { user } = useTypedSelector((state) => state);
-  const { lobby } = useTypedSelector((state) => state);
+  const { user, lobby } = useTypedSelector((state) => state);
   const startsIn = useTypedSelector((state) => state.lobby.startsIn);
   const dispatch = useDispatch();
 
   const setField = (dots: dotType[]) => {
-    let tempField: JSX.Element[] = [];
+    const tempField: JSX.Element[] = [];
 
     dots.forEach((dot, index) =>
       tempField.push(<Dot index={index} user={dot.user} />)
     );
 
+    setHtmlField(tempField);
+  };
+
+  const updateField = (dot: dotType) => {
+    const tempField = htmlField.slice(0)
+    tempField[dot.index] = <Dot index={dot.index} user={dot.user} key={'Dot' + dot.index} />;
     setHtmlField(tempField);
   };
 
@@ -55,13 +61,21 @@ function Battlefield({ dataGained }: { dataGained: boolean }) {
       }
     }
     getSocket().on("GAME_END", (data) => {
-      getSocket().emit("USER_ROOM", { user, code: lobby.code, room: "game_end" });
+      getSocket().emit("USER_ROOM", {
+        user,
+        code: lobby.code,
+        room: "game_end",
+      });
       dispatch(gameDotsSet(data.dots));
       dispatch(gameTimeSet(data.time));
       dispatch(gameReplaySet(data.replay));
     });
     getSocket().on("GAME_END_SCORE", async (data) => {
-      getSocket().emit("USER_ROOM", { user, code: lobby.code, room: "game_end" });
+      getSocket().emit("USER_ROOM", {
+        user,
+        code: lobby.code,
+        room: "game_end",
+      });
       dispatch(gameDotsSet(data.dots));
       dispatch(gameTimeSet(data.time));
       dispatch(gameReplaySet(data.replay));
@@ -73,8 +87,14 @@ function Battlefield({ dataGained }: { dataGained: boolean }) {
       );
     });
     getSocket().on("GAME_TAP", (data) => {
-      dispatch(gameDotsSet(data.dots));
-      setField(data.dots);
+      if (data.dots) {
+        dispatch(gameDotsSet(data));
+        setField(data.dots);
+      }
+      if (typeof data.index === 'number') {
+        dispatch(gameDotSet(data));
+        updateField(data);
+      }
     });
     getSocket().once("GAME_LOADED", (data) => {
       setStart(data);
@@ -83,7 +103,11 @@ function Battlefield({ dataGained }: { dataGained: boolean }) {
       dispatch(lobbySetUsers(data));
     });
     const fieldChecker = setInterval(() => {
-      if (htmlFieldContainer && htmlFieldContainer.current && user.isLoaded === false) {
+      if (
+        htmlFieldContainer &&
+        htmlFieldContainer.current &&
+        user.isLoaded === false
+      ) {
         if (
           htmlFieldContainer.current.childNodes.length ===
           Number(Number(lobby.fieldX) * Number(lobby.fieldY))
@@ -93,7 +117,7 @@ function Battlefield({ dataGained }: { dataGained: boolean }) {
             isLoaded: true,
             lobby: lobby,
           });
-          
+
           dispatch(userSetLoading(true));
           clearInterval(fieldChecker);
         }

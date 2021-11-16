@@ -150,7 +150,7 @@ export function Lobby() {
       dispatch(lobbySet(data.lobby));
       dispatch(lobbySetFieldX(data.field.fieldX));
       dispatch(lobbySetFieldY(data.field.fieldY));
-      dispatch(gameDotsSet(data.dots));
+      dispatch(gameDotsSet(data.field.dots));
       dispatch(lobbySetUsers(data.users));
       setDataGain(true);
     });

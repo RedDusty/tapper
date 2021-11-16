@@ -26,6 +26,7 @@ body,
   display: flow-root;
   overflow: auto;
   user-select: none;
+  overscroll-behavior: contain;
 }
 
 body {
