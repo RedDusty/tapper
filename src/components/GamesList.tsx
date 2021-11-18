@@ -102,8 +102,8 @@ function GamesList() {
                     addScore: null,
                     decreaseScore: null,
                     dots: [],
-                    replay: [],
-                    time: { end: 0, start: 0 },
+                    timeStart: 0,
+                    timeEnd: 0
                   })
                 );
                 dispatch(lobbySet(defaultLobby));

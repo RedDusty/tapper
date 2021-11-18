@@ -5,7 +5,6 @@ import StartPage from "./components/StartPage";
 import GamesList from "./components/GamesList";
 import { Lobby } from "./components/Lobby/Lobby";
 import Info from "./components/Info";
-import Dummy from "./components/Helpers/Dummy";
 import GameScores from "./components/GameScores";
 import Skins from "./components/Skins";
 import Score from "./components/Score";
@@ -21,6 +20,7 @@ import Loading from "./components/Helpers/Loading";
 import Connecting from "./components/Helpers/Connecting";
 import FAQ from "./components/FAQ";
 import GlobalChat from "./components/GlobalChat";
+import UserGames from './components/UserGames';
 
 declare global {
   interface Window {
@@ -235,8 +235,8 @@ const RenderApp = () => {
             <Skins />
             <Info />
           </Route>
-          <Route exact path="/replays">
-            <Dummy />
+          <Route exact path="/userGames">
+            <UserGames />
             <Info />
           </Route>
           <Route exact path="/gChat">

@@ -119,8 +119,8 @@ function StartPage({
           <Link to="/skins" className="button button-green">
             {t("SKINS")}
           </Link>
-          <Link to="/replays" className="button button-green">
-            {t("REPLAYS")}
+          <Link to="/userGames" className="button button-green">
+            {t("USER_GAMES")}
           </Link>
         </>
       );

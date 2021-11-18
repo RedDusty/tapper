@@ -17,7 +17,7 @@ function GameScores() {
               ` (${Number(lobby.fieldX) * Number(lobby.fieldY)})`}
           </p>
           <p>{lobby.inLobbyPlayers + " / " + lobby.maxPlayers}</p>
-          <p>{convertDateDifference(game.time.start, game.time.end)}</p>
+          <p>{convertDateDifference(game.timeStart, game.timeEnd)}</p>
         </div>
       </div>
       <div className="panelWidth mx-auto mt-4 bg-gray-100 lg:rounded-md flex shadow flex-wrap">

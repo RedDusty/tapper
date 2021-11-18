@@ -3,7 +3,6 @@ import { useDispatch } from "react-redux";
 import {
   gameDotSet,
   gameDotsSet,
-  gameReplaySet,
   gameScoresSet,
   gameTimeSet,
 } from "../../redux/actions/gameActions";
@@ -68,7 +67,6 @@ function Battlefield({ dataGained }: { dataGained: boolean }) {
       });
       dispatch(gameDotsSet(data.dots));
       dispatch(gameTimeSet(data.time));
-      dispatch(gameReplaySet(data.replay));
     });
     getSocket().on("GAME_END_SCORE", async (data) => {
       getSocket().emit("USER_ROOM", {
@@ -78,7 +76,6 @@ function Battlefield({ dataGained }: { dataGained: boolean }) {
       });
       dispatch(gameDotsSet(data.dots));
       dispatch(gameTimeSet(data.time));
-      dispatch(gameReplaySet(data.replay));
       dispatch(
         gameScoresSet({
           addScore: data.addScore,

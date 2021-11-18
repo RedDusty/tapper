@@ -2,8 +2,8 @@ import { gameReducerType, GameActionsType } from "./../types";
 
 export const initialGameReducer: gameReducerType = {
   dots: [],
-  time: { end: 0, start: 0 },
-  replay: [],
+  timeStart: 0,
+  timeEnd: 0,
   addScore: null,
   decreaseScore: null,
 };
@@ -24,9 +24,6 @@ export const gameReducer = (
       dots[action.payload.index].user = action.payload.user
       return { ...state, dots: dots };
     }
-    case "GAME_REPLAY_SET": {
-      return { ...state, replay: action.payload };
-    }
     case "GAME_SCORES_SET": {
       return {
         ...state,
@@ -35,7 +32,7 @@ export const gameReducer = (
       };
     }
     case "GAME_TIME_SET": {
-      return { ...state, time: action.payload };
+      return { ...state, timeStart: action.payload.start, timeEnd: action.payload.end };
     }
     default: {
       return { ...state };

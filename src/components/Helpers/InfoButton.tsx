@@ -20,7 +20,7 @@ function InfoButton() {
   const [render, setRender] = useState(<></>);
   const { t } = useTranslation();
 
-  const gameEnd = useTypedSelector((state) => state.game.time.end);
+  const gameEnd = useTypedSelector((state) => state.game.timeEnd);
   const visibility = useTypedSelector((state) => state.lobby.visibility);
   const userUID = useTypedSelector((state) => state.user.uid!);
 
@@ -41,7 +41,7 @@ function InfoButton() {
     if (
       pathname === "/skins" ||
       pathname === "/score" ||
-      pathname === "/replays" ||
+      pathname === "/userGames" ||
       pathname === "/games" ||
       pathname === "/game-score" ||
       pathname === "/faq" ||
@@ -98,7 +98,7 @@ const toLocation: (
   }
 
   const buttonColor = () => {
-    if (pathname === "/faq" || pathname === "/gChat") {
+    if (pathname === "/faq" || pathname === "/gChat" || pathname === "/userGames") {
       return "button-sky";
     } else return "button-green";
   };

@@ -272,18 +272,12 @@ export const GAME_SET = "GAME_SET";
 export const GAME_DOTS_SET = "GAME_DOTS_SET";
 export const GAME_DOT_SET = "GAME_DOT_SET";
 export const GAME_TIME_SET = "GAME_TIME_SET";
-export const GAME_REPLAY_SET = "GAME_REPLAY_SET";
 export const GAME_SCORES_SET = "GAME_SCORES_SET";
 
 export type dotType = {
   posX: number;
   posY: number;
   user: userInfoType | undefined;
-  index: number;
-};
-
-export type replayType = {
-  user: userInfoType;
   index: number;
   time: number;
 };
@@ -301,8 +295,8 @@ export type scoreType = {
 
 export type gameReducerType = {
   dots: dotType[];
-  time: timeType;
-  replay: replayType[];
+  timeStart: number;
+  timeEnd: number;
   addScore: scoreType[] | null;
   decreaseScore: scoreType[] | null;
 };
@@ -315,11 +309,6 @@ export type gameSetType = {
 export type gameTimeSetType = {
   type: typeof GAME_TIME_SET;
   payload: timeType;
-};
-
-export type gameReplaySetType = {
-  type: typeof GAME_REPLAY_SET;
-  payload: replayType[];
 };
 
 export type gameScoresSetType = {
@@ -345,10 +334,10 @@ export type GameActionsType =
   | gameDotsSetType
   | gameDotSetType
   | gameScoresSetType
-  | gameReplaySetType
   | gameTimeSetType;
 
 export const G_MESSAGES_SET = "G_MESSAGES_SET";
+export const G_USER_GAMES_SET = "G_USER_GAMES_SET";
 
 export type GmessageType = {
   avatar: string | null;
@@ -359,8 +348,37 @@ export type GmessageType = {
   time: number;
 };
 
+export type UGDotsType = {
+  user: number | undefined;
+  index: number;
+  time: number;
+};
+
+export type UGScoreType = {
+  user: number;
+  score: number;
+  dots: number;
+};
+
+export type UGType = {
+  bot: botType;
+  field: {
+    fieldX: number;
+    fieldY: number;
+  };
+  score: {
+    addScore: UGScoreType[];
+    decreaseScore: UGScoreType[];
+  };
+  users: userInfoType[];
+  timeStart: number;
+  timeEnd: number;
+  dots: UGDotsType[];
+};
+
 export type globalReducerType = {
   messages: GmessageType[];
+  userGames: UGType[];
 };
 
 export type GmessagesSetType = {
@@ -368,4 +386,9 @@ export type GmessagesSetType = {
   payload: GmessageType[];
 };
 
-export type GActionsType = GmessagesSetType;
+export type GUGSetType = {
+  type: typeof G_USER_GAMES_SET;
+  payload: UGType[];
+};
+
+export type GActionsType = GmessagesSetType | GUGSetType;

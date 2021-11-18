@@ -3,8 +3,6 @@ import {
   dotType,
   GAME_DOTS_SET,
   GAME_TIME_SET,
-  replayType,
-  GAME_REPLAY_SET,
   GAME_SCORES_SET,
   scoreType,
   timeType,
@@ -32,11 +30,6 @@ export const gameDotSet = (dot: dotType) => {
 export const gameTimeSet = (time: timeType) => {
   return (dispatch: Dispatch<GameActionsType>) => {
     dispatch({ type: GAME_TIME_SET, payload: time });
-  };
-};
-export const gameReplaySet = (replay: replayType[]) => {
-  return (dispatch: Dispatch<GameActionsType>) => {
-    dispatch({ type: GAME_REPLAY_SET, payload: replay });
   };
 };
 export const gameScoresSet = (scores: { addScore: scoreType[]; decreaseScore: scoreType[] }) => {
