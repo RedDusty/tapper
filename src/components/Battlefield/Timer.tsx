@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { lobbySetStartsIn } from '../../redux/actions/lobbyActions';
 
 const Timer = () => {
-  const [timerStartsIn, setTimerStartsIn] = useState<number>(2);
+  const [timerStartsIn, setTimerStartsIn] = useState<number>(4);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -12,7 +12,6 @@ const Timer = () => {
         setTimerStartsIn(timerStartsIn - 1);
       }
       if (timerStartsIn === 0) {
-        console.warn('set timer to 10 seconds');
         dispatch(lobbySetStartsIn(0));
       }
     }, 1000);

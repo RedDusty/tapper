@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { Link } from "react-router-dom";
 import { lobbyUsersType } from "../../redux/types";
 import { useTypedSelector } from "../../redux/useTypedSelector";
@@ -7,6 +8,7 @@ import { renderImage } from "./Lobby";
 
 function LobbyItem(lobby: lobbyShortType) {
   const user = useTypedSelector((state) => state.user);
+  const { t } = useTranslation()
 
   let colorField = "text-black";
 
@@ -58,7 +60,7 @@ function LobbyItem(lobby: lobbyShortType) {
         if (lobby.bot.isTurned === false) return <></>;
         return (
           <div className="flex flex-col items-center justify-center text-lg font-bold">
-            <p className="text-sky-700 leading-5">Bot</p>
+            <p className="text-sky-700 leading-5">{t("BOT")}</p>
             <p className={`${colorBot} font-bold leading-5 capitalize`}>{lobby.bot.difficulty}{lobby.bot.difficulty === "custom" ? ` (${lobby.bot.speed})` : ""}</p>
           </div>
         );

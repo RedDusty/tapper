@@ -32,6 +32,16 @@ function LobbyOptOther() {
   const user = useTypedSelector((state) => state.user);
   const renderBotDifficulty = difficulties.map((diff, index) => {
     if (lobby.bot.isTurned === false) return <></>;
+    let showDiff: string = diff;
+    showDiff = showDiff.replace(/easy/, t("BOT_DIFFICULTY_EASY"))
+    showDiff = showDiff.replace(/medium/, t("BOT_DIFFICULTY_MEDIUM"))
+    showDiff = showDiff.replace(/hard/, t("BOT_DIFFICULTY_HARD"))
+    showDiff = showDiff.replace(/extreme/, t("BOT_DIFFICULTY_EXTREME"))
+    showDiff = showDiff.replace(/tapper/, t("BOT_DIFFICULTY_TAPPER"))
+    showDiff = showDiff.replace(/cheater-1/, t("BOT_DIFFICULTY_CHEATER_1"))
+    showDiff = showDiff.replace(/cheater-2/, t("BOT_DIFFICULTY_CHEATER_2"))
+    showDiff = showDiff.replace(/cheater-3/, t("BOT_DIFFICULTY_CHEATER_3"))
+    showDiff = showDiff.replace(/custom/, t("BOT_DIFFICULTY_CUSTOM"))
     return (
       <button
         className={`button text-black ${
@@ -51,16 +61,16 @@ function LobbyOptOther() {
           }
         }}
       >
-        {diff}
+        {showDiff}
       </button>
     );
   });
   return (
     <>
-      <p className="text-lg my-1">{t("L_OTHER")}</p>
+      <p className="text-lg my-1">{t("OTHER")}</p>
       <div className="w-full px-2">
         <div className="flex gap-x-2 items-center">
-          <p>{t("L_OWNER") + ":"}</p>
+          <p>{t("OWNER") + ":"}</p>
           {renderImage(lobby.users[0].avatar)}
           <p>{lobby.nickname}</p>
         </div>
@@ -83,7 +93,7 @@ function LobbyOptOther() {
               }
             }}
           >
-            {t("L_PRIVATE")}
+            {t("VISIBILITY_PRIVATE")}
           </button>
           <button
             className={`button text-black ${
@@ -102,11 +112,11 @@ function LobbyOptOther() {
               }
             }}
           >
-            {t("L_PUBLIC")}
+            {t("VISIBILITY_PUBLIC")}
           </button>
         </div>
         <div className="flex gap-x-2 mt-2 items-center">
-          <p>Bot</p>
+          <p>{t("BOT")}</p>
           <button
             className={`button text-black ${
               lobby.bot.isTurned ? "button-green" : "button-red"
@@ -124,7 +134,7 @@ function LobbyOptOther() {
               }
             }}
           >
-            {lobby.bot.isTurned ? "Turned on" : "Turn on"}
+            {lobby.bot.isTurned ? t("TURNED_ON") : t("TURN_ON")}
           </button>
           <button
             className={`button text-black ${
@@ -143,14 +153,14 @@ function LobbyOptOther() {
               }
             }}
           >
-            {lobby.bot.isTurned ? "Turn off" : "Turned off"}
+            {lobby.bot.isTurned ? t("TURN_OFF") : t("TURNED_OFF")}
           </button>
         </div>
         {(() => {
           if (lobby.bot.isTurned === false) return <></>;
           return (
             <div className="flex gap-2 mt-2 items-center flex-wrap">
-              <p>Bot difficulty</p>
+              <p>{t("BOT_DIFFICULTY")}</p>
               {renderBotDifficulty}
               <input
                 type="text"

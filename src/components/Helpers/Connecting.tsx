@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { getServerURL } from "../../socketio";
 import Loading from "./Loading";
 
@@ -11,6 +12,7 @@ const Connecting = ({
 }) => {
   const [attempt, setAttempt] = useState(0);
   const [isFail, setFail] = useState(false);
+  const { t } = useTranslation();
   useEffect(() => {
     const timeout = setTimeout(() => {
       if (serverConnected === false && isFail === false) {
@@ -33,7 +35,7 @@ const Connecting = ({
     return (
       <div className="failConnect">
         <p className="font-bold text-center flex justify-center items-center text-2xl md:text-9xl">
-          Server offline
+          {t("SERVER_OFFLINE")}
         </p>
       </div>
     );
@@ -44,8 +46,10 @@ const Connecting = ({
           <Loading color="text-gray-600" />
         </div>
         <div>
-          <p className="font-bold text-4xl">Connecting to server...</p>
-          <p className="font-bold text-2xl">Attempt: {attempt}</p>
+          <p className="font-bold text-4xl">{t("CONNECTION_TO_SERVER")}</p>
+          <p className="font-bold text-2xl">
+            {t("ATTEMPT")} {attempt}
+          </p>
         </div>
       </div>
     );

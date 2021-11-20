@@ -17,12 +17,12 @@ const ErrorWindow = ({
           isError ? "block" : "hidden"
         }`}
       >
-        There`s some error
+        {t("SOME_ERROR")}
         <button
           className="button button-red"
           onClick={() => setVisibilityError(true)}
         >
-          Show
+          {t("SHOW")}
         </button>
       </div>
       <div
@@ -35,13 +35,13 @@ const ErrorWindow = ({
             className="button button-red"
             onClick={() => setVisibilityError(false)}
           >
-            Close
+            {t("CLOSE")}
           </button>
           <div className="text-black mt-2 p-2 overflow-y-auto h-96">
             <p className="font-bold">{t("API_UNAVAILABLE")}</p>
             <div className="mt-2 flex flex-col md:flex-row">
               <div className="px-4 mt-2">
-                <p className="font-bold">PC</p>
+                <p className="font-bold">{t("PC")}</p>
                 <ul className="mt-1 list-item list-disc">
                   <li>Google Chrome v.58 {t("OR_HIGHER")}</li>
                   <li>Chromium Edge v.16 {t("OR_HIGHER")}</li>
@@ -51,7 +51,7 @@ const ErrorWindow = ({
                 </ul>
               </div>
               <div className="px-4 mt-2">
-                <p className="font-bold">Mobile</p>
+                <p className="font-bold">{t("MOBILE")}</p>
                 <ul className="mt-1 list-item list-disc">
                   <li>Web View (Android) v.51 {t("OR_HIGHER")}</li>
                   <li>Google Chrome v.51 {t("OR_HIGHER")}</li>

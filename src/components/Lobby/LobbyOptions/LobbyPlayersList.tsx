@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from 'react-i18next';
 import Cross from "../../../icons/cross";
 import Crown from "../../../icons/crown";
 import { lobbyType, userInfoType } from "../../../redux/types";
@@ -87,6 +88,7 @@ const PlayerButtonsRender = ({
   lobby: lobbyType;
   user: userInfoType;
 }) => {
+  const { t } = useTranslation()
   if (userUID === ownerUID) {
     return (
       <>
@@ -99,7 +101,7 @@ const PlayerButtonsRender = ({
               user: user,
             });
           }}
-          title="Kick"
+          title={t("KICK")}
         >
           <Cross />
         </button>
@@ -112,7 +114,7 @@ const PlayerButtonsRender = ({
               user: user,
             });
           }}
-          title="Make owner"
+          title={t("MAKE_OWNER")}
         >
           <Crown />
         </button>

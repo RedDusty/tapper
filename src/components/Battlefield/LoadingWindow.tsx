@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { userInfoType } from "../../redux/types";
 import { useTypedSelector } from "../../redux/useTypedSelector";
 import { renderImage } from "../Lobby/Lobby";
@@ -7,12 +8,13 @@ function LoadingWindow({ canStart }: { canStart: boolean }) {
   const users = useTypedSelector((state) => state.lobby.users);
   return (
     <div className="w-screen h-screen fixed bg-black bg-opacity-25 flex justify-center items-center top-0 left-0">
-      {canStart ? <Timer /> : usersLoading(users)}
+      {canStart ? <Timer /> : <UsersLoading users={users} />}
     </div>
   );
 }
 
-const usersLoading = (users: userInfoType[]) => {
+const UsersLoading = ({ users }: { users: userInfoType[] }) => {
+  const { t } = useTranslation();
   return (
     <div className="bg-white rounded-md p-4">
       {users.map((user) => {
@@ -29,7 +31,7 @@ const usersLoading = (users: userInfoType[]) => {
           if (user.isLeft || user.id === "system") return "bg-blue-200";
           if (user.isLoaded) return "bg-green-200";
           return "userLoading";
-        }
+        };
         return (
           <div
             className={`grid justify-center items-center gap-x-2 my-2 py-1 px-2 rounded-md ${loadingColor()}`}
@@ -41,10 +43,10 @@ const usersLoading = (users: userInfoType[]) => {
             <p>
               {(() => {
                 if (user.isLoaded) {
-                  if (user.isLeft) return "Left";
-                  if (!user.isLeft) return "Done";
+                  if (user.isLeft) return t("LEFT");
+                  if (!user.isLeft) return t("DONE");
                 } else {
-                  return "Loading...";
+                  return t("LOADING") + "...";
                 }
               })()}
             </p>

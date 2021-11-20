@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { skinBorderStyleType } from "../../redux/types";
 import { colors } from "../Skins";
 import SkinBorderColors from "./SkinBorderColors";
@@ -41,12 +42,13 @@ const SkinBorder: renderBorderType = ({
   setSkinBorderStyle,
   setSkinBorderWidth,
 }) => {
+  const { t } = useTranslation()
   if (skinBorder === false) {
     return <></>;
   }
   return (
     <div className="w-full" key={skinColor + skinBorderColor}>
-      <p className="text-lg font-bold text-center mt-4">Border color</p>
+      <p className="text-lg font-bold text-center mt-4">{t("BORDER_COLOR")}</p>
       <div className="w-full flex flex-wrap gap-4 mt-2">
         {colors.map((borderColor, index) => {
           return (
@@ -62,7 +64,7 @@ const SkinBorder: renderBorderType = ({
           );
         })}
       </div>
-      <p className="text-lg font-bold text-center mt-4">Border style</p>
+      <p className="text-lg font-bold text-center mt-4">{t("BORDER_STYLE")}</p>
       <div className="w-full flex flex-wrap gap-4 mt-2">
         {skinBorderStyleArray.map((borderStyle, index) => {
           return (
@@ -78,7 +80,7 @@ const SkinBorder: renderBorderType = ({
           );
         })}
       </div>
-      <p className="text-lg font-bold text-center mt-4">Border width</p>
+      <p className="text-lg font-bold text-center mt-4">{t("BORDER_WIDTH")}</p>
       <SkinBorderWidth
         border={skinBorder}
         borderColor={skinBorderColor}

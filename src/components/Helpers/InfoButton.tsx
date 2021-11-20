@@ -77,7 +77,7 @@ const toLocation: (
       case "":
         return "MAIN";
       case "game-score":
-        return "GAME-SCORE";
+        return "GAME_SCORE";
       default:
         return "";
     }

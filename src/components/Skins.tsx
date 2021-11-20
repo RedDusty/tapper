@@ -9,6 +9,7 @@ import { renderImage } from "./Lobby/Lobby";
 import UserSkin from "./Helpers/UserSkin";
 import SkinColors from "./Skins/SkinColors";
 import SkinBorder from "./Skins/SkinBorder";
+import { useTranslation } from 'react-i18next';
 
 export const colors = [
   "red",
@@ -33,6 +34,7 @@ function Skins() {
   const dispatch = useDispatch();
   const user = useTypedSelector((state) => state.user);
   const code = useTypedSelector((state) => state.lobby.code);
+  const { t } = useTranslation()
 
   const [skinColor, setSkinColor] = useState<string>(
     user.skin.color || "orange-600"
@@ -114,16 +116,16 @@ function Skins() {
               setWithBorder(!withBorder);
             }}
           >
-            Toggle border
+            {t("TOGGLE_BORDER")}
           </button>
           <button
             className="button button-yellow"
             onClick={() => confirmHandler()}
           >
-            Confirm
+            {t("CONFIRM")}
           </button>
         </div>
-        <p className="text-lg font-bold mt-4 text-center">Main color</p>
+        <p className="text-lg font-bold mt-4 text-center">{t("MAIN_COLOR")}</p>
         <div className="w-full flex flex-wrap gap-4 mt-2">
           {colors.map((color, index) => {
             return (

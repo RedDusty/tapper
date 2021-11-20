@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect } from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import { Route, Switch } from "react-router-dom";
 import StartPage from "./components/StartPage";
@@ -16,11 +16,11 @@ import { useTypedSelector } from "./redux/useTypedSelector";
 import { onAuthStateChanged } from "@firebase/auth";
 import { auth } from "./fbConfig";
 import { fbAuthUser, logOut } from "./firebase";
-import Loading from "./components/Helpers/Loading";
 import Connecting from "./components/Helpers/Connecting";
 import FAQ from "./components/FAQ";
 import GlobalChat from "./components/GlobalChat";
-import UserGames from './components/UserGames';
+import UserGames from "./components/UserGames";
+import { useTranslation } from "react-i18next";
 
 declare global {
   interface Window {
@@ -77,6 +77,8 @@ function App() {
   const [serverConnected, setServerConnected] = React.useState(false);
   const [isDuplicate, setDuplicate] = React.useState(false);
   const dispatch = useDispatch();
+
+  const { t } = useTranslation();
 
   const user = useTypedSelector((state) => state.user);
 
@@ -148,8 +150,8 @@ function App() {
   if (isDuplicate) {
     return (
       <div className="failConnect">
-        <p className="font-bold text-center flex justify-center items-center text-2xl md:text-9xl">
-          Account duplicate not allowed.
+        <p className="font-bold text-center flex justify-center items-center text-2xl md:text-6xl">
+          {t("ACCOUNT_DUPLICATE")}
         </p>
         <button
           className="bg-white p-4 font-bold text-2xl md:text-4xl mt-12 text-black rounded-md"
@@ -160,7 +162,7 @@ function App() {
             setDuplicate(false);
           }}
         >
-          Logout
+          {t("LOGOUT")}
         </button>
       </div>
     );
@@ -197,15 +199,6 @@ const RenderApp = () => {
   }, []);
   return (
     <>
-      <Suspense
-        fallback={
-          <div className="fixed w-screen h-screen flex items-center justify-center bg-black bg-opacity-25">
-            <div className="flex items-center justify-center p-12 bg-gray-300 bg-opacity-50 rounded-full">
-              <Loading color="text-gray-600" />
-            </div>
-          </div>
-        }
-      >
         <Switch>
           <Route exact path="/">
             <StartPage isKick={isKick} setKick={setKick} />
@@ -244,7 +237,6 @@ const RenderApp = () => {
             <Info />
           </Route>
         </Switch>
-      </Suspense>
     </>
   );
 };

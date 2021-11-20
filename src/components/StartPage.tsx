@@ -17,7 +17,7 @@ function StartPage({
 }) {
   const [isError] = useState<boolean>(!("IntersectionObserver" in window));
   const [isVisibleError, setVisibilityError] = useState<boolean>(false);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const { code } = useTypedSelector((state) => state.lobby);
   const user = useTypedSelector((state) => state.user);
@@ -73,7 +73,7 @@ function StartPage({
               getSocket().emit("USER_LOGOUT");
             }}
           >
-            {t("LOG_OUT")}
+            {t("LOGOUT")}
           </button>
         </>
       );
@@ -99,7 +99,7 @@ function StartPage({
       };
       userScore = (
         <div className="flex items-center">
-          <p className="text-black">Your score:</p>
+          <p className="text-black">{t("YOUR_SCORE")}</p>
           <p className={`${color()} ml-2`}>{(user.score || 0).toFixed(3)}</p>
         </div>
       );
@@ -107,7 +107,27 @@ function StartPage({
     return (
       <div className="font-bold">
         <>{userScore}</>
-        <p className="text-blue-900">Server: {"Tapper-" + getServerID()}</p>
+        <p className="text-blue-900">
+          {t("SERVER")} {"Tapper-" + getServerID()}
+        </p>
+        <div className="flex gap-2 mt-2">
+          <button
+            className="button-sky rounded-md p-1 font-bold"
+            onClick={() => {
+              i18n.changeLanguage("ru");
+            }}
+          >
+            Русский
+          </button>
+          <button
+            className="button-sky rounded-md p-1 font-bold"
+            onClick={() => {
+              i18n.changeLanguage("en");
+            }}
+          >
+            English
+          </button>
+        </div>
       </div>
     );
   };
@@ -133,11 +153,11 @@ function StartPage({
     <div className="w-full h-full flex items-center justify-center flex-col">
       <StartPageLogo />
       <div className="flex mt-4 gap-4 items-center justify-center">
-        <Link to="/faq" className="button button-sky w-16 text-center">
-          FAQ
+        <Link to="/faq" className="button button-sky text-center">
+          {t("FAQ")}
         </Link>
         <Link to="/gChat" className="button button-sky text-center">
-          Global chat
+          {t("GLOBAL_CHAT")}
         </Link>
       </div>
       <div className="flex mt-4 gap-4">
@@ -158,14 +178,14 @@ function StartPage({
       {isKick ? (
         <div className="fixed w-screen h-screen z-10 flex items-center justify-center bg-red-300 bg-opacity-75">
           <div className="bg-red-100 text-red-900 font-bold w-min rounded-md gap-4 flex flex-col items-center justify-center p-8">
-            <p className="w-36">You have been kicked out of the game.</p>
+            <p className="w-36">{t("KICKED_OUT")}</p>
             <button
               className="button button-red"
               onClick={() => {
                 setKick(false);
               }}
             >
-              Close
+              {t("CLOSE")}
             </button>
           </div>
         </div>

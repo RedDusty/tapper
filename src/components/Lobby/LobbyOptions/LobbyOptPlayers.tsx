@@ -18,7 +18,7 @@ function LobbyOptPlayers() {
       <p className="text-lg my-1">{t('PLAYERS') + ' ' + lobby.inLobbyPlayers + '/' + lobby.maxPlayers}</p>
       <div className="w-full px-2">
         <div className="flex items-center">
-          <p>{t('L_MAX_PLAYERS')}</p>
+          <p>{t('MAX_PLAYERS')}</p>
           <input
             type="text"
             pattern="[0-9]"

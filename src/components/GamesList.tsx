@@ -56,7 +56,7 @@ function GamesList() {
             {t("MAIN")}
           </Link>
           <div className="button bg-gray-300 hover:bg-gray-200">
-            {t("L_PUBLIC") + ": " + lobbyList.length}
+            {t("GAMES_LIST_PUBLIC") + ": " + lobbyList.length}
           </div>
           <Link
             to="/lobby"

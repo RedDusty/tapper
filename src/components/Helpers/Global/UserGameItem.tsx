@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from 'react-i18next';
 import { UGType } from "../../../redux/types";
 import { useTypedSelector } from "../../../redux/useTypedSelector";
 import UserGameDetails from "./UserGameDetails";
@@ -18,6 +19,7 @@ const UserGameItem: UserGameItemType = ({ userGame, userGameIndex }) => {
   const currentUserIndex = users.findIndex((user) => user.uid === userUIDRedux);
   const curUser = users[currentUserIndex];
   const RDate = new Date(timeStart);
+  const { t } = useTranslation()
 
   const userScore = () => {
     let scoreFind = score.addScore.filter((s) => s.user === currentUserIndex);
@@ -47,19 +49,29 @@ const UserGameItem: UserGameItemType = ({ userGame, userGameIndex }) => {
           </p>
         </div>
       );
-    } else return <p>Standard game</p>;
+    } else return <p>{t("STANDARD_GAME")}</p>;
   };
 
   const RenderUsers = () => {
     if (bot.isTurned === false) {
-      return <p>{"Players: " + users.length}</p>;
+      return <p>{t("PLAYERS") + ": " + users.length}</p>;
     } else {
+      let showDiff: string = bot.difficulty;
+      showDiff = showDiff.replace(/easy/, t("BOT_DIFFICULTY_EASY"))
+      showDiff = showDiff.replace(/medium/, t("BOT_DIFFICULTY_MEDIUM"))
+      showDiff = showDiff.replace(/hard/, t("BOT_DIFFICULTY_HARD"))
+      showDiff = showDiff.replace(/extreme/, t("BOT_DIFFICULTY_EXTREME"))
+      showDiff = showDiff.replace(/tapper/, t("BOT_DIFFICULTY_TAPPER"))
+      showDiff = showDiff.replace(/cheater-1/, t("BOT_DIFFICULTY_CHEATER_1"))
+      showDiff = showDiff.replace(/cheater-2/, t("BOT_DIFFICULTY_CHEATER_2"))
+      showDiff = showDiff.replace(/cheater-3/, t("BOT_DIFFICULTY_CHEATER_3"))
+      showDiff = showDiff.replace(/custom/, t("BOT_DIFFICULTY_CUSTOM"));
       return (
         <div>
-          <p className={colorPlayers}>{"Players: " + users.length}</p>
+          <p className={colorPlayers}>{t("PLAYERS") + ": " + users.length}</p>
           <p className={colorBot}>
-            {"Bot: " +
-              bot.difficulty +
+            {t("BOT") + ": " +
+              showDiff +
               (bot.difficulty === "custom" ? " (" + bot.speed + ")" : "")}
           </p>
         </div>

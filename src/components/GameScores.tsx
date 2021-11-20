@@ -2,10 +2,12 @@ import { dotType, scoreType, userInfoType } from "../redux/types";
 import { useTypedSelector } from "../redux/useTypedSelector";
 import { renderImage } from "./Lobby/Lobby";
 import UserSkin from "./Helpers/UserSkin";
+import { useTranslation } from 'react-i18next';
 
 function GameScores() {
   const game = useTypedSelector((state) => state.game);
   const lobby = useTypedSelector((state) => state.lobby);
+  const { t } = useTranslation()
   return (
     <div className="w-full">
       <div className="panelWidth mx-auto bg-gray-600 lg:rounded-bl-md lg:rounded-br-md text-gray-200 font-bold flex shadow">
@@ -52,7 +54,7 @@ function GameScores() {
                   <></>
                 )}
                 {player.user.isLeft ? (
-                  <p className="text-blue-900 font-bold">Left</p>
+                  <p className="text-blue-900 font-bold">{t("LEFT")}</p>
                 ) : (
                   <></>
                 )}
@@ -73,11 +75,12 @@ type onePlayerType = {
 };
 
 const PlayerBlockDots: (player: onePlayerType) => JSX.Element = (player) => {
+  const { t } = useTranslation()
   return (
     <>
       {renderImage(player.user.avatar)}
       <p className="hidden sm:block">
-        {(player.user.nickname || "").slice(0, 16)}
+        {player.user.id === "system" ? t("BOT") : (player.user.nickname || "").slice(0, 16)}
       </p>
       <UserSkin
         key={player.user.nickname + "skin" + player.user.id}

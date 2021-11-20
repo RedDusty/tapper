@@ -1,58 +1,63 @@
+import { useTranslation } from 'react-i18next';
 import { Link } from "react-router-dom";
 import { lobbyType } from "../../redux/types";
 
 const FAQOtherTab = (lobby: lobbyType) => {
+  const { t, i18n } = useTranslation()
   const renderConnectionLink = () => {
     if (lobby.code.length === 0) {
       return (
         <Link to="/games" className="text-green-700 underline">
-          try connecting
+          {t("FAQ_TRY_CONNECTING")}
         </Link>
       );
     } else {
-      return <span>try connecting</span>;
+      return <span>{t("FAQ_TRY_CONNECTING")}</span>;
     }
   };
   const renderLobbyLink = () => {
+    let lobbyText = t("LOBBY")
+    if (i18n.language === "ru") {
+      lobbyText = t("LOBBY_1")
+    }
     if (lobby.code.length !== 0) {
       return (
-        <Link to="/lobby" className="text-green-700 underline">
-          lobby
+        <Link to="/lobby" className="text-green-700 underline lowercase">
+          {lobbyText}
         </Link>
       );
     } else {
-      return <span>lobby</span>;
+      return <span className="lowercase">{lobbyText}</span>;
     }
   };
   return (
     <div className="text-sky-900 font-bold w-full">
       <div className="mt-4">
         <p className="mt-2">
-          Only the top 25 players are shown in the{" "}
+          {t("FAQ_SCORE_25_TOP")}{" "}
           <Link to="/score" className="text-green-700 underline">
-            score tab
+            {t("FAQ_SCORE_TAB")}
           </Link>
           .
         </p>
         <p className="mt-2">
-          If you do not see some lobbies, check if it is public or if you are on
-          the same server or {renderConnectionLink()} by code. {"("}On the{" "}
+          {t("FAQ_LOBBIES_CANT_SEE_1")} {renderConnectionLink()} {t("FAQ_LOBBIES_CANT_SEE_2")}. {"("}{t("FAQ_LOBBIES_CANT_SEE_3")}{" "}
           <Link to="/" className="text-green-700 underline">
-            main page
+            {t("FAQ_MAIN_PAGE")}
           </Link>
-          , your current server is listed at the bottom.{")"}
+          , {t("FAQ_CURRENT_SERVER")}{")"}
         </p>
         <p className="mt-2">
-          Everyone can write in the{" "}
+          {t("FAQ_CHAT_EVERYONE")}{" "}
           <Link to="/gChat" className="text-green-700 underline">
-            global chat
+            {t("FAQ_GLOBAL_CHAT")}
           </Link>
-          . Maximum messages - 100
+          . {t("FAQ_MAXIMUM")}
         </p>
         <p className="mt-2">
-          Copy text is available only in the {renderLobbyLink()} and{" "}
+          {t("FAQ_COPY_TEXT")} {renderLobbyLink()} {t("AND")}{" "}
           <Link to="/score" className="text-green-700 underline">
-            score
+            {t("FAQ_SCORE_TAB")}
           </Link>
           .
         </p>

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from 'react-i18next';
 import { GmessageType } from "../../../redux/types";
 import { useTypedSelector } from "../../../redux/useTypedSelector";
 import { getSocket } from "../../../socketio";
@@ -7,6 +8,8 @@ const GChatInput = () => {
   const [message, setMessage] = useState<string>("");
 
   const user = useTypedSelector((state) => state.user);
+
+  const { t } = useTranslation()
 
   return (
     <div
@@ -41,7 +44,7 @@ const GChatInput = () => {
               }
           }}
         >
-          Send
+          {t("MESSAGE_INPUT_SEND")}
         </button>
         <p
           className={`text-xs font-bold select-none bg-gray-100 flex justify-center items-center mt-2 py-1 rounded-md ${

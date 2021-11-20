@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { UGScoreType, UGType, userInfoType } from "../../../redux/types";
 import { renderImage } from "../../Lobby/Lobby";
 import UserSkin from "../UserSkin";
@@ -13,6 +14,7 @@ const UserGameDetails: UserGameDetailsType = ({ userGame }) => {
       return false;
     }
   };
+  const { t } = useTranslation()
   return (
     <div className="w-full">
       <div className="flex w-full">
@@ -47,7 +49,7 @@ const UserGameDetails: UserGameDetailsType = ({ userGame }) => {
                   <></>
                 )}
                 {user.user.isLeft ? (
-                  <p className="text-blue-900 font-bold">Left</p>
+                  <p className="text-blue-900 font-bold">{t("LEFT")}</p>
                 ) : (
                   <></>
                 )}
@@ -87,11 +89,12 @@ const countPlayersDots = (userGame: UGType) => {
 };
 
 const PlayerBlockDots: (player: onePlayerType) => JSX.Element = (player) => {
+  const { t } = useTranslation()
   return (
     <>
       {renderImage(player.user.avatar)}
       <p className="hidden sm:block">
-        {(player.user.nickname || "").slice(0, 16)}
+      {player.user.uid === "system" ? t("BOT") : (player.user.nickname || "").slice(0, 16)}
       </p>
       <UserSkin
         key={player.user.nickname + "skin" + player.user.id}
