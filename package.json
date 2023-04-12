@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "homepage": ".",
+  "engines": {
+    "node": ">15 <17"
+  },
   "scripts": {
     "start": "craco start",
     "build": "craco build",

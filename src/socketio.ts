@@ -1,8 +1,10 @@
 import io from "socket.io-client";
 require("dotenv").config();
 
-let serverURL: string | "offline" = "";
-let serverID: -1 | 1 | 2 = -1;
+const isDEV = false;
+
+let serverURL: string | "offline" = process.env.REACT_APP_SERVER || "";
+let serverID: 0 | 1 = 0;
 let isConnected: boolean = false;
 export const getServerURL = () => serverURL;
 export const getServerID = () => serverID;
@@ -21,38 +23,27 @@ export const getSocket = () => {
 };
 
 const server = async () => {
-  if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
+  if ((!process.env.NODE_ENV || process.env.NODE_ENV === "development") && isDEV) {
     socket = io("http://127.0.0.1:3000", socketConfig);
     socket.connect();
     serverURL = "http://127.0.0.1:3000";
   } else {
     const fetcher = await fetch(
-      process.env.REACT_APP_SERVER_FIRST + "/checker"
+      process.env.REACT_APP_SERVER + "/checker"
     );
+    
     const data = await fetcher.json();
+    
     if (data.message && data.message === "online") {
-      serverURL = process.env.REACT_APP_SERVER_FIRST!;
+      serverURL = process.env.REACT_APP_SERVER!;
       isConnected = true;
       serverID = 1;
       socket.disconnect();
-      socket = io(process.env.REACT_APP_SERVER_FIRST!, socketConfig);
+      socket = io(process.env.REACT_APP_SERVER!, socketConfig);
       socket.connect();
     } else {
-      const secondFetcher = await fetch(
-        process.env.REACT_APP_SERVER_SECOND + "/checker"
-      );
-      const data = await secondFetcher.json();
-
-      if (data.message && data.message === "online") {
-        serverURL = process.env.REACT_APP_SERVER_SECOND!;
-        isConnected = true;
-        serverID = 2;
-        socket.disconnect();
-        socket = io(process.env.REACT_APP_SERVER_SECOND!, socketConfig);
-        socket.connect();
-      } else {
-        serverURL = "offline";
-      }
+      serverID = 0;
+      serverURL = "Offline"
     }
   }
 };
